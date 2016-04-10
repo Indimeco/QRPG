@@ -1,0 +1,134 @@
+function onload ()
+    masterCard = getObjectFromGUID('ee09de')
+    masterCard.setDescription("") -- Clear masterCard
+    getObjectFromGUID('0d093a').setColorTint({1,1,1}) -- Set highlight bar to White
+    self.setTable('pos',{0,1.289,10.2}) self.setTable('rot',{0,0,0})
+    callLuaFunctionInOtherScriptWithParams(getObjectFromGUID('UI'), 'addButton', {self.getGUID(),8000,1000,500,'PUSH','push',self})
+end
+
+function selectPlayer(objArg)
+-- Changes selection of player and sets color of the highlight bar
+-- Copies the selected player's inventory to the mastercard
+-- This function is called from a button - ergo objArg is the button that made the call
+    
+    colorSelector = objArg.getVar('color')
+    GMInventory = getObjectFromGUID(objArg.getVar('invGUID'))
+    GMAUXInv = getObjectFromGUID(GMInventory.getVar('AUXGUID'))
+
+    if GMAUXInv.getDescription() ~= "" then
+        masterCard.setDescription(GMAUXInv.getDescription().."\n"..GMInventory.getDescription())
+    else 
+        masterCard.setDescription(GMInventory.getDescription()) end
+
+    masterCardAUX = getObjectFromGUID(masterCard.getVar('AUXGUID'))
+    masterCardAUX.setDescription("")
+    setPawnsColor(colorSelector)
+end
+
+function push()
+-- Updates the selected player's inventory to a copy of the MasterCard
+    if colorSelector == nil then
+        print("Select a color first!")
+    elseif masterCardAUX.getDescription() ~= "" then
+        GMInventory.setDescription(masterCardAUX.getDescription().."\n"..masterCard.getDescription())
+    else GMInventory.setDescription(masterCard.getDescription()) 
+
+    end
+    GMAUXInv.setDescription("")
+end
+
+
+
+function retNum(color)
+-- Returns number corresponding to color, receives color as string | retNum("blue") => 2
+    if color == "purple" then set = 1
+        elseif color == "blue" then set = 2 
+        elseif color == "green" then set = 3
+        elseif color == "yellow" then set = 4
+        elseif color == "brown" then set = 5 
+        elseif color == "red" then set = 6
+    end
+    return set
+end
+
+function setPawnsColor(color)
+-- Sets color of highlight bar, receives color as string | setPawnsColor("blue")
+    local tint = {
+        {0.69,0,1}, --[[ Purple ]]--
+        {0,0.15,1}, --[[ Blue ]]--
+        {0.15,0.6,0.05}, --[[ Green ]]--
+        {0.9,0.9,0.1}, --[[ Yellow ]]--
+        {0.27,0.14,0.01}, --[[ Brown ]]--
+        {0.9,0.2,0.03}, --[[ Red ]]--
+}
+    local set = retNum(color)
+    getObjectFromGUID('0d093a').setColorTint(tint[set])
+end
+
+function scrollUp(obj)
+-- Concatenates the last 10 lines of the auxiliary inventory to the beginning of the main inventory.
+-- This function is called from a button - ergo obj is the button that made the call.
+
+    local AUXInv = getObjectFromGUID(obj.getVar('AUXGUID'))
+    if AUXInv.getDescription() ~= "" then
+        local newPage = getPage(string.reverse(AUXInv.getDescription()))
+        newPage = string.reverse(newPage)
+        if obj.getDescription() ~= "" then
+            obj.setDescription(newPage.."\n"..obj.getDescription())
+        else obj.setDescription(newPage) end
+        AUXInv.setDescription(string.sub(plainReplace(AUXInv.getDescription(),newPage,""),1,-2))
+    else print('Upper Limit') end
+end
+
+function scrollDown(obj)
+-- Concatenates the first 10 lines of the main inventory to the end of the auxiliary inventory.
+-- This function is called from a button - ergo obj is the button that made the call.
+
+    if obj.getDescription() ~= "" then
+        local AUXInv = getObjectFromGUID(obj.getVar('AUXGUID'))
+        local newPage = getPage(obj.getDescription())
+        if AUXInv.getDescription() ~= "" then
+            AUXInv.setDescription(AUXInv.getDescription().."\n"..newPage)
+        else AUXInv.setDescription(newPage) end
+        obj.setDescription(string.sub(plainReplace(obj.getDescription(),newPage,""),2))
+    else print('Lower Limit') end
+end
+
+function getPage(invStr)
+-- Counts the number of lines then returns a sub string with that number of length %10 or 10 to fit the page.
+
+    local _, linesCount = invStr:gsub('\n', '\n')
+    linesCount = linesCount + 1
+    print('Lines Counted: ', linesCount)
+    local x = 0 local y = 0 page = ""
+
+    if linesCount<10 then
+
+        for i = 1, linesCount%10 do
+            x=string.find(invStr,"\n",x+1)
+            if x ~= nil then page = page..string.sub(invStr,y,x-1)
+            else page = page..string.sub(invStr,y,x) end
+            if x == nil then break end
+            y=x
+        end
+    else
+        for i = 1, 10 do
+            x=string.find(invStr,"\n",x+1)
+            if x ~= nil then page = page..string.sub(invStr,y,x-1)
+            else page = page..string.sub(invStr,y,x) end
+            if x == nil then break end
+            y=x
+        end
+    end
+    return page
+end
+
+function plainReplace(str, pattern, replacement)
+-- Replaces strings while ignoring special modifying characters
+    local x,y = str:find(pattern,1,true)
+    if x==nil then
+       return str
+    else
+       return str:sub(1,x-1)..replacement..str:sub(y+1)
+    end
+end
