@@ -1,0 +1,34 @@
+function onObjectEnterScriptingZone(zone, enter_object)
+    currentCard = ''
+    currentMini = ''
+    if zone.getGUID() == '30ef97' then
+        if enter_object.getVar('cardname') ~= nil then
+            currentCard = enter_object.getGUID()
+            getObjectFromGUID('7d7d5f').setValue(enter_object.getVar('value1'))
+            getObjectFromGUID('c0a4e4').setValue(enter_object.getVar('value2'))
+            getObjectFromGUID('2e0c03').setName(enter_object.getVar('cardname'))
+            getObjectFromGUID('7db223').setDescription(enter_object.getVar('carddesc'))
+        elseif enter_object.getVar('objtype') == 'mini' then
+            if enter_object.getVar('mcardguid') == currentCard then
+                currentMini = enter_object.getGUID()
+            end
+        end
+    end
+end
+
+function onObjectLeaveScriptingZone(zone, leave_object)
+    if zone.getGUID() == '30ef97' then
+        if leave_object.getVar('cardname') ~= nil then
+            leave_object.setVar('value1', getObjectFromGUID('7d7d5f').getValue())
+            leave_object.setVar('value2', getObjectFromGUID('c0a4e4').getValue())
+            leave_object.setVar('cardname', getObjectFromGUID('2e0c03').getName())
+            leave_object.setVar('carddesc', getObjectFromGUID('7db223').getDescription())
+
+            getObjectFromGUID('7d7d5f').setValue(0)
+            getObjectFromGUID('c0a4e4').setValue(0)
+            getObjectFromGUID('2e0c03').setName('')
+            getObjectFromGUID('7db223').setDescription('')
+        elseif leave_object.getVar('objtype') == 'mini' then
+        end
+    end
+end
