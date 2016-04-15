@@ -1,23 +1,18 @@
+-- GLOBAL
+
 function onObjectEnterScriptingZone(zone, enter_object)
-    currentCard = ''
-    currentMini = ''
-    if zone.getGUID() == '30ef97' then
+    if zone.getGUID() == '5b0f80' then
         if enter_object.getVar('cardname') ~= nil then
-            currentCard = enter_object.getGUID()
             getObjectFromGUID('7d7d5f').setValue(enter_object.getVar('value1'))
             getObjectFromGUID('c0a4e4').setValue(enter_object.getVar('value2'))
             getObjectFromGUID('2e0c03').setName(enter_object.getVar('cardname'))
             getObjectFromGUID('7db223').setDescription(enter_object.getVar('carddesc'))
-        elseif enter_object.getVar('objtype') == 'mini' then
-            if enter_object.getVar('mcardguid') == currentCard then
-                currentMini = enter_object.getGUID()
-            end
         end
     end
 end
 
 function onObjectLeaveScriptingZone(zone, leave_object)
-    if zone.getGUID() == '30ef97' then
+    if zone.getGUID() == '5b0f80' then
         if leave_object.getVar('cardname') ~= nil then
             leave_object.setVar('value1', getObjectFromGUID('7d7d5f').getValue())
             leave_object.setVar('value2', getObjectFromGUID('c0a4e4').getValue())
@@ -28,7 +23,28 @@ function onObjectLeaveScriptingZone(zone, leave_object)
             getObjectFromGUID('c0a4e4').setValue(0)
             getObjectFromGUID('2e0c03').setName('')
             getObjectFromGUID('7db223').setDescription('')
-        elseif leave_object.getVar('objtype') == 'mini' then
+            if leave_object.getTable('childGUID') ~= {''} then
+                callLuaFunctionInOtherScriptWithParams(getObjectFromGUID('c4bc3e'), 'updateMini', leave_object.getTable('childGUID'))
+            end
         end
     end
 end
+
+-- MONSTER PLATFORM
+
+function updateMini(miniGUID)
+    local mini = getObjectFromGUID(miniGUID[1])
+    local parent = getObjectFromGUID(mini.getVar('mcardguid'))
+
+    mini.setDescription(parent.getVar('carddesc'))
+end
+
+-- SPECIFIC MONSTER CARDS ADDITIONAL VARIABLES
+
+value1 = 0
+value2 = 0
+childGUID = {''}
+
+-- SPECIFIC MONSTER CARDS ADDITIONAL LINES TO SPAWNMONSTERS FUNCTION
+
+self.setTable('childGUID', {spawnedMonster.getGUID()})
