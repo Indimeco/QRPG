@@ -3,6 +3,10 @@
 function onObjectEnterScriptingZone(zone, enter_object)
     if zone.getGUID() == '5b0f80' then
         if enter_object.getVar('cardname') ~= nil then
+            if enter_object.getVar('value1') == nil then
+                enter_object.setVar('value1', 0)
+                enter_object.setVar('value2', 0)
+            end
             getObjectFromGUID('7d7d5f').setValue(enter_object.getVar('value1'))
             getObjectFromGUID('c0a4e4').setValue(enter_object.getVar('value2'))
             getObjectFromGUID('2e0c03').setName(enter_object.getVar('cardname'))
@@ -14,37 +18,49 @@ end
 function onObjectLeaveScriptingZone(zone, leave_object)
     if zone.getGUID() == '5b0f80' then
         if leave_object.getVar('cardname') ~= nil then
-            leave_object.setVar('value1', getObjectFromGUID('7d7d5f').getValue())
-            leave_object.setVar('value2', getObjectFromGUID('c0a4e4').getValue())
-            leave_object.setVar('cardname', getObjectFromGUID('2e0c03').getName())
-            leave_object.setVar('carddesc', getObjectFromGUID('7db223').getDescription())
+            callLuaFunctionInOtherScriptWithParams(getObjectFromGUID('c4bc3e'), 'updateMini', {leave_object})
 
             getObjectFromGUID('7d7d5f').setValue(0)
             getObjectFromGUID('c0a4e4').setValue(0)
             getObjectFromGUID('2e0c03').setName('')
             getObjectFromGUID('7db223').setDescription('')
-            if leave_object.getTable('childGUID') ~= {''} then
-                callLuaFunctionInOtherScriptWithParams(getObjectFromGUID('c4bc3e'), 'updateMini', leave_object.getTable('childGUID'))
-            end
         end
     end
 end
 
 -- MONSTER PLATFORM
 
-function updateMini(miniGUID)
-    local mini = getObjectFromGUID(miniGUID[1])
-    local parent = getObjectFromGUID(mini.getVar('mcardguid'))
-
-    mini.setDescription(parent.getVar('carddesc'))
+function onload()
+    self.setTable('pos',{-8,-1.3,0})
+    self.setTable('rot',{180,90,0})
+    callLuaFunctionInOtherScriptWithParams(Global, 'addButton', {self.getGUID(),7000,800,400,'Update Miniature(s)','forceUpdateMini',self})
 end
 
--- SPECIFIC MONSTER CARDS ADDITIONAL VARIABLES
+function forceUpdateMini()
+    local parent = {}
+    local zoneObjs = getObjectFromGUID('5b0f80').getObjects()
+    for i,v in pairs(zoneObjs) do
+        if zoneObjs[i].getVar('cardname') ~= nil then
+            parent[1] = zoneObjs[i]
+        end
+    end
+    updateMini(parent)
+end
 
-value1 = 0
-value2 = 0
-childGUID = {''}
+function updateMini(parent)
+    parent = parent[1]
+    parent.setVar('value1', getObjectFromGUID('7d7d5f').getValue())
+    parent.setVar('value2', getObjectFromGUID('c0a4e4').getValue())
+    parent.setVar('cardname', getObjectFromGUID('2e0c03').getName())
+    parent.setVar('carddesc', getObjectFromGUID('7db223').getDescription())
 
--- SPECIFIC MONSTER CARDS ADDITIONAL LINES TO SPAWNMONSTERS FUNCTION
+    local parentGUID = parent.getGUID()
+    local k = getAllObjects()
 
-self.setTable('childGUID', {spawnedMonster.getGUID()})
+    for i,v in pairs(k) do
+        if k[i].getVar('mcardguid') == parentGUID then
+            k[i].setName(parent.getVar('cardname'))
+            k[i].setDescription('AC: '..parent.getVar('value1')..'    HP: '..parent.getVar('value2')..'\n'..parent.getVar('carddesc'))
+        end
+    end
+end
