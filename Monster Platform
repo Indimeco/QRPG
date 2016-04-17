@@ -6,9 +6,13 @@ function onObjectEnterScriptingZone(zone, enter_object)
             if enter_object.getVar('value1') == nil then
                 enter_object.setVar('value1', 0)
                 enter_object.setVar('value2', 0)
+                enter_object.setVar('value3', 0)
+                enter_object.setVar('value4', 0)
             end
-            getObjectFromGUID('7d7d5f').setValue(enter_object.getVar('value1'))
-            getObjectFromGUID('c0a4e4').setValue(enter_object.getVar('value2'))
+            getObjectFromGUID('1ba1f5').setValue(enter_object.getVar('value1'))
+            getObjectFromGUID('7d7d5f').setValue(enter_object.getVar('value2'))
+            getObjectFromGUID('c0a4e4').setValue(enter_object.getVar('value3'))
+            getObjectFromGUID('a97acb').setValue(enter_object.getVar('value4'))
             getObjectFromGUID('2e0c03').setName(enter_object.getVar('cardname'))
             getObjectFromGUID('7db223').setDescription(enter_object.getVar('carddesc'))
         end
@@ -20,9 +24,12 @@ function onObjectLeaveScriptingZone(zone, leave_object)
         if leave_object.getVar('cardname') ~= nil then
             callLuaFunctionInOtherScriptWithParams(getObjectFromGUID('c4bc3e'), 'updateMini', {leave_object})
 
+            getObjectFromGUID('1ba1f5').setValue(0)
             getObjectFromGUID('7d7d5f').setValue(0)
             getObjectFromGUID('c0a4e4').setValue(0)
+            getObjectFromGUID('a97acb').setValue(0)
             getObjectFromGUID('2e0c03').setName('')
+            getObjectFromGUID('2e0c03').setDescription('')
             getObjectFromGUID('7db223').setDescription('')
         end
     end
@@ -31,12 +38,30 @@ end
 -- MONSTER PLATFORM
 
 function onload()
-    self.setTable('pos',{-8,-1.3,0})
+    self.setTable('pos',{-8,-1.1,0})
     self.setTable('rot',{180,90,0})
     callLuaFunctionInOtherScriptWithParams(Global, 'addButton', {self.getGUID(),7000,800,400,'Update Miniature(s)','forceUpdateMini',self})
+
+    -- Sets the variable to determine what information is sent to the miniatures via button color so as to preserve state across save/laod.
+    displayEverything = getObjectFromGUID('ebea77')
+    displaySome = getObjectFromGUID('4fb7c1')
+    displayNothing = getObjectFromGUID('4bc9ee')
+    if displayEverything.getColorTint == {0,1,0} then
+        self.setVar('miniDisplay','Everything')
+    elseif displaySome.getColorTint == {0,1,0} then
+        self.setVar('miniDisplay','Some')
+    else
+        self.setVar('miniDisplay', 'Nothing')
+    end
+
+    -- Sets the counters for use.
+    value1Counter = getObjectFromGUID('1ba1f5')
+    value2Counter = getObjectFromGUID('7d7d5f')
+    value3Counter = getObjectFromGUID('c0a4e4')
+    value4Counter = getObjectFromGUID('a97acb')
 end
 
-function forceUpdateMini()
+function forceUpdateMini() -- Finds the card within the scripting zone and sends it as a table to the main update function.
     local parent = {}
     local zoneObjs = getObjectFromGUID('5b0f80').getObjects()
     for i,v in pairs(zoneObjs) do
@@ -47,10 +72,12 @@ function forceUpdateMini()
     updateMini(parent)
 end
 
-function updateMini(parent)
+function updateMini(parent) -- Takes a monster card and sends its values to be concatenated into the description of its children miniatures.
     parent = parent[1]
-    parent.setVar('value1', getObjectFromGUID('7d7d5f').getValue())
-    parent.setVar('value2', getObjectFromGUID('c0a4e4').getValue())
+    parent.setVar('value1', value1Counter.getValue())
+    parent.setVar('value2', value2Counter.getValue())
+    parent.setVar('value3', value3Counter.getValue())
+    parent.setVar('value4', value4Counter.getValue())
     parent.setVar('cardname', getObjectFromGUID('2e0c03').getName())
     parent.setVar('carddesc', getObjectFromGUID('7db223').getDescription())
 
@@ -58,9 +85,74 @@ function updateMini(parent)
     local k = getAllObjects()
 
     for i,v in pairs(k) do
-        if k[i].getVar('mcardguid') == parentGUID then
-            k[i].setName(parent.getVar('cardname'))
-            k[i].setDescription('AC: '..parent.getVar('value1')..'    HP: '..parent.getVar('value2')..'\n'..parent.getVar('carddesc'))
+        if k[i].getVar('mcardguid') == parentGUID then -- Finds direct children miniatures or objects with the same name and no variable i.e., monsters spawned with infinite blocks.
+            if self.getVar('miniDisplay') == 'Everything' or self.getVar('miniDisplay') == 'Some' then
+                k[i].setName(parent.getVar('cardname'))
+                k[i].setDescription(parent.getVar('carddesc'))
+
+                if self.getVar('miniDisplay') == 'Some' then break end
+
+                local tempDesc = k[i].getDescription()
+                if value1Counter.getName() ~= '' then
+                    k[i].setDescription(value1Counter.getName()..': '..parent.getVar('value1')..'    ')
+                end
+                if value2Counter.getName() ~= '' then
+                    k[i].setDescription(k[i].getDescription()..value2Counter.getName()..': '..parent.getVar('value2')..'    ')
+                end
+                if value3Counter.getName() ~= '' then
+                    k[i].setDescription(k[i].getDescription()..value3Counter.getName()..': '..parent.getVar('value3')..'    ')
+                end
+                if value4Counter.getName() ~= '' then
+                    k[i].setDescription(k[i].getDescription()..value4Counter.getName()..': '..parent.getVar('value4'))
+                end
+                k[i].setDescription(k[i].getDescription()..'\n'..tempDesc)
+
+            else
+                k[i].setName('')
+                k[i].setDescription('')
+            end
         end
     end
+end
+
+function updateMiniDisplay(obj) -- Sets the variable to determine what information is sent to the miniatures.
+        if obj.getVar('miniDisplay') == 'Everything' then
+            self.setVar('miniDisplay', 'Everything')
+            displayEverything.setColorTint({0,1,0})
+            displaySome.setColorTint({0,0,0})
+            displayNothing.setColorTint({0,0,0})
+        elseif obj.getVar('miniDisplay') == 'Some' then
+            self.setVar('miniDisplay', 'Some')
+            displayEverything.setColorTint({0,0,0})
+            displaySome.setColorTint({0,1,0})
+            displayNothing.setColorTint({0,0,0})
+        else
+            self.setVar('miniDisplay', 'Nothing')
+            displayEverything.setColorTint({0,0,0})
+            displaySome.setColorTint({0,0,0})
+            displayNothing.setColorTint({0,1,0})
+        end
+end
+
+-- BUTTONS
+
+function onload()
+    self.setTable('pos',{0,-0.1,-3.1})
+    self.setTable('rot',{0,270,0})
+    self.setVar('miniDisplay', 'Everything')
+    callLuaFunctionInOtherScriptWithParams(Global, 'addButton', {self.getGUID(),2650,500,450,'Display Everything','updateMiniDisplay',getObjectFromGUID('c4bc3e')})
+end
+
+function onload()
+    self.setTable('pos',{0,-0.1,-3.1})
+    self.setTable('rot',{0,270,0})
+    self.setVar('miniDisplay', 'Some')
+    callLuaFunctionInOtherScriptWithParams(Global, 'addButton', {self.getGUID(),2650,500,450,'Additional Info Only','updateMiniDisplay',getObjectFromGUID('c4bc3e')})
+end
+
+function onload()
+    self.setTable('pos',{0,-0.1,-3.1})
+    self.setTable('rot',{0,270,0})
+    self.setVar('miniDisplay', 'Nothing')
+    callLuaFunctionInOtherScriptWithParams(Global, 'addButton', {self.getGUID(),2650,500,450,'Display Nothing','updateMiniDisplay',getObjectFromGUID('c4bc3e')})
 end
