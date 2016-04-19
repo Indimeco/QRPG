@@ -39,6 +39,7 @@ function onObjectLeaveScriptingZone(zone, leave_object)
     end
 end
 
+
 -- MONSTER PLATFORM
 
 function onload()
@@ -64,7 +65,7 @@ function onload()
     value3Counter = getObjectFromGUID('c0a4e4')
     value4Counter = getObjectFromGUID('a97acb')
     nameCard = getObjectFromGUID('2e0c03')
-    descCard = getObjectFromGUID('2e0c03')
+    descCard = getObjectFromGUID('7db223')
     activeMiniZone1 = getObjectFromGUID('413e0c') -- The zone in which minis will be updated
 end
 
@@ -106,8 +107,8 @@ function searchForMini(objTable, parent)  -- Searches the world and sets childre
     for i,v in pairs(objTable) do
         if objTable[i].getVar('mcardguid') == parentGUID then
             if self.getVar('miniDisplay') == 'Everything' or self.getVar('miniDisplay') == 'Some' then
-                objTable[i].setName(parent.getVar('cardname'))
-                objTable[i].setDescription(parent.getVar('carddesc'))
+                objTable[i].setName(parent.getVar('monsterName'))
+                objTable[i].setDescription(parent.getVar('monsterDesc'))
 
                 if self.getVar('miniDisplay') == 'Some' then break end
 
