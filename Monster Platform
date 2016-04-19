@@ -9,12 +9,16 @@ function onObjectEnterScriptingZone(zone, enter_object)
                 enter_object.setVar('value3', 0)
                 enter_object.setVar('value4', 0)
             end
+            if enter_object.getVar('monsterName') == nil then
+                enter_object.setVar('monsterName', enter_object.getVar('cardname'))
+                enter_object.setVar('monsterDesc', enter_object.getVar('carddesc'))
+            end
             getObjectFromGUID('1ba1f5').setValue(enter_object.getVar('value1'))
             getObjectFromGUID('7d7d5f').setValue(enter_object.getVar('value2'))
             getObjectFromGUID('c0a4e4').setValue(enter_object.getVar('value3'))
             getObjectFromGUID('a97acb').setValue(enter_object.getVar('value4'))
-            getObjectFromGUID('2e0c03').setName(enter_object.getVar('cardname'))
-            getObjectFromGUID('7db223').setDescription(enter_object.getVar('carddesc'))
+            getObjectFromGUID('2e0c03').setName(enter_object.getVar('monsterName'))
+            getObjectFromGUID('7db223').setDescription(enter_object.getVar('monsterDesc'))
         end
     end
 end
@@ -46,22 +50,25 @@ function onload()
     displayEverything = getObjectFromGUID('ebea77')
     displaySome = getObjectFromGUID('4fb7c1')
     displayNothing = getObjectFromGUID('4bc9ee')
-    if displayEverything.getColorTint == {0,1,0} then
+    if displayEverything.getColorTint()[2] == 1 then
         self.setVar('miniDisplay','Everything')
-    elseif displaySome.getColorTint == {0,1,0} then
+    elseif displaySome.getColorTint()[2] == 1 then
         self.setVar('miniDisplay','Some')
     else
         self.setVar('miniDisplay', 'Nothing')
     end
 
-    -- Sets the counters for use.
+    -- Sets the counters and cards for use.
     value1Counter = getObjectFromGUID('1ba1f5')
     value2Counter = getObjectFromGUID('7d7d5f')
     value3Counter = getObjectFromGUID('c0a4e4')
     value4Counter = getObjectFromGUID('a97acb')
+    nameCard = getObjectFromGUID('2e0c03')
+    descCard = getObjectFromGUID('2e0c03')
+    activeMiniZone1 = getObjectFromGUID('413e0c') -- The zone in which minis will be updated
 end
 
-function forceUpdateMini() -- Finds the card within the scripting zone and sends it as a table to the main update function.
+function forceUpdateMini() -- Finds the card within the scripting zone and sends it as a table to the core updateMini function.
     local parent = {}
     local zoneObjs = getObjectFromGUID('5b0f80').getObjects()
     for i,v in pairs(zoneObjs) do
@@ -78,38 +85,50 @@ function updateMini(parent) -- Takes a monster card and sends its values to be c
     parent.setVar('value2', value2Counter.getValue())
     parent.setVar('value3', value3Counter.getValue())
     parent.setVar('value4', value4Counter.getValue())
-    parent.setVar('cardname', getObjectFromGUID('2e0c03').getName())
-    parent.setVar('carddesc', getObjectFromGUID('7db223').getDescription())
+    parent.setVar('monsterName', nameCard.getName())
+    parent.setVar('monsterDesc', descCard.getDescription())
 
+    -- Sets values into the card's script to be preserved across saves.
+    local tempScript = parent.getLuaScript()
+    parent.setLuaScript('--*&\nself.setVar(\"value1\",'..value1Counter.getValue()..')\n'..'self.setVar(\"value2\",'..value2Counter.getValue()..')\n'..'self.setVar(\"value3\",'..value3Counter.getValue()..')\n'..'self.setVar(\"value4\",'..value4Counter.getValue()..')\n'..'self.setVar(\"monsterName\",\"'..parent.getVar('monsterName')..'\")\n'..'self.setVar(\"monsterDesc\",\"'..parent.getVar('monsterDesc')..'\")\n--*&')
+    if string.sub(tempScript,1,4) == '--*&' then
+        local j = string.find(tempScript,'--*&',5)
+        parent.setLuaScript(parent.getLuaScript()..string.sub(tempScript,j+4))
+    else
+        parent.setLuaScript(parent.getLuaScript()..'\n\n'..tempScript)
+    end
+
+    searchForMini(activeMiniZone1.getObjects(), parent)
+end
+
+function searchForMini(objTable, parent)  -- Searches the world and sets children miniatures with the correct descriptions based on display setting.
     local parentGUID = parent.getGUID()
-    local k = getAllObjects()
-
-    for i,v in pairs(k) do
-        if k[i].getVar('mcardguid') == parentGUID then -- Finds direct children miniatures or objects with the same name and no variable i.e., monsters spawned with infinite blocks.
+    for i,v in pairs(objTable) do
+        if objTable[i].getVar('mcardguid') == parentGUID then
             if self.getVar('miniDisplay') == 'Everything' or self.getVar('miniDisplay') == 'Some' then
-                k[i].setName(parent.getVar('cardname'))
-                k[i].setDescription(parent.getVar('carddesc'))
+                objTable[i].setName(parent.getVar('cardname'))
+                objTable[i].setDescription(parent.getVar('carddesc'))
 
                 if self.getVar('miniDisplay') == 'Some' then break end
 
-                local tempDesc = k[i].getDescription()
+                local tempDesc = objTable[i].getDescription()
                 if value1Counter.getName() ~= '' then
-                    k[i].setDescription(value1Counter.getName()..': '..parent.getVar('value1')..'    ')
+                    objTable[i].setDescription(value1Counter.getName()..': '..parent.getVar('value1')..'    ')
                 end
                 if value2Counter.getName() ~= '' then
-                    k[i].setDescription(k[i].getDescription()..value2Counter.getName()..': '..parent.getVar('value2')..'    ')
+                    objTable[i].setDescription(objTable[i].getDescription()..value2Counter.getName()..': '..parent.getVar('value2')..'    ')
                 end
                 if value3Counter.getName() ~= '' then
-                    k[i].setDescription(k[i].getDescription()..value3Counter.getName()..': '..parent.getVar('value3')..'    ')
+                    objTable[i].setDescription(objTable[i].getDescription()..value3Counter.getName()..': '..parent.getVar('value3')..'    ')
                 end
                 if value4Counter.getName() ~= '' then
-                    k[i].setDescription(k[i].getDescription()..value4Counter.getName()..': '..parent.getVar('value4'))
+                    objTable[i].setDescription(objTable[i].getDescription()..value4Counter.getName()..': '..parent.getVar('value4'))
                 end
-                k[i].setDescription(k[i].getDescription()..'\n'..tempDesc)
+                objTable[i].setDescription(objTable[i].getDescription()..'\n'..tempDesc)
 
             else
-                k[i].setName('')
-                k[i].setDescription('')
+                objTable[i].setName('')
+                objTable[i].setDescription('')
             end
         end
     end
