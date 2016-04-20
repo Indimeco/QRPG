@@ -94,8 +94,8 @@ function updateMini(parent) -- Takes a monster card and sends its values to be c
     parent.setVar('value2', value2Counter.getValue())
     parent.setVar('value3', value3Counter.getValue())
     parent.setVar('value4', value4Counter.getValue())
-    parent.setVar('monsterName', nameCard.getName())
-    parent.setVar('monsterDesc', descCard.getDescription())
+    parent.setVar('monsterName', nameCard.getName():gsub("[%[%]]", "%%%0"))
+    parent.setVar('monsterDesc', descCard.getDescription():gsub("[%[%]]", "%%%0"))
 
     -- Sets values into the card's script to be preserved across saves.
     local tempScript = parent.getLuaScript()
