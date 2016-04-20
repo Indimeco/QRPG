@@ -1,40 +1,48 @@
 -- GLOBAL
 
+cardsOnMonsterPlatform = 0
 function onObjectEnterScriptingZone(zone, enter_object)
-    if zone.getGUID() == '5b0f80' then
+    if zone.getGUID() == '5b0f80' then -- This zone is associated with the Monster Platform.
         if enter_object.getVar('cardname') ~= nil then
-            if enter_object.getVar('value1') == nil then
-                enter_object.setVar('value1', 0)
-                enter_object.setVar('value2', 0)
-                enter_object.setVar('value3', 0)
-                enter_object.setVar('value4', 0)
+            if cardsOnMonsterPlatform < 0 then cardsOnMonsterPlatform = 0
+            else cardsOnMonsterPlatform = cardsOnMonsterPlatform + 1 end
+            if cardsOnMonsterPlatform == 1 then
+                if enter_object.getVar('value1') == nil then
+                    enter_object.setVar('value1', 0)
+                    enter_object.setVar('value2', 0)
+                    enter_object.setVar('value3', 0)
+                    enter_object.setVar('value4', 0)
+                end
+                if enter_object.getVar('monsterName') == nil then
+                    enter_object.setVar('monsterName', enter_object.getVar('cardname'))
+                    enter_object.setVar('monsterDesc', enter_object.getVar('carddesc'))
+                end
+                getObjectFromGUID('1ba1f5').setValue(enter_object.getVar('value1'))
+                getObjectFromGUID('7d7d5f').setValue(enter_object.getVar('value2'))
+                getObjectFromGUID('c0a4e4').setValue(enter_object.getVar('value3'))
+                getObjectFromGUID('a97acb').setValue(enter_object.getVar('value4'))
+                getObjectFromGUID('2e0c03').setName(enter_object.getVar('monsterName'))
+                getObjectFromGUID('7db223').setDescription(enter_object.getVar('monsterDesc'))
             end
-            if enter_object.getVar('monsterName') == nil then
-                enter_object.setVar('monsterName', enter_object.getVar('cardname'))
-                enter_object.setVar('monsterDesc', enter_object.getVar('carddesc'))
-            end
-            getObjectFromGUID('1ba1f5').setValue(enter_object.getVar('value1'))
-            getObjectFromGUID('7d7d5f').setValue(enter_object.getVar('value2'))
-            getObjectFromGUID('c0a4e4').setValue(enter_object.getVar('value3'))
-            getObjectFromGUID('a97acb').setValue(enter_object.getVar('value4'))
-            getObjectFromGUID('2e0c03').setName(enter_object.getVar('monsterName'))
-            getObjectFromGUID('7db223').setDescription(enter_object.getVar('monsterDesc'))
         end
     end
 end
 
 function onObjectLeaveScriptingZone(zone, leave_object)
-    if zone.getGUID() == '5b0f80' then
+    if zone.getGUID() == '5b0f80' then -- This zone is associated with the Monster Platform.
         if leave_object.getVar('cardname') ~= nil then
-            callLuaFunctionInOtherScriptWithParams(getObjectFromGUID('c4bc3e'), 'updateMini', {leave_object})
+            cardsOnMonsterPlatform = cardsOnMonsterPlatform - 1
+            if cardsOnMonsterPlatform == 0 then
+                callLuaFunctionInOtherScriptWithParams(getObjectFromGUID('c4bc3e'), 'updateMini', {leave_object})
 
-            getObjectFromGUID('1ba1f5').setValue(0)
-            getObjectFromGUID('7d7d5f').setValue(0)
-            getObjectFromGUID('c0a4e4').setValue(0)
-            getObjectFromGUID('a97acb').setValue(0)
-            getObjectFromGUID('2e0c03').setName('')
-            getObjectFromGUID('2e0c03').setDescription('')
-            getObjectFromGUID('7db223').setDescription('')
+                getObjectFromGUID('1ba1f5').setValue(0)
+                getObjectFromGUID('7d7d5f').setValue(0)
+                getObjectFromGUID('c0a4e4').setValue(0)
+                getObjectFromGUID('a97acb').setValue(0)
+                getObjectFromGUID('2e0c03').setName('')
+                getObjectFromGUID('2e0c03').setDescription('')
+                getObjectFromGUID('7db223').setDescription('')
+            end
         end
     end
 end
@@ -91,7 +99,7 @@ function updateMini(parent) -- Takes a monster card and sends its values to be c
 
     -- Sets values into the card's script to be preserved across saves.
     local tempScript = parent.getLuaScript()
-    parent.setLuaScript('--*&\nself.setVar(\"value1\",'..value1Counter.getValue()..')\n'..'self.setVar(\"value2\",'..value2Counter.getValue()..')\n'..'self.setVar(\"value3\",'..value3Counter.getValue()..')\n'..'self.setVar(\"value4\",'..value4Counter.getValue()..')\n'..'self.setVar(\"monsterName\",\"'..parent.getVar('monsterName')..'\")\n'..'self.setVar(\"monsterDesc\",\"'..parent.getVar('monsterDesc')..'\")\n--*&')
+    parent.setLuaScript('--*&\nself.setVar(\"value1\",'..value1Counter.getValue()..')\n'..'self.setVar(\"value2\",'..value2Counter.getValue()..')\n'..'self.setVar(\"value3\",'..value3Counter.getValue()..')\n'..'self.setVar(\"value4\",'..value4Counter.getValue()..')\n'..'self.setVar(\"monsterName\",\[\['..parent.getVar('monsterName')..'\]\])\n'..'self.setVar(\"monsterDesc\",\[\['..parent.getVar('monsterDesc')..'\]\])\n--*&')
     if string.sub(tempScript,1,4) == '--*&' then
         local j = string.find(tempScript,'--*&',5)
         parent.setLuaScript(parent.getLuaScript()..string.sub(tempScript,j+4))
@@ -100,6 +108,7 @@ function updateMini(parent) -- Takes a monster card and sends its values to be c
     end
 
     searchForMini(activeMiniZone1.getObjects(), parent)
+    -- Add additional zones to search here.
 end
 
 function searchForMini(objTable, parent)  -- Searches the world and sets children miniatures with the correct descriptions based on display setting.
@@ -108,26 +117,27 @@ function searchForMini(objTable, parent)  -- Searches the world and sets childre
         if objTable[i].getVar('mcardguid') == parentGUID then
             if self.getVar('miniDisplay') == 'Everything' or self.getVar('miniDisplay') == 'Some' then
                 objTable[i].setName(parent.getVar('monsterName'))
-                objTable[i].setDescription(parent.getVar('monsterDesc'))
+                local tempDesc = parent.getVar('monsterDesc')
 
-                if self.getVar('miniDisplay') == 'Some' then break end
-
-                local tempDesc = objTable[i].getDescription()
-                if value1Counter.getName() ~= '' then
-                    objTable[i].setDescription(value1Counter.getName()..': '..parent.getVar('value1')..'    ')
+                if self.getVar('miniDisplay') == 'Some' then
+                    objTable[i].setDescription(tempDesc)
+                else
+                    objTable[i].setDescription('')
+                    if value1Counter.getName() ~= '' then
+                        objTable[i].setDescription(value1Counter.getName()..': '..parent.getVar('value1')..'    ')
+                    end
+                    if value2Counter.getName() ~= '' then
+                        objTable[i].setDescription(objTable[i].getDescription()..value2Counter.getName()..': '..parent.getVar('value2')..'    ')
+                    end
+                    if value3Counter.getName() ~= '' then
+                        objTable[i].setDescription(objTable[i].getDescription()..value3Counter.getName()..': '..parent.getVar('value3')..'    ')
+                    end
+                    if value4Counter.getName() ~= '' then
+                        objTable[i].setDescription(objTable[i].getDescription()..value4Counter.getName()..': '..parent.getVar('value4'))
+                    end
+                    objTable[i].setDescription(objTable[i].getDescription()..'\n'..tempDesc)
                 end
-                if value2Counter.getName() ~= '' then
-                    objTable[i].setDescription(objTable[i].getDescription()..value2Counter.getName()..': '..parent.getVar('value2')..'    ')
-                end
-                if value3Counter.getName() ~= '' then
-                    objTable[i].setDescription(objTable[i].getDescription()..value3Counter.getName()..': '..parent.getVar('value3')..'    ')
-                end
-                if value4Counter.getName() ~= '' then
-                    objTable[i].setDescription(objTable[i].getDescription()..value4Counter.getName()..': '..parent.getVar('value4'))
-                end
-                objTable[i].setDescription(objTable[i].getDescription()..'\n'..tempDesc)
-
-            else
+            elseif self.getVar('miniDisplay') == 'Nothing' then
                 objTable[i].setName('')
                 objTable[i].setDescription('')
             end
@@ -146,13 +156,14 @@ function updateMiniDisplay(obj) -- Sets the variable to determine what informati
             displayEverything.setColorTint({0,0,0})
             displaySome.setColorTint({0,1,0})
             displayNothing.setColorTint({0,0,0})
-        else
+        elseif obj.getVar('miniDisplay') == 'Nothing' then
             self.setVar('miniDisplay', 'Nothing')
             displayEverything.setColorTint({0,0,0})
             displaySome.setColorTint({0,0,0})
             displayNothing.setColorTint({0,1,0})
         end
 end
+
 
 -- BUTTONS
 
