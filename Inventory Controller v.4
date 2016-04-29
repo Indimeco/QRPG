@@ -1,0 +1,333 @@
+function onload()
+    -- Object Config
+    invController = getObjectFromGUID('aad6e8')
+    invControllerDisplay = getObjectFromGUID('0d093a')
+    playerHealthController = getObjectFromGUID('96c7eb')
+
+    redButton = getObjectFromGUID('f2b44d')
+    orangeButton = getObjectFromGUID('b189da')
+    yellowButton = getObjectFromGUID('649d04')
+    greenButton = getObjectFromGUID('10dea3')
+    blueButton = getObjectFromGUID('0a66ae')
+    purpleButton = getObjectFromGUID('23f579')
+
+    redCharactersheet = getObjectFromGUID('484e89')
+    orangeCharactersheet = getObjectFromGUID('27cb8b')
+    yellowCharactersheet = getObjectFromGUID('ae3a8d')
+    greenCharactersheet = getObjectFromGUID('bddaf4')
+    blueCharactersheet = getObjectFromGUID('ee8a03')
+    purpleCharactersheet = getObjectFromGUID('25910c')
+
+    redCharactersheetCounterGUIDs = {'ecfc82','5fbb7b','4363c2','665f1f','3ca728','fccced'}
+    orangeCharactersheetCounterGUIDs = {'0d2655','a41d65','365b53','f29eb6','4a2282','bf19eb'}
+    yellowCharactersheetCounterGUIDs = {'ac80ac','24effb','83aedd','079880','3c15de','a5c79e'}
+    greenCharactersheetCounterGUIDs = {'763818','4f877d','413bdd','53a22d','c01f47','f2cee2'}
+    blueCharactersheetCounterGUIDs = {'79c545','bb48d1','9e38d1','7c4408','0bb964','5adb6f'}
+    purpleCharactersheetCounterGUIDs = {'8a6614','7ca4f5','e6a851','c405e9','c23b16','af6540'}
+
+    masterCard = getObjectFromGUID('ee09de')
+    masterAUX = getObjectFromGUID('437188')
+    redCard = getObjectFromGUID('3f7d23')
+    redAUX = getObjectFromGUID('3aaa70')
+    orangeCard = getObjectFromGUID('9865b6')
+    orangeAUX = getObjectFromGUID('ccdcd6')
+    yellowCard = getObjectFromGUID('f26985')
+    yellowAUX = getObjectFromGUID('fff92c')
+    greenCard = getObjectFromGUID('2780ad')
+    greenAUX = getObjectFromGUID('9e4c9e')
+    blueCard = getObjectFromGUID('977184')
+    blueAUX = getObjectFromGUID('80771b')
+    purpleCard = getObjectFromGUID('055c17')
+    purpleAUX = getObjectFromGUID('e17605')
+
+    -- Creates buttons
+    masterCard.setTable('pos',{-0.45,3.5,0.4})
+    masterCard.setTable('rot',{0,180,0})
+    callLuaFunctionInOtherScriptWithParams(Global,'addButton',{masterCard.getGUID(), 50,75,50,'^','scrollUp',self})
+
+    masterCard.setTable('pos',{-0.45,3.5,-0.4})
+    masterCard.setTable('rot',{0,0,0})
+    callLuaFunctionInOtherScriptWithParams(Global,'addButton',{masterCard.getGUID(), 50,75,50,'^','scrollDown',self})
+
+    masterCard.setVar('AUXGUID',masterAUX.getGUID())
+
+    redButton.setTable('pos',{0,-0.2,0})
+    redButton.setTable('rot',{180,90,0})
+    redButton.setVar('color','red')
+    redButton.setVar('invGUID',redCard.getGUID())
+    redButton.setVar('charsheetGUID',redCharactersheet.getGUID())
+    callLuaFunctionInOtherScriptWithParams(Global, 'addButton', {redButton.getGUID(),1400,650,400,'Red','selectPlayer',self})
+
+    redCard.setTable('pos',{-0.45,3.5,0.4})
+    redCard.setTable('rot',{0,180,0})
+    callLuaFunctionInOtherScriptWithParams(Global,'addButton',{redCard.getGUID(), 50,75,50,'^','scrollUp',self})
+
+    redCard.setTable('pos',{-0.45,3.5,-0.4})
+    redCard.setTable('rot',{0,0,0})
+    callLuaFunctionInOtherScriptWithParams(Global,'addButton',{redCard.getGUID(), 50,75,50,'^','scrollDown',self})
+
+    redCard.setVar('AUXGUID',redAUX.getGUID())
+
+    orangeButton.setTable('pos',{0,-0.2,0})
+    orangeButton.setTable('rot',{180,90,0})
+    orangeButton.setVar('color','orange')
+    orangeButton.setVar('invGUID',orangeCard.getGUID())
+    orangeButton.setVar('charsheetGUID',orangeCharactersheet.getGUID())
+    callLuaFunctionInOtherScriptWithParams(Global, 'addButton', {orangeButton.getGUID(),1400,650,400,'Orange','selectPlayer',self})
+
+    orangeCard.setTable('pos',{-0.45,3.5,0.4})
+    orangeCard.setTable('rot',{0,180,0})
+    callLuaFunctionInOtherScriptWithParams(Global,'addButton',{orangeCard.getGUID(), 50,75,50,'^','scrollUp',self})
+
+    orangeCard.setTable('pos',{-0.45,3.5,-0.4})
+    orangeCard.setTable('rot',{0,0,0})
+    callLuaFunctionInOtherScriptWithParams(Global,'addButton',{orangeCard.getGUID(), 50,75,50,'^','scrollDown',self})
+
+    orangeCard.setVar('AUXGUID',orangeAUX.getGUID())
+
+    yellowButton.setTable('pos',{0,-0.2,0})
+    yellowButton.setTable('rot',{180,90,0})
+    yellowButton.setVar('color','yellow')
+    yellowButton.setVar('invGUID',yellowCard.getGUID())
+    yellowButton.setVar('charsheetGUID',yellowCharactersheet.getGUID())
+    callLuaFunctionInOtherScriptWithParams(Global, 'addButton', {yellowButton.getGUID(),1400,650,400,'Yellow','selectPlayer',self})
+
+    yellowCard.setTable('pos',{-0.45,3.5,0.4})
+    yellowCard.setTable('rot',{0,180,0})
+    callLuaFunctionInOtherScriptWithParams(Global,'addButton',{yellowCard.getGUID(), 50,75,50,'^','scrollUp',self})
+
+    yellowCard.setTable('pos',{-0.45,3.5,-0.4})
+    yellowCard.setTable('rot',{0,0,0})
+    callLuaFunctionInOtherScriptWithParams(Global,'addButton',{yellowCard.getGUID(), 50,75,50,'^','scrollDown',self})
+
+    yellowCard.setVar('AUXGUID',yellowAUX.getGUID())
+
+    greenButton.setTable('pos',{0,-0.2,0})
+    greenButton.setTable('rot',{180,90,0})
+    greenButton.setVar('color','green')
+    greenButton.setVar('invGUID',greenCard.getGUID())
+    greenButton.setVar('charsheetGUID',greenCharactersheet.getGUID())
+    callLuaFunctionInOtherScriptWithParams(Global, 'addButton', {greenButton.getGUID(),1400,650,400,'Green','selectPlayer',self})
+
+    greenCard.setTable('pos',{-0.45,3.5,0.4})
+    greenCard.setTable('rot',{0,180,0})
+    callLuaFunctionInOtherScriptWithParams(Global,'addButton',{greenCard.getGUID(), 50,75,50,'^','scrollUp',self})
+
+    greenCard.setTable('pos',{-0.45,3.5,-0.4})
+    greenCard.setTable('rot',{0,0,0})
+    callLuaFunctionInOtherScriptWithParams(Global,'addButton',{greenCard.getGUID(), 50,75,50,'^','scrollDown',self})
+
+    greenCard.setVar('AUXGUID',greenAUX.getGUID())
+
+    blueButton.setTable('pos',{0,-0.2,0})
+    blueButton.setTable('rot',{180,90,0})
+    blueButton.setVar('color','blue')
+    blueButton.setVar('invGUID',blueCard.getGUID())
+    blueButton.setVar('charsheetGUID',blueCharactersheet.getGUID())
+    callLuaFunctionInOtherScriptWithParams(Global, 'addButton', {blueButton.getGUID(),1400,650,400,'Blue','selectPlayer',self})
+
+    blueCard.setTable('pos',{-0.45,3.5,0.4})
+    blueCard.setTable('rot',{0,180,0})
+    callLuaFunctionInOtherScriptWithParams(Global,'addButton',{blueCard.getGUID(), 50,75,50,'^','scrollUp',self})
+
+    blueCard.setTable('pos',{-0.45,3.5,-0.4})
+    blueCard.setTable('rot',{0,0,0})
+    callLuaFunctionInOtherScriptWithParams(Global,'addButton',{blueCard.getGUID(), 50,75,50,'^','scrollDown',self})
+
+    blueCard.setVar('AUXGUID',blueAUX.getGUID())
+
+    purpleButton.setTable('pos',{0,-0.2,0})
+    purpleButton.setTable('rot',{180,90,0})
+    purpleButton.setVar('color','purple')
+    purpleButton.setVar('invGUID',purpleCard.getGUID())
+    purpleButton.setVar('charsheetGUID',purpleCharactersheet.getGUID())
+    callLuaFunctionInOtherScriptWithParams(Global, 'addButton', {purpleButton.getGUID(),1400,650,400,'Purple','selectPlayer',self})
+
+    purpleCard.setTable('pos',{-0.45,3.5,0.4})
+    purpleCard.setTable('rot',{0,180,0})
+    callLuaFunctionInOtherScriptWithParams(Global,'addButton',{purpleCard.getGUID(), 50,75,50,'^','scrollUp',self})
+
+    purpleCard.setTable('pos',{-0.45,3.5,-0.4})
+    purpleCard.setTable('rot',{0,0,0})
+    callLuaFunctionInOtherScriptWithParams(Global,'addButton',{purpleCard.getGUID(), 50,75,50,'^','scrollDown',self})
+
+    purpleCard.setVar('AUXGUID',purpleAUX.getGUID())
+
+    -- Creates counters
+    redCharactersheet.setTable('counters_t',createCounters(redCharactersheetCounterGUIDs))
+    orangeCharactersheet.setTable('counters_t',createCounters(orangeCharactersheetCounterGUIDs))
+    yellowCharactersheet.setTable('counters_t',createCounters(yellowCharactersheetCounterGUIDs))
+    greenCharactersheet.setTable('counters_t',createCounters(greenCharactersheetCounterGUIDs))
+    blueCharactersheet.setTable('counters_t',createCounters(blueCharactersheetCounterGUIDs))
+    purpleCharactersheet.setTable('counters_t',createCounters(purpleCharactersheetCounterGUIDs))
+
+    -- Additional setup
+    masterCard.setName("Inventory Manager")
+    masterCard.setDescription("Select a player below and their inventory will be pulled to this card. Any changes you may have made will be sent when clicking 'Update'\n\nSelecting a player will tint the highlight bar above with the respective color and the player's skills be updated in the counters above that.") -- Clear masterCard
+    invControllerDisplay.setColorTint({1,1,1}) -- Set highlight bar to White
+    invController.setTable('pos',{0,1.289,10.2})
+    invController.setTable('rot',{0,0,0})
+    callLuaFunctionInOtherScriptWithParams(Global, 'addButton', {invController.getGUID(),8000,1000,500,'Update','push',self})
+
+    characterWidthTable = {} -- can i remove this?
+
+    characterWidthTable = {
+        ["`"] = 2381, ["~"] = 2381, ["1"] = 1724, ["!"] = 1493, ["2"] = 2381,
+        ["@"] = 4348, ["3"] = 2381, ["#"] = 3030, ["4"] = 2564, ["$"] = 2381,
+        ["5"] = 2381, ["%"] = 3846, ["6"] = 2564, ["^"] = 2564, ["7"] = 2174,
+        ["&"] = 2777, ["8"] = 2564, ["*"] = 2174, ["9"] = 2564, ["("] = 1724,
+        ["0"] = 2564, [")"] = 1724, ["-"] = 1724, ["_"] = 2381, ["="] = 2381,
+        ["+"] = 2381, ["q"] = 2564, ["Q"] = 3226, ["w"] = 3704, ["W"] = 4167,
+        ["e"] = 2174, ["E"] = 2381, ["r"] = 1724, ["R"] = 2777, ["t"] = 1724,
+        ["T"] = 2381, ["y"] = 2564, ["Y"] = 2564, ["u"] = 2564, ["U"] = 3030,
+        ["i"] = 1282, ["I"] = 1282, ["o"] = 2381, ["O"] = 3226, ["p"] = 2564,
+        ["P"] = 2564, ["["] = 1724, ["{"] = 1724, ["]"] = 1724, ["}"] = 1724,
+        ["|"] = 1493, ["\\"] = 1923, ["a"] = 2564, ["A"] = 2777, ["s"] = 1923,
+        ["S"] = 2381, ["d"] = 2564, ["D"] = 3030, ["f"] = 1724, ["F"] = 2381,
+        ["g"] = 2564, ["G"] = 2777, ["h"] = 2564, ["H"] = 3030, ["j"] = 1075,
+        ["J"] = 1282, ["k"] = 2381, ["K"] = 2777, ["l"] = 1282, ["L"] = 2174,
+        [";"] = 1282, [":"] = 1282, ["'"] = 855, ["\""] = 1724, ["z"] = 1923,
+        ["Z"] = 2564, ["x"] = 2381, ["X"] = 2777, ["c"] = 1923, ["C"] = 2564,
+        ["v"] = 2564, ["V"] = 2777, ["b"] = 2564, ["B"] = 2564, ["n"] = 2564,
+        ["N"] = 3226, ["m"] = 3846, ["M"] = 3846, [","] = 1282, ["<"] = 2174,
+        ["."] = 1282, [">"] = 2174, ["/"] = 1923, ["?"] = 2174, [" "] = 1282,
+        ["\t"] = 5128, ["\r"] = 0, ["\n"] = 100000
+    }
+end
+
+function createCounters(table)
+    newTable = {}
+    for i=1,6 do
+        newTable[i] = getObjectFromGUID(table[i])
+    end
+    return newTable
+end
+
+function selectPlayer(objArg)
+-- Changes selection of player and sets color of the highlight bar
+-- Copies the selected player's inventory to the mastercard
+-- This function is called from a button - ergo objArg is the button that made the call
+
+    colorSelector = objArg.getVar('color')
+    callLuaFunctionInOtherScriptWithParams(playerHealthController, 'updateSkillCounters', getObjectFromGUID(objArg.getVar('charsheetGUID')).getTable('counters_t'))
+    GMInventory = getObjectFromGUID(objArg.getVar('invGUID'))
+    GMAUXInv = getObjectFromGUID(GMInventory.getVar('AUXGUID'))
+
+    if GMAUXInv.getDescription() ~= "" then
+        masterCard.setDescription(GMAUXInv.getDescription().."\n"..GMInventory.getDescription())
+    else
+        masterCard.setDescription(GMInventory.getDescription()) end
+
+    masterAUX = getObjectFromGUID(masterCard.getVar('AUXGUID'))
+    masterAUX.setDescription("")
+    setPawnsColor(colorSelector)
+end
+
+function push()
+-- Updates the selected player's inventory to a copy of the MasterCard
+    if colorSelector == nil then
+        print("Select a color first!")
+    elseif masterAUX.getDescription() ~= "" then
+        GMInventory.setDescription(masterAUX.getDescription().."\n"..masterCard.getDescription())
+    else GMInventory.setDescription(masterCard.getDescription())
+    end
+    GMAUXInv.setDescription("")
+end
+
+
+
+function retNum(color)
+-- Returns number corresponding to color, receives color as string | retNum("blue") => 2
+    if color == "purple" then set = 1
+        elseif color == "blue" then set = 2
+        elseif color == "green" then set = 3
+        elseif color == "yellow" then set = 4
+        elseif color == "orange" then set = 5
+        elseif color == "red" then set = 6
+    end
+    return set
+end
+
+function setPawnsColor(color)
+-- Sets color of highlight bar, receives color as string | setPawnsColor("blue")
+    local tint = {
+        {0.627,0.125,0.941}, --[[ Purple ]]--
+        {0.118,0.53,1.0}, --[[ Blue ]]--
+        {0.192,0.701,0.168}, --[[ Green ]]--
+        {0.905,0.898,0.172}, --[[ Yellow ]]--
+        {0.956,0.392,0.113}, --[[ Orange ]]--
+        {0.856,0.1,0.094}, --[[ Red ]]--
+}
+    local set = retNum(color)
+    invControllerDisplay.setColorTint(tint[set])
+end
+
+function scrollUp(obj)
+-- Concatenates the last 10 lines of the auxiliary inventory to the beginning of the main inventory.
+-- This function is called from a button - ergo obj is the button that made the call.
+
+    local AUXInv = getObjectFromGUID(obj.getVar('AUXGUID'))
+    if AUXInv.getDescription() ~= "" then
+        local newPage = getPage(string.reverse(AUXInv.getDescription()))
+        newPage = string.reverse(newPage)
+        if obj.getDescription() ~= "" then
+            obj.setDescription(newPage.."\n"..obj.getDescription())
+        else obj.setDescription(newPage) end
+        AUXInv.setDescription(string.sub(plainReplace(AUXInv.getDescription(),newPage,""),1,-2))
+    end
+end
+
+function scrollDown(obj)
+-- Concatenates the first 10 lines of the main inventory to the end of the auxiliary inventory.
+-- This function is called from a button - ergo obj is the button that made the call.
+
+    if obj.getDescription() ~= "" then
+        local AUXInv = getObjectFromGUID(obj.getVar('AUXGUID'))
+        local newPage = getPage(obj.getDescription())
+        if AUXInv.getDescription() ~= "" then
+            AUXInv.setDescription(AUXInv.getDescription().."\n"..newPage)
+        else AUXInv.setDescription(newPage) end
+        obj.setDescription(string.sub(plainReplace(obj.getDescription(),newPage,""),2))
+    end
+end
+
+function getPage(invStr)
+-- Iterates through the str and sums the estimated line length based on characterWidthTable for each character in a max 100000 system. Margin for error is 200.
+
+    local lineWidth = 0
+    local lineCount = 0
+    local placeholder = 1
+    local key = ''
+    local page = ''
+    local i = 1
+    while lineCount ~= 10 do
+        key = string.sub(invStr, i, i)
+        if key == '' then
+            page = page..string.sub(invStr,placeholder,i)
+            break
+        end
+        lineWidth = lineWidth + characterWidthTable[key]
+        if lineWidth > 99800 then
+            if key == '\n' then
+                page = page..string.sub(invStr,placeholder,i-1)
+                placeholder = i
+            else
+                page = page..string.sub(invStr,placeholder,i)
+                placeholder = i + 1
+            end
+            lineCount = lineCount + 1
+            lineWidth = 0
+        end
+        i = i + 1
+    end
+    return page
+end
+
+function plainReplace(str, pattern, replacement)
+    local x,y = str:find(pattern,1,true)
+    if x==nil then
+       return str
+    else
+       return str:sub(1,x-1)..replacement..str:sub(y+1)
+    end
+end
