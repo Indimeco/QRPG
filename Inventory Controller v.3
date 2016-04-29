@@ -1,23 +1,50 @@
 function onload ()
     masterCard = getObjectFromGUID('ee09de')
-    masterCard.setDescription("") -- Clear masterCard
+    masterCard.setName("Inventory Manager")
+    masterCard.setDescription("Select a player below and their inventory will be pulled to this card. Any changes you may have made will be sent when clicking 'Update'\n\nSelecting a player will tint the highlight bar above with the respective color and the player's skills be updated in the counters above that.") -- Clear masterCard
     getObjectFromGUID('0d093a').setColorTint({1,1,1}) -- Set highlight bar to White
     self.setTable('pos',{0,1.289,10.2}) self.setTable('rot',{0,0,0})
-    callLuaFunctionInOtherScriptWithParams(getObjectFromGUID('UI'), 'addButton', {self.getGUID(),8000,1000,500,'PUSH','push',self})
+    callLuaFunctionInOtherScriptWithParams(Global, 'addButton', {self.getGUID(),8000,1000,500,'Update','push',self})
+
+    characterWidthTable = {}
+
+    characterWidthTable = {
+        ["`"] = 2381, ["~"] = 2381, ["1"] = 1724, ["!"] = 1493, ["2"] = 2381,
+        ["@"] = 4348, ["3"] = 2381, ["#"] = 3030, ["4"] = 2564, ["$"] = 2381,
+        ["5"] = 2381, ["%"] = 3846, ["6"] = 2564, ["^"] = 2564, ["7"] = 2174,
+        ["&"] = 2777, ["8"] = 2564, ["*"] = 2174, ["9"] = 2564, ["("] = 1724,
+        ["0"] = 2564, [")"] = 1724, ["-"] = 1724, ["_"] = 2381, ["="] = 2381,
+        ["+"] = 2381, ["q"] = 2564, ["Q"] = 3226, ["w"] = 3704, ["W"] = 4167,
+        ["e"] = 2174, ["E"] = 2381, ["r"] = 1724, ["R"] = 2777, ["t"] = 1724,
+        ["T"] = 2381, ["y"] = 2564, ["Y"] = 2564, ["u"] = 2564, ["U"] = 3030,
+        ["i"] = 1282, ["I"] = 1282, ["o"] = 2381, ["O"] = 3226, ["p"] = 2564,
+        ["P"] = 2564, ["["] = 1724, ["{"] = 1724, ["]"] = 1724, ["}"] = 1724,
+        ["|"] = 1493, ["\\"] = 1923, ["a"] = 2564, ["A"] = 2777, ["s"] = 1923,
+        ["S"] = 2381, ["d"] = 2564, ["D"] = 3030, ["f"] = 1724, ["F"] = 2381,
+        ["g"] = 2564, ["G"] = 2777, ["h"] = 2564, ["H"] = 3030, ["j"] = 1075,
+        ["J"] = 1282, ["k"] = 2381, ["K"] = 2777, ["l"] = 1282, ["L"] = 2174,
+        [";"] = 1282, [":"] = 1282, ["'"] = 855, ["\""] = 1724, ["z"] = 1923,
+        ["Z"] = 2564, ["x"] = 2381, ["X"] = 2777, ["c"] = 1923, ["C"] = 2564,
+        ["v"] = 2564, ["V"] = 2777, ["b"] = 2564, ["B"] = 2564, ["n"] = 2564,
+        ["N"] = 3226, ["m"] = 3846, ["M"] = 3846, [","] = 1282, ["<"] = 2174,
+        ["."] = 1282, [">"] = 2174, ["/"] = 1923, ["?"] = 2174, [" "] = 1282,
+        ["\t"] = 5128, ["\r"] = 0, ["\n"] = 100000
+    }
 end
 
 function selectPlayer(objArg)
 -- Changes selection of player and sets color of the highlight bar
 -- Copies the selected player's inventory to the mastercard
 -- This function is called from a button - ergo objArg is the button that made the call
-    
+
     colorSelector = objArg.getVar('color')
+    callLuaFunctionInOtherScriptWithParams(getObjectFromGUID('96c7eb'), 'updateSkillCounters', getObjectFromGUID(objArg.getVar('charsheetGUID')).getTable('counters_t'))
     GMInventory = getObjectFromGUID(objArg.getVar('invGUID'))
     GMAUXInv = getObjectFromGUID(GMInventory.getVar('AUXGUID'))
 
     if GMAUXInv.getDescription() ~= "" then
         masterCard.setDescription(GMAUXInv.getDescription().."\n"..GMInventory.getDescription())
-    else 
+    else
         masterCard.setDescription(GMInventory.getDescription()) end
 
     masterCardAUX = getObjectFromGUID(masterCard.getVar('AUXGUID'))
@@ -31,8 +58,7 @@ function push()
         print("Select a color first!")
     elseif masterCardAUX.getDescription() ~= "" then
         GMInventory.setDescription(masterCardAUX.getDescription().."\n"..masterCard.getDescription())
-    else GMInventory.setDescription(masterCard.getDescription()) 
-
+    else GMInventory.setDescription(masterCard.getDescription())
     end
     GMAUXInv.setDescription("")
 end
@@ -42,10 +68,10 @@ end
 function retNum(color)
 -- Returns number corresponding to color, receives color as string | retNum("blue") => 2
     if color == "purple" then set = 1
-        elseif color == "blue" then set = 2 
+        elseif color == "blue" then set = 2
         elseif color == "green" then set = 3
         elseif color == "yellow" then set = 4
-        elseif color == "brown" then set = 5 
+        elseif color == "orange" then set = 5
         elseif color == "red" then set = 6
     end
     return set
@@ -54,12 +80,12 @@ end
 function setPawnsColor(color)
 -- Sets color of highlight bar, receives color as string | setPawnsColor("blue")
     local tint = {
-        {0.69,0,1}, --[[ Purple ]]--
-        {0,0.15,1}, --[[ Blue ]]--
-        {0.15,0.6,0.05}, --[[ Green ]]--
-        {0.9,0.9,0.1}, --[[ Yellow ]]--
-        {0.27,0.14,0.01}, --[[ Brown ]]--
-        {0.9,0.2,0.03}, --[[ Red ]]--
+        {0.627,0.125,0.941}, --[[ Purple ]]--
+        {0.118,0.53,1.0}, --[[ Blue ]]--
+        {0.192,0.701,0.168}, --[[ Green ]]--
+        {0.905,0.898,0.172}, --[[ Yellow ]]--
+        {0.956,0.392,0.113}, --[[ Orange ]]--
+        {0.856,0.1,0.094}, --[[ Red ]]--
 }
     local set = retNum(color)
     getObjectFromGUID('0d093a').setColorTint(tint[set])
@@ -77,7 +103,7 @@ function scrollUp(obj)
             obj.setDescription(newPage.."\n"..obj.getDescription())
         else obj.setDescription(newPage) end
         AUXInv.setDescription(string.sub(plainReplace(AUXInv.getDescription(),newPage,""),1,-2))
-    else print('Upper Limit') end
+    end
 end
 
 function scrollDown(obj)
@@ -91,40 +117,42 @@ function scrollDown(obj)
             AUXInv.setDescription(AUXInv.getDescription().."\n"..newPage)
         else AUXInv.setDescription(newPage) end
         obj.setDescription(string.sub(plainReplace(obj.getDescription(),newPage,""),2))
-    else print('Lower Limit') end
+    end
 end
 
 function getPage(invStr)
--- Counts the number of lines then returns a sub string with that number of length %10 or 10 to fit the page.
+-- Iterates through the str and sums the estimated line length based on characterWidthTable for each character in a max 100000 system. Margin for error is 200.
 
-    local _, linesCount = invStr:gsub('\n', '\n')
-    linesCount = linesCount + 1
-    print('Lines Counted: ', linesCount)
-    local x = 0 local y = 0 page = ""
-
-    if linesCount<10 then
-
-        for i = 1, linesCount%10 do
-            x=string.find(invStr,"\n",x+1)
-            if x ~= nil then page = page..string.sub(invStr,y,x-1)
-            else page = page..string.sub(invStr,y,x) end
-            if x == nil then break end
-            y=x
+    local lineWidth = 0
+    local lineCount = 0
+    local placeholder = 1
+    local key = ''
+    local page = ''
+    local i = 1
+    while lineCount ~= 10 do
+        key = string.sub(invStr, i, i)
+        if key == '' then
+            page = page..string.sub(invStr,placeholder,i)
+            break
         end
-    else
-        for i = 1, 10 do
-            x=string.find(invStr,"\n",x+1)
-            if x ~= nil then page = page..string.sub(invStr,y,x-1)
-            else page = page..string.sub(invStr,y,x) end
-            if x == nil then break end
-            y=x
+        lineWidth = lineWidth + characterWidthTable[key]
+        if lineWidth > 99800 then
+            if key == '\n' then
+                page = page..string.sub(invStr,placeholder,i-1)
+                placeholder = i
+            else
+                page = page..string.sub(invStr,placeholder,i)
+                placeholder = i + 1
+            end
+            lineCount = lineCount + 1
+            lineWidth = 0
         end
+        i = i + 1
     end
     return page
 end
 
 function plainReplace(str, pattern, replacement)
--- Replaces strings while ignoring special modifying characters
     local x,y = str:find(pattern,1,true)
     if x==nil then
        return str
