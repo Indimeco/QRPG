@@ -1,31 +1,33 @@
 -- GLOBAL
 
 monsterPlatformBrainGUID = 'b03ee1'
+monsterPlatformBrain = getObjectFromGUID(monsterPlatformBrainGUID)
 
 function onObjectEnterScriptingZone(zone, enter_object)
     if enter_object.getVar('cardname') ~= nil then
-        monsterPlatformZoneGUID = getObjectFromGUID(monsterPlatformBrainGUID).getTable('monsterPlatformZoneGUID')
-        if zone.getGUID() == monsterPlatformZoneGUID[1] then -- This zone is associated with the Monster Platform.
-            callLuaFunctionInOtherScriptWithParams(getObjectFromGUID(monsterPlatformBrainGUID), 'onCardEnter', {enter_object, 1})
-        elseif zone.getGUID() == monsterPlatformZoneGUID[2] then -- This zone is associated with the Monster Platform.
-            callLuaFunctionInOtherScriptWithParams(getObjectFromGUID(monsterPlatformBrainGUID), 'onCardEnter', {enter_object, 2})
+        monsterPlatformZoneGUID = monsterPlatformBrain.getTable('monsterPlatformZoneGUID')
+        if zone.getGUID() == monsterPlatformZoneGUID[1] then
+            monsterPlatformBrain.call('onCardEnter', {enter_object, 1})
+        elseif zone.getGUID() == monsterPlatformZoneGUID[2] then
+            monsterPlatformBrain.call('onCardEnter', {enter_object, 2})
         end
     end
 end
 
 function onObjectLeaveScriptingZone(zone, leave_object)
     if leave_object.getVar('cardname') ~= nil then
-        monsterPlatformZoneGUID = getObjectFromGUID(monsterPlatformBrainGUID).getTable('monsterPlatformZoneGUID')
-        if zone.getGUID() == monsterPlatformZoneGUID[1] then -- This zone is associated with the Monster Platform.
-            callLuaFunctionInOtherScriptWithParams(getObjectFromGUID(monsterPlatformBrainGUID), 'onCardLeave', {leave_object, 1})
-        elseif zone.getGUID() == monsterPlatformZoneGUID[2] then -- This zone is associated with the Monster Platform.
-            callLuaFunctionInOtherScriptWithParams(getObjectFromGUID(monsterPlatformBrainGUID), 'onCardLeave', {leave_object, 2})
+        monsterPlatformZoneGUID = monsterPlatformBrain.getTable('monsterPlatformZoneGUID')
+        if zone.getGUID() == monsterPlatformZoneGUID[1] then
+            monsterPlatformBrain.call('onCardLeave', {leave_object, 1})
+        elseif zone.getGUID() == monsterPlatformZoneGUID[2] then
+            monsterPlatformBrain.call('onCardLeave', {leave_object, 2})
         end
     end
 end
 
 
 -- MONSTER PLATFORM BRAIN
+
 function onload()
     -- Table initialization
     monsterPlatform = {}
@@ -43,9 +45,9 @@ function onload()
     monsterPlatformNameCard[2] = getObjectFromGUID('844fb6')
     monsterPlatformDescCard[1] = getObjectFromGUID('7db223')
     monsterPlatformDescCard[2] = getObjectFromGUID('f30f00')
-    monsterPlatformZoneGUID[1] = '7880c3' -- The reading zone for the first platform
-    monsterPlatformZoneGUID[2] = 'b1735b' -- The reading zone for the second platform
-    activeMiniZone1 = getObjectFromGUID('413e0c') -- The zone in which minis will be updated
+    monsterPlatformZoneGUID[1] = '063a41' -- The reading zone for the first platform
+    monsterPlatformZoneGUID[2] = 'f682c6' -- The reading zone for the second platform
+    activeMiniZone1 = getObjectFromGUID('8fb40f') -- The zone in which minis will be updated
 
     displayEverything = getObjectFromGUID('ebea77')
     displaySome = getObjectFromGUID('4fb7c1')
@@ -82,49 +84,49 @@ function onload()
 
     -- Adds buttons and button variables
     monsterPlatform[1].setVar('platformNumber', 1)
-    monsterPlatform[1].setTable('pos',{-7.1,0.1,0})
+    monsterPlatform[1].setTable('pos',{-7.15,0.1,0})
     monsterPlatform[1].setTable('rot',{0,-90,0})
-    callLuaFunctionInOtherScriptWithParams(Global, 'addButton', {monsterPlatform[1].getGUID(),2000,800,400,'Stat Counters','toggleStatCounters',self})
-    monsterPlatform[1].setTable('pos',{-7.1,0.1,6})
+    Global.call('addButton', {monsterPlatform[1].getGUID(),1900,900,300,'Stat Counters','toggleStatCounters',self})
+    monsterPlatform[1].setTable('pos',{-7.15,0.1,6.1})
     monsterPlatform[1].setTable('rot',{0,-90,0})
-    callLuaFunctionInOtherScriptWithParams(Global, 'addButton', {monsterPlatform[1].getGUID(),2000,800,400,'Copy Card','cloneCard',self})
-    monsterPlatform[1].setTable('pos',{-7.1,0.1,-6})
+    Global.call('addButton', {monsterPlatform[1].getGUID(),1900,900,300,'Copy Card','cloneCard',self})
+    monsterPlatform[1].setTable('pos',{-7.15,0.1,-6.1})
     monsterPlatform[1].setTable('rot',{0,-90,0})
-    callLuaFunctionInOtherScriptWithParams(Global, 'addButton', {monsterPlatform[1].getGUID(),2000,800,400,'Reset Card','resetCard',self})
+    Global.call('addButton', {monsterPlatform[1].getGUID(),1900,900,300,'Reset','resetPlatform',self})
     monsterPlatform[1].setVar('platformNumber', 1)
     monsterPlatform[1].setTable('pos',{-5.1,0.1,0})
     monsterPlatform[1].setTable('rot',{0,-90,0})
-    callLuaFunctionInOtherScriptWithParams(Global, 'addButton', {monsterPlatform[1].getGUID(),2000,800,400,'2nd Platform','toggleSecondPlatform',self})
+    Global.call('addButton', {monsterPlatform[1].getGUID(),1900,900,300,'2nd Platform','toggleSecondPlatform',self})
     monsterPlatform[1].setTable('pos',{7.1,0.1,0})
     monsterPlatform[1].setTable('rot',{0,-90,0})
-    callLuaFunctionInOtherScriptWithParams(Global, 'addButton', {monsterPlatform[1].getGUID(),8200,800,400,'Update Miniature(s)','forceUpdateMini',self})
+    Global.call('addButton', {monsterPlatform[1].getGUID(),7750,900,300,'Update Miniature(s)','forceUpdateMini',self})
 
     monsterPlatform[2].setVar('platformNumber', 2)
-    monsterPlatform[2].setTable('pos',{-7.1,0.1,0})
+    monsterPlatform[2].setTable('pos',{-7.15,0.1,0})
     monsterPlatform[2].setTable('rot',{0,-90,0})
-    callLuaFunctionInOtherScriptWithParams(Global, 'addButton', {monsterPlatform[2].getGUID(),2000,800,400,'Stat Counters','toggleStatCounters',self})
-    monsterPlatform[2].setTable('pos',{-7.1,0.1,6})
+    Global.call('addButton', {monsterPlatform[2].getGUID(),1900,900,300,'Stat Counters','toggleStatCounters',self})
+    monsterPlatform[2].setTable('pos',{-7.15,0.1,6.1})
     monsterPlatform[2].setTable('rot',{0,-90,0})
-    callLuaFunctionInOtherScriptWithParams(Global, 'addButton', {monsterPlatform[2].getGUID(),2000,800,400,'Copy Card','cloneCard',self})
-    monsterPlatform[2].setTable('pos',{-7.1,0.1,-6})
+    Global.call('addButton', {monsterPlatform[2].getGUID(),1900,900,300,'Copy Card','cloneCard',self})
+    monsterPlatform[2].setTable('pos',{-7.15,0.1,-6.1})
     monsterPlatform[2].setTable('rot',{0,-90,0})
-    callLuaFunctionInOtherScriptWithParams(Global, 'addButton', {monsterPlatform[2].getGUID(),2000,800,400,'Reset Card','resetCard',self})
+    Global.call('addButton', {monsterPlatform[2].getGUID(),1900,900,300,'Reset','resetPlatform',self})
     monsterPlatform[2].setTable('pos',{7.1,0.1,0})
     monsterPlatform[2].setTable('rot',{0,-90,0})
-    callLuaFunctionInOtherScriptWithParams(Global, 'addButton', {monsterPlatform[2].getGUID(),8200,800,400,'Update Miniature(s)','forceUpdateMini',self})
+    Global.call('addButton', {monsterPlatform[1].getGUID(),7750,900,300,'Update Miniature(s)','forceUpdateMini',self})
 
     displayEverything.setVar('miniDisplay','Everything')
-    displayEverything.setTable('pos',{0,-0.1,-3.1})
+    displayEverything.setTable('pos',{0,-0.1,-3.3})
     displayEverything.setTable('rot',{0,270,0})
-    callLuaFunctionInOtherScriptWithParams(Global, 'addButton', {displayEverything.getGUID(),2650,500,450,'Display Everything','updateMiniDisplay',self})
+    Global.call('addButton', {displayEverything.getGUID(),2550,500,300,'Display Everything','updateMiniDisplay',self})
     displaySome.setVar('miniDisplay','Some')
-    displaySome.setTable('pos',{0,-0.1,-3.1})
+    displaySome.setTable('pos',{0,-0.1,-3.3})
     displaySome.setTable('rot',{0,270,0})
-    callLuaFunctionInOtherScriptWithParams(Global, 'addButton', {displaySome.getGUID(),2650,500,450,'Additional Info Only','updateMiniDisplay',self})
+    Global.call('addButton', {displaySome.getGUID(),2550,500,300,'Display Everything','updateMiniDisplay',self})
     displayNothing.setVar('miniDisplay','Nothing')
-    displayNothing.setTable('pos',{0,-0.1,-3.1})
+    displayNothing.setTable('pos',{0,-0.1,-3.3})
     displayNothing.setTable('rot',{0,270,0})
-    callLuaFunctionInOtherScriptWithParams(Global, 'addButton', {displayNothing.getGUID(),2650,500,450,'Display Nothing','updateMiniDisplay',self})
+    Global.call('addButton', {displayNothing.getGUID(),2550,500,300,'Display Nothing','updateMiniDisplay',self})
 
     -- Sets the variable to determine what information is sent to the miniatures via button color so as to preserve state across save/laod.
     if displayEverything.getColorTint()[2] == 1 then
@@ -145,7 +147,9 @@ function forceUpdateMini(obj) -- Finds the card within the scripting zone and se
             parent = zoneObjs[i]
         end
     end
-    updateMini(parent, platNumber)
+    if parent ~= nil then
+        updateMini(parent, platNumber)
+    end
 end
 
 function updateMini(parent, platNumber) -- Takes a monster card and sends its values to be concatenated into the description of its children miniatures.
@@ -159,9 +163,9 @@ function updateMini(parent, platNumber) -- Takes a monster card and sends its va
     local tempScript = parent.getLuaScript()
     local QRPGVars = '--*&\n--This is QRPG code designed for use with the monster platform.\n'
     for i = 1,12 do
-        QRPGVars = QRPGVars.."self.setVar('value"..i..","..monsterPlatformValueCounters[platNumber][i].getValue().."')\n"
+        QRPGVars = QRPGVars..'value'..i.." = "..monsterPlatformValueCounters[platNumber][i].getValue()..'\n'
     end
-    QRPGVars = QRPGVars.."self.setVar('monsterName',\[\["..monsterPlatformNameCard[platNumber].getName().."\]\])\n".."self.setVar(\"monsterDesc\",\[\["..monsterPlatformDescCard[platNumber].getDescription().."\]\])\n--*&"
+    QRPGVars = QRPGVars..'monsterName = \[\['..monsterPlatformNameCard[platNumber].getName()..'\]\]\n'..'monsterDesc = \[\['..monsterPlatformDescCard[platNumber].getDescription()..'\]\]\n--*&'
 
     if string.find(tempScript,'--*&') then
         local i = string.find(tempScript,'--*&',1)
@@ -261,13 +265,13 @@ end
 function toggleStatCounters(obj)
     local platNumber = obj.getVar('platformNumber')
     local pos = monsterPlatformValueCounters[platNumber][7].getPosition()
-    if (pos[2] > 1) then
+    if (pos[2] > 0.8) then
         for i=7,12 do
             pos = monsterPlatformValueCounters[platNumber][i].getPosition()
             monsterPlatformValueCounters[platNumber][i].lock()
             monsterPlatformValueCounters[platNumber][i].setPosition({pos[1], pos[2] - 35, pos[3]})
         end
-    elseif (pos[2] < 1) then
+    elseif (pos[2] < 0.8) then
         for i=7,12 do
             pos = monsterPlatformValueCounters[platNumber][i].getPosition()
             monsterPlatformValueCounters[platNumber][i].lock()
@@ -289,14 +293,23 @@ function cloneCard(obj)
     end
 end
 
-function resetCard(obj)
+function resetPlatform(obj)
     local platNumber = obj.getVar('platformNumber')
+    local zoneObjs = getObjectFromGUID(monsterPlatformZoneGUID[platNumber]).getObjects()
+    for i,v in pairs(zoneObjs) do
+        if zoneObjs[i].getVar('cardname') ~= nil then
+            local pos = zoneObjs[i].getPosition()
+            zoneObjs[i].clone({pos[1]-15, pos[2]+3, pos[3]})
+            zoneObjs[i].destruct()
+        end
+    end
     for i,v in pairs(monsterPlatformValueCounters[platNumber]) do
         monsterPlatformValueCounters[platNumber][i].setValue(0)
     end
     monsterPlatformNameCard[platNumber].setName('')
     monsterPlatformNameCard[platNumber].setDescription('')
     monsterPlatformDescCard[platNumber].setDescription('')
+    cardsOnMonsterPlatform[platNumber] = 0
 end
 
 function toggleSecondPlatform()
