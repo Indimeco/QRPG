@@ -28,8 +28,8 @@ end
 
 -- MONSTER PLATFORM BRAIN
 
-function onload()
-    -- Table initialization
+function onLoad(save_state)
+    -- Table initialization, skip ahead to the next section if you need to change GUIDs.
     monsterPlatform = {}
     monsterPlatformValueCounterGUIDs = {}
     monsterPlatformNameCard = {}
@@ -53,6 +53,8 @@ function onload()
     displaySome = getObjectFromGUID('4fb7c1')
     displayNothing = getObjectFromGUID('4bc9ee')
 
+    -- Edit below this line at your own risk.
+
     -- Creates objects from counter GUIDs
     monsterPlatformValueCounters = {}
     monsterPlatformValueCounters[1] = {}
@@ -64,22 +66,26 @@ function onload()
         monsterPlatformValueCounters[2][i] = getObjectFromGUID(monsterPlatformValueCounterGUIDs_2[i])
     end
 
-    -- Counts the cards currently on the platform.
-    cardsOnMonsterPlatform = {}
-    cardsOnMonsterPlatform[1] = 0
-    cardsOnMonsterPlatform[2] = 0
-    monsterPlatformZoneObjTable = {}
-    monsterPlatformZoneObjTable[1] = getObjectFromGUID(monsterPlatformZoneGUID[1]).getObjects()
-    monsterPlatformZoneObjTable[2] = getObjectFromGUID(monsterPlatformZoneGUID[2]).getObjects()
-    for i,v in pairs(monsterPlatformZoneObjTable[1]) do
-        if monsterPlatformZoneObjTable[1][i].getVar('cardname') ~= nil then
-            cardsOnMonsterPlatform[1] = cardsOnMonsterPlatform[1] + 1
-        end
-    end
-    for i,v in pairs(monsterPlatformZoneObjTable[2]) do
-        if monsterPlatformZoneObjTable[2][i].getVar('cardname') ~= nil then
-            cardsOnMonsterPlatform[2] = cardsOnMonsterPlatform[2] + 1
-        end
+    -- Reads save information from the JSON or initializes variables
+    local stateTable = JSON.decode(save_state)
+    if stateTable[6] ~= nil then
+        miniDisplay = stateTable[1]
+        cardsOnMonsterPlatform = {}
+        cardsOnMonsterPlatform[1] = stateTable[2]
+        cardsOnMonsterPlatform[2] = stateTable[3]
+        statCountersToggled = {}
+        statCountersToggled[1] = stateTable[4]
+        statCountersToggled[2] = stateTable[5]
+        secondPlatformToggled = stateTable[6]
+    else
+        miniDisplay = 'Everything'
+        cardsOnMonsterPlatform = {}
+        cardsOnMonsterPlatform[1] = 0
+        cardsOnMonsterPlatform[2] = 0
+        statCountersToggled = {}
+        statCountersToggled[1] = 0
+        statCountersToggled[2] = 0
+        secondPlatformToggled = 0
     end
 
     -- Adds buttons and button variables
@@ -122,20 +128,22 @@ function onload()
     displaySome.setVar('miniDisplay','Some')
     displaySome.setTable('pos',{0,-0.1,-3.3})
     displaySome.setTable('rot',{0,270,0})
-    Global.call('addButton', {displaySome.getGUID(),2550,500,300,'Display Everything','updateMiniDisplay',self})
+    Global.call('addButton', {displaySome.getGUID(),2550,500,300,'Display Info Only','updateMiniDisplay',self})
     displayNothing.setVar('miniDisplay','Nothing')
     displayNothing.setTable('pos',{0,-0.1,-3.3})
     displayNothing.setTable('rot',{0,270,0})
     Global.call('addButton', {displayNothing.getGUID(),2550,500,300,'Display Nothing','updateMiniDisplay',self})
+end
 
-    -- Sets the variable to determine what information is sent to the miniatures via button color so as to preserve state across save/laod.
-    if displayEverything.getColorTint()[2] == 1 then
-        self.setVar('miniDisplay','Everything')
-    elseif displaySome.getColorTint()[2] == 1 then
-        self.setVar('miniDisplay','Some')
-    else
-        self.setVar('miniDisplay', 'Nothing')
-    end
+function onSave() -- Collects variables to persist across saving/loading.
+    local stateTable = {}
+    stateTable[1] = miniDisplay
+    stateTable[2] = cardsOnMonsterPlatform[1]
+    stateTable[3] = cardsOnMonsterPlatform[2]
+    stateTable[4] = statCountersToggled[1]
+    stateTable[5] = statCountersToggled[2]
+    stateTable[6] = secondPlatformToggled
+    return JSON.encode(stateTable)
 end
 
 function forceUpdateMini(obj) -- Finds the card within the scripting zone and sends it to the core updateMini function.
@@ -159,7 +167,7 @@ function updateMini(parent, platNumber) -- Takes a monster card and sends its va
     parent.setVar('monsterName', monsterPlatformNameCard[platNumber].getName():gsub("[%[%]]", "%%%0"))
     parent.setVar('monsterDesc', monsterPlatformDescCard[platNumber].getDescription():gsub("[%[%]]", "%%%0"))
 
-    -- Sets values into the card's script to be preserved across saves.
+    -- Sets values into the card's script to be preserved across saves. Possibly a JSON rework could be better here but it works fine.
     local tempScript = parent.getLuaScript()
     local QRPGVars = '--*&\n--This is QRPG code designed for use with the monster platform.\n'
     for i = 1,12 do
@@ -206,24 +214,24 @@ end
 
 function updateMiniDisplay(obj) -- Sets the variable to determine what information is sent to the miniatures.
         if obj.getVar('miniDisplay') == 'Everything' then
-            self.setVar('miniDisplay', 'Everything')
+            miniDisplay = 'Everything'
             displayEverything.setColorTint({0,1,0})
             displaySome.setColorTint({0,0,0})
             displayNothing.setColorTint({0,0,0})
         elseif obj.getVar('miniDisplay') == 'Some' then
-            self.setVar('miniDisplay', 'Some')
+            miniDisplay = 'Some'
             displayEverything.setColorTint({0,0,0})
             displaySome.setColorTint({0,1,0})
             displayNothing.setColorTint({0,0,0})
         elseif obj.getVar('miniDisplay') == 'Nothing' then
-            self.setVar('miniDisplay', 'Nothing')
+            miniDisplay = 'Nothing'
             displayEverything.setColorTint({0,0,0})
             displaySome.setColorTint({0,0,0})
             displayNothing.setColorTint({0,1,0})
         end
 end
 
-function onCardEnter(parent)
+function onCardEnter(parent) -- Called from the Global onObjectEnterScriptingZone function to realize the card on the platform.
     local platNumber = parent[2]
     cardsOnMonsterPlatform[platNumber] = cardsOnMonsterPlatform[platNumber] + 1
     if cardsOnMonsterPlatform[platNumber] ~= 1 then
@@ -246,7 +254,7 @@ function onCardEnter(parent)
     monsterPlatformDescCard[platNumber].setDescription(parent.getVar('monsterDesc'))
 end
 
-function onCardLeave(parent)
+function onCardLeave(parent) -- Called from the Global onObjectLeaveScriptingZone function to clean the platform.
     local platNumber = parent[2]
     cardsOnMonsterPlatform[platNumber] = cardsOnMonsterPlatform[platNumber] - 1
         if cardsOnMonsterPlatform[platNumber] ~= 0 then
@@ -262,32 +270,14 @@ function onCardLeave(parent)
     monsterPlatformDescCard[platNumber].setDescription('')
 end
 
-function toggleStatCounters(obj)
-    local platNumber = obj.getVar('platformNumber')
-    local pos = monsterPlatformValueCounters[platNumber][7].getPosition()
-    if (pos[2] > 0.8) then
-        for i=7,12 do
-            pos = monsterPlatformValueCounters[platNumber][i].getPosition()
-            monsterPlatformValueCounters[platNumber][i].lock()
-            monsterPlatformValueCounters[platNumber][i].setPosition({pos[1], pos[2] - 35, pos[3]})
-        end
-    elseif (pos[2] < 0.8) then
-        for i=7,12 do
-            pos = monsterPlatformValueCounters[platNumber][i].getPosition()
-            monsterPlatformValueCounters[platNumber][i].lock()
-            monsterPlatformValueCounters[platNumber][i].setPosition({pos[1], pos[2] + 35, pos[3]})
-        end
-    end
-end
-
-function cloneCard(obj)
+function cloneCard(obj) -- Copies and pastes the card(s) on the platform.
     local platNumber = obj.getVar('platformNumber')
     local params = {}
     local zoneObjs = getObjectFromGUID(monsterPlatformZoneGUID[platNumber]).getObjects()
     for i,v in pairs(zoneObjs) do
         if zoneObjs[i].getVar('cardname') ~= nil then
             local pos = zoneObjs[i].getPosition()
-            params.position = {pos[1]-15, pos[2], pos[3]}
+            params.position = {pos[1]-15, pos[2]+3, pos[3]}
             zoneObjs[i].clone(params)
         end
     end
@@ -312,9 +302,29 @@ function resetPlatform(obj)
     cardsOnMonsterPlatform[platNumber] = 0
 end
 
-function toggleSecondPlatform()
+function toggleStatCounters(obj) -- Hides the second set of counters under the table.
+    local platNumber = obj.getVar('platformNumber')
+    local pos
+    if statCountersToggled[platNumber] == 0 then
+        for i=7,12 do
+            pos = monsterPlatformValueCounters[platNumber][i].getPosition()
+            monsterPlatformValueCounters[platNumber][i].lock()
+            monsterPlatformValueCounters[platNumber][i].setPosition({pos[1], pos[2] - 35, pos[3]})
+        end
+        statCountersToggled[platNumber] = 1
+    else
+        for i=7,12 do
+            pos = monsterPlatformValueCounters[platNumber][i].getPosition()
+            monsterPlatformValueCounters[platNumber][i].lock()
+            monsterPlatformValueCounters[platNumber][i].setPosition({pos[1], pos[2] + 35, pos[3]})
+        end
+        statCountersToggled[platNumber] = 0
+    end
+end
+
+function toggleSecondPlatform() -- Hides the second platform under the table.
     local pos = monsterPlatform[2].getPosition()
-    if (pos[2] > 1) then
+    if secondPlatformToggled == 0 then
         monsterPlatform[2].lock()
         monsterPlatform[2].setPosition({pos[1],pos[2]-35,pos[3]})
         pos = monsterPlatformNameCard[2].getPosition()
@@ -328,7 +338,8 @@ function toggleSecondPlatform()
             pos = monsterPlatformValueCounters[2][i].getPosition()
             monsterPlatformValueCounters[2][i].setPosition({pos[1],pos[2]-35,pos[3]})
         end
-    elseif (pos[2] < 1) then
+        secondPlatformToggled = 1
+    else
         monsterPlatform[2].lock()
         monsterPlatform[2].setPosition({pos[1],pos[2]+35,pos[3]})
         pos = monsterPlatformNameCard[2].getPosition()
@@ -342,5 +353,6 @@ function toggleSecondPlatform()
             pos = monsterPlatformValueCounters[2][i].getPosition()
             monsterPlatformValueCounters[2][i].setPosition({pos[1],pos[2]+35,pos[3]})
         end
+        secondPlatformToggled = 0
     end
 end
