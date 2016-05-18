@@ -1,0 +1,310 @@
+function onload(save_state)
+    -- Table initialization
+    invControllerButton = {}
+    invControllerCharacterSheet = {}
+    invControllerInvCard = {}
+    invControllerHiddenText = {}
+    characterWidthTable = {}
+
+    -- Object Config
+    invController = getObjectFromGUID('aad6e8')
+    invControllerDisplay = getObjectFromGUID('0d093a')
+    playerHealthController = getObjectFromGUID('96c7eb')
+
+    invControllerButton['red'] = getObjectFromGUID('f2b44d')
+    invControllerButton['orange'] = getObjectFromGUID('b189da')
+    invControllerButton['yellow'] = getObjectFromGUID('649d04')
+    invControllerButton['green'] = getObjectFromGUID('10dea3')
+    invControllerButton['blue'] = getObjectFromGUID('0a66ae')
+    invControllerButton['purple'] = getObjectFromGUID('23f579')
+
+    invControllerCharacterSheet['red'] = getObjectFromGUID('484e89')
+    invControllerCharacterSheet['orange'] = getObjectFromGUID('27cb8b')
+    invControllerCharacterSheet['yellow'] = getObjectFromGUID('ae3a8d')
+    invControllerCharacterSheet['green'] = getObjectFromGUID('bddaf4')
+    invControllerCharacterSheet['blue'] = getObjectFromGUID('ee8a03')
+    invControllerCharacterSheet['purple'] = getObjectFromGUID('25910c')
+
+    redCharactersheetCounterGUIDs = {'ecfc82','5fbb7b','4363c2','665f1f','3ca728','fccced'}
+    orangeCharactersheetCounterGUIDs = {'0d2655','a41d65','365b53','f29eb6','4a2282','bf19eb'}
+    yellowCharactersheetCounterGUIDs = {'ac80ac','24effb','83aedd','079880','3c15de','a5c79e'}
+    greenCharactersheetCounterGUIDs = {'763818','4f877d','413bdd','53a22d','c01f47','f2cee2'}
+    blueCharactersheetCounterGUIDs = {'79c545','bb48d1','9e38d1','7c4408','0bb964','5adb6f'}
+    purpleCharactersheetCounterGUIDs = {'8a6614','7ca4f5','e6a851','c405e9','c23b16','af6540'}
+
+    invControllerInvCard['master'] = getObjectFromGUID('ee09de')
+    invControllerInvCard['red'] = getObjectFromGUID('3f7d23')
+    invControllerInvCard['orange'] = getObjectFromGUID('9865b6')
+    invControllerInvCard['yellow'] = getObjectFromGUID('f26985')
+    invControllerInvCard['green'] = getObjectFromGUID('2780ad')
+    invControllerInvCard['blue'] = getObjectFromGUID('977184')
+    invControllerInvCard['purple'] = getObjectFromGUID('055c17')
+
+    -- Edit below this line at your own risk.
+
+    -- Creates buttons
+    invController.setTable('pos',{0,1.289,10.2})
+    invController.setTable('rot',{0,0,0})
+    Global.call('addButton', {invController.getGUID(),8000,1000,500,'Update','push',self})
+
+    invControllerInvCard['master'].setVar('color', 'master')
+    invControllerInvCard['master'].setTable('pos',{-0.45,3.5,0.4})
+    invControllerInvCard['master'].setTable('rot',{0,180,0})
+    Global.call('addButton',{invControllerInvCard['master'].getGUID(), 50,75,50,'^','scrollUp',self})
+    invControllerInvCard['master'].setTable('pos',{-0.45,3.5,-0.4})
+    invControllerInvCard['master'].setTable('rot',{0,0,0})
+    Global.call('addButton',{invControllerInvCard['master'].getGUID(), 50,75,50,'^','scrollDown',self})
+
+    invControllerButton['red'].setVar('color','red')
+    invControllerButton['red'].setVar('charsheetGUID',invControllerCharacterSheet['red'].getGUID())
+    invControllerButton['red'].setTable('pos',{0,-0.2,0})
+    invControllerButton['red'].setTable('rot',{180,90,0})
+    Global.call('addButton', {invControllerButton['red'].getGUID(),1400,650,400,'Red','selectPlayer',self})
+    invControllerInvCard['red'].setVar('color', 'red')
+    invControllerInvCard['red'].setTable('pos',{-0.45,3.5,0.4})
+    invControllerInvCard['red'].setTable('rot',{0,180,0})
+    Global.call('addButton',{invControllerInvCard['red'].getGUID(), 50,75,50,'^','scrollUp',self})
+    invControllerInvCard['red'].setTable('pos',{-0.45,3.5,-0.4})
+    invControllerInvCard['red'].setTable('rot',{0,0,0})
+    Global.call('addButton',{invControllerInvCard['red'].getGUID(), 50,75,50,'^','scrollDown',self})
+
+    invControllerButton['orange'].setVar('color','orange')
+    invControllerButton['orange'].setVar('charsheetGUID',invControllerCharacterSheet['orange'].getGUID())
+    invControllerButton['orange'].setTable('pos',{0,-0.2,0})
+    invControllerButton['orange'].setTable('rot',{180,90,0})
+    Global.call('addButton', {invControllerButton['orange'].getGUID(),1400,650,400,'Orange','selectPlayer',self})
+    invControllerInvCard['orange'].setVar('color', 'orange')
+    invControllerInvCard['orange'].setTable('pos',{-0.45,3.5,0.4})
+    invControllerInvCard['orange'].setTable('rot',{0,180,0})
+    Global.call('addButton',{invControllerInvCard['orange'].getGUID(), 50,75,50,'^','scrollUp',self})
+    invControllerInvCard['orange'].setTable('pos',{-0.45,3.5,-0.4})
+    invControllerInvCard['orange'].setTable('rot',{0,0,0})
+    Global.call('addButton',{invControllerInvCard['orange'].getGUID(), 50,75,50,'^','scrollDown',self})
+
+    invControllerButton['yellow'].setVar('color','yellow')
+    invControllerButton['yellow'].setVar('charsheetGUID',invControllerCharacterSheet['yellow'].getGUID())
+    invControllerButton['yellow'].setTable('pos',{0,-0.2,0})
+    invControllerButton['yellow'].setTable('rot',{180,90,0})
+    Global.call('addButton', {invControllerButton['yellow'].getGUID(),1400,650,400,'Yellow','selectPlayer',self})
+    invControllerInvCard['yellow'].setVar('color', 'yellow')
+    invControllerInvCard['yellow'].setTable('pos',{-0.45,3.5,0.4})
+    invControllerInvCard['yellow'].setTable('rot',{0,180,0})
+    Global.call('addButton',{invControllerInvCard['yellow'].getGUID(), 50,75,50,'^','scrollUp',self})
+    invControllerInvCard['yellow'].setTable('pos',{-0.45,3.5,-0.4})
+    invControllerInvCard['yellow'].setTable('rot',{0,0,0})
+    Global.call('addButton',{invControllerInvCard['yellow'].getGUID(), 50,75,50,'^','scrollDown',self})
+
+    invControllerButton['green'].setVar('color','green')
+    invControllerButton['green'].setVar('charsheetGUID',invControllerCharacterSheet['green'].getGUID())
+    invControllerButton['green'].setTable('pos',{0,-0.2,0})
+    invControllerButton['green'].setTable('rot',{180,90,0})
+    Global.call('addButton', {invControllerButton['green'].getGUID(),1400,650,400,'Green','selectPlayer',self})
+    invControllerInvCard['green'].setVar('color', 'green')
+    invControllerInvCard['green'].setTable('pos',{-0.45,3.5,0.4})
+    invControllerInvCard['green'].setTable('rot',{0,180,0})
+    Global.call('addButton',{invControllerInvCard['green'].getGUID(), 50,75,50,'^','scrollUp',self})
+    invControllerInvCard['green'].setTable('pos',{-0.45,3.5,-0.4})
+    invControllerInvCard['green'].setTable('rot',{0,0,0})
+    Global.call('addButton',{invControllerInvCard['green'].getGUID(), 50,75,50,'^','scrollDown',self})
+
+    invControllerButton['blue'].setVar('color','blue')
+    invControllerButton['blue'].setVar('charsheetGUID',invControllerCharacterSheet['blue'].getGUID())
+    invControllerButton['blue'].setTable('pos',{0,-0.2,0})
+    invControllerButton['blue'].setTable('rot',{180,90,0})
+    Global.call('addButton', {invControllerButton['blue'].getGUID(),1400,650,400,'Blue','selectPlayer',self})
+    invControllerInvCard['blue'].setVar('color', 'blue')
+    invControllerInvCard['blue'].setTable('pos',{-0.45,3.5,0.4})
+    invControllerInvCard['blue'].setTable('rot',{0,180,0})
+    Global.call('addButton',{invControllerInvCard['blue'].getGUID(), 50,75,50,'^','scrollUp',self})
+    invControllerInvCard['blue'].setTable('pos',{-0.45,3.5,-0.4})
+    invControllerInvCard['blue'].setTable('rot',{0,0,0})
+    Global.call('addButton',{invControllerInvCard['blue'].getGUID(), 50,75,50,'^','scrollDown',self})
+
+    invControllerButton['purple'].setVar('color','purple')
+    invControllerButton['purple'].setVar('charsheetGUID',invControllerCharacterSheet['purple'].getGUID())
+    invControllerButton['purple'].setTable('pos',{0,-0.2,0})
+    invControllerButton['purple'].setTable('rot',{180,90,0})
+    Global.call('addButton', {invControllerButton['purple'].getGUID(),1400,650,400,'Purple','selectPlayer',self})
+    invControllerInvCard['purple'].setVar('color', 'purple')
+    invControllerInvCard['purple'].setTable('pos',{-0.45,3.5,0.4})
+    invControllerInvCard['purple'].setTable('rot',{0,180,0})
+    Global.call('addButton',{invControllerInvCard['purple'].getGUID(), 50,75,50,'^','scrollUp',self})
+    invControllerInvCard['purple'].setTable('pos',{-0.45,3.5,-0.4})
+    invControllerInvCard['purple'].setTable('rot',{0,0,0})
+    Global.call('addButton',{invControllerInvCard['purple'].getGUID(), 50,75,50,'^','scrollDown',self})
+
+    -- Creates counters
+    invControllerCharacterSheet['red'].setTable('counters_t',createCounters(redCharactersheetCounterGUIDs))
+    invControllerCharacterSheet['orange'].setTable('counters_t',createCounters(orangeCharactersheetCounterGUIDs))
+    invControllerCharacterSheet['yellow'].setTable('counters_t',createCounters(yellowCharactersheetCounterGUIDs))
+    invControllerCharacterSheet['green'].setTable('counters_t',createCounters(greenCharactersheetCounterGUIDs))
+    invControllerCharacterSheet['blue'].setTable('counters_t',createCounters(blueCharactersheetCounterGUIDs))
+    invControllerCharacterSheet['purple'].setTable('counters_t',createCounters(purpleCharactersheetCounterGUIDs))
+
+    -- Additional setup
+    invControllerInvCard['master'].setName('Inventory Manager')
+    invControllerInvCard['master'].setDescription('Select a player below and their inventory will be pulled to this card. Any changes you may have made will be sent when clicking "Update"\n\nSelecting a player will tint the highlight bar above with the respective color and the player\'s skills be updated in the counters above that.') -- Clear invControllerInvCard['master']
+    invControllerHiddenText['master'] = ''
+    invControllerDisplay.setColorTint({1,1,1}) -- Set highlight bar to White
+
+    local hiddenTextTable = JSON.decode(save_state)
+    invControllerHiddenText['red'] = hiddenTextTable['red']
+    invControllerHiddenText['orange'] = hiddenTextTable['orange']
+    invControllerHiddenText['yellow'] = hiddenTextTable['yellow']
+    invControllerHiddenText['green'] = hiddenTextTable['green']
+    invControllerHiddenText['blue'] = hiddenTextTable['blue']
+    invControllerHiddenText['purple'] = hiddenTextTable['purple']
+
+    characterWidthTable = {
+        ['`'] = 2381, ['~'] = 2381, ['1'] = 1724, ['!'] = 1493, ['2'] = 2381,
+        ['@'] = 4348, ['3'] = 2381, ['#'] = 3030, ['4'] = 2564, ['$'] = 2381,
+        ['5'] = 2381, ['%'] = 3846, ['6'] = 2564, ['^'] = 2564, ['7'] = 2174,
+        ['&'] = 2777, ['8'] = 2564, ['*'] = 2174, ['9'] = 2564, ['('] = 1724,
+        ['0'] = 2564, [')'] = 1724, ['-'] = 1724, ['_'] = 2381, ['='] = 2381,
+        ['+'] = 2381, ['q'] = 2564, ['Q'] = 3226, ['w'] = 3704, ['W'] = 4167,
+        ['e'] = 2174, ['E'] = 2381, ['r'] = 1724, ['R'] = 2777, ['t'] = 1724,
+        ['T'] = 2381, ['y'] = 2564, ['Y'] = 2564, ['u'] = 2564, ['U'] = 3030,
+        ['i'] = 1282, ['I'] = 1282, ['o'] = 2381, ['O'] = 3226, ['p'] = 2564,
+        ['P'] = 2564, ['['] = 1724, ['{'] = 1724, [']'] = 1724, ['}'] = 1724,
+        ['|'] = 1493, ['\\'] = 1923, ['a'] = 2564, ['A'] = 2777, ['s'] = 1923,
+        ['S'] = 2381, ['d'] = 2564, ['D'] = 3030, ['f'] = 1724, ['F'] = 2381,
+        ['g'] = 2564, ['G'] = 2777, ['h'] = 2564, ['H'] = 3030, ['j'] = 1075,
+        ['J'] = 1282, ['k'] = 2381, ['K'] = 2777, ['l'] = 1282, ['L'] = 2174,
+        [';'] = 1282, [':'] = 1282, ['\''] = 855, ['"'] = 1724, ['z'] = 1923,
+        ['Z'] = 2564, ['x'] = 2381, ['X'] = 2777, ['c'] = 1923, ['C'] = 2564,
+        ['v'] = 2564, ['V'] = 2777, ['b'] = 2564, ['B'] = 2564, ['n'] = 2564,
+        ['N'] = 3226, ['m'] = 3846, ['M'] = 3846, [','] = 1282, ['<'] = 2174,
+        ['.'] = 1282, ['>'] = 2174, ['/'] = 1923, ['?'] = 2174, [' '] = 1282,
+        ['\t'] = 5128, ['\r'] = 0, ['\n'] = 100000
+    }
+end
+
+function onSave()
+    local hiddenTextTable = {}
+    hiddenTextTable['red'] = invControllerHiddenText['red']
+    hiddenTextTable['orange'] = invControllerHiddenText['orange']
+    hiddenTextTable['yellow'] = invControllerHiddenText['yellow']
+    hiddenTextTable['green'] = invControllerHiddenText['green']
+    hiddenTextTable['blue'] = invControllerHiddenText['blue']
+    hiddenTextTable['purple'] = invControllerHiddenText['purple']
+    return JSON.encode(hiddenTextTable)
+end
+
+function createCounters(table)
+    newTable = {}
+    for i=1,6 do
+        newTable[i] = getObjectFromGUID(table[i])
+    end
+    return newTable
+end
+
+function selectPlayer(obj)
+-- Changes selection of player and sets color of the highlight bar
+-- Copies the selected player's inventory to the invControllerInvCard['master']
+-- This function is called from a button - ergo obj is the button's object that made the call
+
+    colorSelector = obj.getVar('color')
+    playerHealthController.call('updateSkillCounters', invControllerCharacterSheet[colorSelector].getTable('counters_t'))
+
+    if invControllerHiddenText[colorSelector] ~= '' then
+        invControllerInvCard['master'].setDescription(invControllerHiddenText[colorSelector]..'\n'..invControllerInvCard[colorSelector].getDescription())
+    else
+        invControllerInvCard['master'].setDescription(invControllerInvCard[colorSelector].getDescription()) end
+
+    invControllerHiddenText['master'] = ''
+    setDisplayColor(colorSelector)
+end
+
+function push()
+-- Updates the selected player's inventory to a copy of the invControllerInvCard['master']
+    if colorSelector == nil then
+        print("Select a color first!")
+    elseif invControllerHiddenText['master'] ~= '' then
+        invControllerInvCard[colorSelector].setDescription(invControllerHiddenText['master']..'\n'..invControllerInvCard['master'].getDescription())
+    else invControllerInvCard[colorSelector].setDescription(invControllerInvCard['master'].getDescription())
+    end
+    invControllerHiddenText[colorSelector] = ''
+end
+
+function setDisplayColor(color)
+-- Sets color of highlight bar, receives color as string | setDisplayColor("blue")
+    local tint = {}
+    tint['red'] = {0.856,0.1,0.094}
+    tint['orange'] = {0.956,0.392,0.113}
+    tint['yellow'] = {0.905,0.898,0.172}
+    tint['green'] = {0.192,0.701,0.168}
+    tint['blue'] = {0.118,0.53,1.0}
+    tint['purple'] = {0.627,0.125,0.941}
+    invControllerDisplay.setColorTint(tint[color])
+end
+
+function scrollUp(obj)
+-- Concatenates the last 10 lines of the auxiliary inventory to the beginning of the main inventory.
+-- This function is called from a button - ergo obj is the button that made the call.
+    local color = obj.getVar('color')
+    local hiddenText = invControllerHiddenText[color]
+    if hiddenText ~= '' then
+        local newPage = getPage(string.reverse(hiddenText))
+        newPage = string.reverse(newPage)
+        if obj.getDescription() ~= '' then
+            obj.setDescription(newPage..'\n'..obj.getDescription())
+        else obj.setDescription(newPage) end
+        invControllerHiddenText[color] = string.sub(plainReplace(hiddenText,newPage,''),1,-2)
+    end
+end
+
+function scrollDown(obj)
+-- Concatenates the first 10 lines of the main inventory to the end of the auxiliary inventory.
+-- This function is called from a button - ergo obj is the button that made the call.
+
+    if obj.getDescription() ~= '' then
+        local color = obj.getVar('color')
+        local hiddenText = invControllerHiddenText[color]
+        local newPage = getPage(obj.getDescription())
+        if hiddenText ~= '' then
+            invControllerHiddenText[color] = hiddenText..'\n'..newPage
+        else invControllerHiddenText[color] = newPage end
+        obj.setDescription(string.sub(plainReplace(obj.getDescription(),newPage,""),2))
+    end
+end
+
+function getPage(invStr)
+-- Iterates through the str and sums the estimated line length based on characterWidthTable for each character in a max 100000 system. Margin for error is 200.
+
+    local lineWidth = 0
+    local lineCount = 0
+    local placeholder = 1
+    local key = ''
+    local page = ''
+    local i = 1
+    while lineCount ~= 10 do
+        key = string.sub(invStr, i, i)
+        if key == '' then
+            page = page..string.sub(invStr,placeholder,i)
+            break
+        end
+        lineWidth = lineWidth + characterWidthTable[key]
+        if lineWidth > 99800 then
+            if key == '\n' then
+                page = page..string.sub(invStr,placeholder,i-1)
+                placeholder = i
+            else
+                page = page..string.sub(invStr,placeholder,i)
+                placeholder = i + 1
+            end
+            lineCount = lineCount + 1
+            lineWidth = 0
+        end
+        i = i + 1
+    end
+    return page
+end
+
+function plainReplace(str, pattern, replacement)
+    local x,y = str:find(pattern,1,true)
+    if x==nil then
+       return str
+    else
+       return str:sub(1,x-1)..replacement..str:sub(y+1)
+    end
+end
