@@ -1,7 +1,9 @@
 -- GLOBAL
 
-monsterPlatformBrainGUID = 'b03ee1'
-monsterPlatformBrain = getObjectFromGUID(monsterPlatformBrainGUID)
+function onload()
+    monsterPlatformBrainGUID = 'b03ee1'
+    monsterPlatformBrain = getObjectFromGUID(monsterPlatformBrainGUID)
+end
 
 function onObjectEnterScriptingZone(zone, enter_object)
     if enter_object.getVar('cardname') ~= nil then
@@ -25,30 +27,34 @@ function onObjectLeaveScriptingZone(zone, leave_object)
     end
 end
 
-
 -- MONSTER PLATFORM BRAIN
 
 function onLoad(save_state)
     -- Table initialization, skip ahead to the next section if you need to change GUIDs.
     monsterPlatform = {}
     monsterPlatformValueCounterGUIDs = {}
-    monsterPlatformNameCard = {}
+    monsterPlatformTextTool = {}
     monsterPlatformDescCard = {}
     monsterPlatformZoneGUID = {}
 
-    -- Sets the objects and variables for use.
+    -- Sets the objects and variables for use. Input your GUIDs here.
     monsterPlatform[1] = getObjectFromGUID('eea006')
     monsterPlatform[2] = getObjectFromGUID('93f732')
     monsterPlatformValueCounterGUIDs_1 = {'1ba1f5','7d7d5f','c0a4e4','a97acb','ce521a','ecccee','f95a0c','a172ae','3ed4a0','5f4dac','b79442','84e811'}
     monsterPlatformValueCounterGUIDs_2 = {'fdb867','30f108','5d74f1','8f8a8a','f57295','6a0df2','ba7208','159fab','c0fd41','1b6c44','1e7791','941cbd'}
-    monsterPlatformNameCard[1] = getObjectFromGUID('2e0c03')
-    monsterPlatformNameCard[2] = getObjectFromGUID('844fb6')
+    monsterPlatformTextTool[1] = getObjectFromGUID('7649c6')
+    monsterPlatformTextTool[2] = getObjectFromGUID('1e50a7')
     monsterPlatformDescCard[1] = getObjectFromGUID('7db223')
     monsterPlatformDescCard[2] = getObjectFromGUID('f30f00')
     monsterPlatformZoneGUID[1] = '063a41' -- The reading zone for the first platform
     monsterPlatformZoneGUID[2] = 'f682c6' -- The reading zone for the second platform
     activeMiniZone1 = getObjectFromGUID('8fb40f') -- The zone in which minis will be updated
-
+--[[
+    --The setting for the TextTool
+    monsterPlatformTextTool[2].rotate({-50,0,0})
+    local pos1 = monsterPlatformTextTool[2].getPosition()
+    monsterPlatformTextTool[2].setPosition({pos1[1]-0.5,pos1[2]+1.7,pos1[3]})
+]]--
     displayEverything = getObjectFromGUID('ebea77')
     displaySome = getObjectFromGUID('4fb7c1')
     displayNothing = getObjectFromGUID('4bc9ee')
@@ -164,7 +170,7 @@ function updateMini(parent, platNumber) -- Takes a monster card and sends its va
     for i=1,12 do
         parent.setVar('value'..i, monsterPlatformValueCounters[platNumber][i].getValue())
     end
-    parent.setVar('monsterName', monsterPlatformNameCard[platNumber].getName():gsub("[%[%]]", "%%%0"))
+    parent.setVar('monsterName', monsterPlatformTextTool[platNumber].getValue():gsub("[%[%]]", "%%%0"))
     parent.setVar('monsterDesc', monsterPlatformDescCard[platNumber].getDescription():gsub("[%[%]]", "%%%0"))
 
     -- Sets values into the card's script to be preserved across saves. Possibly a JSON rework could be better here but it works fine.
@@ -173,7 +179,7 @@ function updateMini(parent, platNumber) -- Takes a monster card and sends its va
     for i = 1,12 do
         QRPGVars = QRPGVars..'value'..i.." = "..monsterPlatformValueCounters[platNumber][i].getValue()..'\n'
     end
-    QRPGVars = QRPGVars..'monsterName = \[\['..monsterPlatformNameCard[platNumber].getName()..'\]\]\n'..'monsterDesc = \[\['..monsterPlatformDescCard[platNumber].getDescription()..'\]\]\n--*&'
+    QRPGVars = QRPGVars..'monsterName = \[\['..monsterPlatformTextTool[platNumber].getValue()..'\]\]\n'..'monsterDesc = \[\['..monsterPlatformDescCard[platNumber].getDescription()..'\]\]\n--*&'
 
     if string.find(tempScript,'--*&') then
         local i = string.find(tempScript,'--*&',1)
@@ -250,7 +256,7 @@ function onCardEnter(parent) -- Called from the Global onObjectEnterScriptingZon
     for i=1,12 do
         monsterPlatformValueCounters[platNumber][i].setValue(parent.getVar('value'..i))
     end
-    monsterPlatformNameCard[platNumber].setName(parent.getVar('monsterName'))
+    monsterPlatformTextTool[platNumber].setValue(parent.getVar('monsterName'))
     monsterPlatformDescCard[platNumber].setDescription(parent.getVar('monsterDesc'))
 end
 
@@ -265,8 +271,7 @@ function onCardLeave(parent) -- Called from the Global onObjectLeaveScriptingZon
     for i,v in pairs(monsterPlatformValueCounters[platNumber]) do
         monsterPlatformValueCounters[platNumber][i].setValue(0)
     end
-    monsterPlatformNameCard[platNumber].setName('')
-    monsterPlatformNameCard[platNumber].setDescription('')
+    monsterPlatformTextTool[platNumber].setValue(' ')
     monsterPlatformDescCard[platNumber].setDescription('')
 end
 
@@ -296,8 +301,7 @@ function resetPlatform(obj)
     for i,v in pairs(monsterPlatformValueCounters[platNumber]) do
         monsterPlatformValueCounters[platNumber][i].setValue(0)
     end
-    monsterPlatformNameCard[platNumber].setName('')
-    monsterPlatformNameCard[platNumber].setDescription('')
+    monsterPlatformTextTool[platNumber].setValue(' ')
     monsterPlatformDescCard[platNumber].setDescription('')
     cardsOnMonsterPlatform[platNumber] = 0
 end
@@ -327,9 +331,8 @@ function toggleSecondPlatform() -- Hides the second platform under the table.
     if secondPlatformToggled == 0 then
         monsterPlatform[2].lock()
         monsterPlatform[2].setPosition({pos[1],pos[2]-35,pos[3]})
-        pos = monsterPlatformNameCard[2].getPosition()
-        monsterPlatformNameCard[2].lock()
-        monsterPlatformNameCard[2].setPosition({pos[1],pos[2]-35,pos[3]})
+        pos = monsterPlatformTextTool[2].getPosition()
+        monsterPlatformTextTool[2].setPosition({pos[1],pos[2]-35,pos[3]})
         pos = monsterPlatformDescCard[2].getPosition()
         monsterPlatformDescCard[2].lock()
         monsterPlatformDescCard[2].setPosition({pos[1],pos[2]-35,pos[3]})
@@ -342,9 +345,8 @@ function toggleSecondPlatform() -- Hides the second platform under the table.
     else
         monsterPlatform[2].lock()
         monsterPlatform[2].setPosition({pos[1],pos[2]+35,pos[3]})
-        pos = monsterPlatformNameCard[2].getPosition()
-        monsterPlatformNameCard[2].lock()
-        monsterPlatformNameCard[2].setPosition({pos[1],pos[2]+35,pos[3]})
+        pos = monsterPlatformTextTool[2].getPosition()
+        monsterPlatformTextTool[2].setPosition({pos[1],pos[2]+35,pos[3]})
         pos = monsterPlatformDescCard[2].getPosition()
         monsterPlatformDescCard[2].lock()
         monsterPlatformDescCard[2].setPosition({pos[1],pos[2]+35,pos[3]})
