@@ -267,6 +267,8 @@ function selectPlayer(obj)
     invControllerInvCard['master'].setDescription(newPage)
     invControllerHiddenTextAbove['master'] = ''
     invControllerHiddenTextBelow['master'] = removeNewline(removeNewline(plainReplace(fullText,newPage,''),'Beginning'),'Ending')
+    invControllerStartingTextLength['master'] = getLines(invControllerInvCard['master'].getDescription())
+
     setDisplayColor(colorSelector)
 end
 
@@ -304,7 +306,7 @@ function scrollUp(obj)
             invControllerHiddenTextAbove[color] = removeNewline(plainReplace(invControllerHiddenTextAbove[color],removeNewline(removeNewline(newPage,'Ending'),'Beginning'),''),'Ending')
         end
         obj.setDescription(removeNewline(removeNewline(newPage,'Ending'),'Beginning'))
-        invControllerStartingTextLength[color] = string.len(obj.getDescription())
+        invControllerStartingTextLength[color] = getLines(obj.getDescription())
     end
 end
 
@@ -314,28 +316,32 @@ function scrollDown(obj)
     local color = obj.getVar('color')
     if obj.getDescription() ~= '' then
         local newPage = getPage(obj.getDescription())
-        if invControllerHiddenTextAbove[color] ~= '' then
-            invControllerHiddenTextAbove[color] = invControllerHiddenTextAbove[color]..'\n'..newPage
+        invControllerHiddenTextAbove[color] = removeNewline(invControllerHiddenTextAbove[color]..'\n'..newPage,'Beginning')
+        local tempPage = string.sub(obj.getDescription(),string.len(newPage)+1,-1)
+        if tempPage ~= '' then
+            newPage = getPage(removeNewline(removeNewline(tempPage..'\n'..invControllerHiddenTextBelow[color],'Ending'),'Beginning'))
         else
-            invControllerHiddenTextAbove[color] = newPage
+            newPage = getPage(removeNewline(removeNewline(invControllerHiddenTextBelow[color],'Ending'),'Beginning'))
         end
-        local tempPage = plainReplace(obj.getDescription(),newPage,'')
-        if invControllerHiddenTextBelow[color] ~= '' then
-            if tempPage ~= '' then
-                print('In tempPage function:')
-                print('tempPage: ',tempPage)
-                newPage = removeNewline(removeNewline(getPage(tempPage..'\n'..invControllerHiddenTextBelow[color]),'Ending'),'Beginning')
-                print('newPage: ',newPage)
-            else
-                newPage = getPage(removeNewline(invControllerHiddenTextBelow[color],'Beginning'))
-            end
-        else
-            newPage = getPage(removeNewline(tempPage,'Ending'))
-            invControllerHiddenTextBelow[color] = tempPage
-        end
+
+        local extraLength1 = getLines(obj.getDescription())
         obj.setDescription(removeNewline(removeNewline(newPage,'Beginning'),'Ending'))
-        invControllerStartingTextLength[color] = string.len(obj.getDescription())
-        invControllerHiddenTextBelow[color] = removeNewline(plainReplace(invControllerHiddenTextBelow[color],newPage,''),'Ending')
+        local extraLength2 = extraLength1['lineCount'] - invControllerStartingTextLength[color]['lineCount']
+        local extraLength3 = getLines(invControllerHiddenTextBelow[color])
+        invControllerStartingTextLength[color] = getLines(obj.getDescription())
+
+        if extraLength2 > 0 then
+            extraLength2 = invControllerStartingTextLength[color]['lineCount'] - extraLength2
+            local extraLength3 = getLines(invControllerHiddenTextBelow[color])
+            local extraLength4 = extraLength3[extraLength2]
+            invControllerHiddenTextBelow[color] = removeNewline(string.sub(invControllerHiddenTextBelow[color],extraLength4+1),'Beginning')
+        else
+            if string.len(obj.getDescription()) ~= string.len(invControllerHiddenTextBelow[color]) then
+                invControllerHiddenTextBelow[color] = removeNewline(removeNewline(string.sub(invControllerHiddenTextBelow[color],string.len(obj.getDescription())+1),'Beginning'),'Ending')
+            else
+                invControllerHiddenTextBelow[color] = ''
+            end
+        end
     end
 end
 
@@ -368,6 +374,40 @@ function getPage(invStr)
         i = i + 1
     end
     return page
+end
+
+function getLines(str)
+    -- Returns a table countaining the number of lines in a string as well as the location of the end of each line.
+    local lineWidth = 0
+    local lineCount = 0
+    local length = string.len(str)
+    local placeholder = 1
+    local key = ''
+    local lineTable = {}
+    local i = 1
+    while i < 2+string.len(str) do
+        key = string.sub(str, i, i)
+        if key == '' then
+            lineCount = lineCount + 1
+            break
+        end
+        lineWidth = lineWidth + characterWidthTable[key]
+        if lineWidth > 99800 then
+            if key == '\n' then
+                lineTable[lineCount+1] = i-1
+                placeholder = i
+            else
+                lineTable[lineCount+1] = i
+                placeholder = i + 1
+            end
+            lineCount = lineCount + 1
+            lineWidth = 0
+        end
+        i = i + 1
+    end
+    lineTable['length'] = length
+    lineTable['lineCount'] = lineCount
+    return lineTable
 end
 
 function removeNewline(str, location)
