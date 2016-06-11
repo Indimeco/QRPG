@@ -457,7 +457,13 @@ function scrollDown(obj)
         local tempPage = string.sub(obj.getDescription(),string.len(newPage)+1,-1)
         if tempPage ~= '' then
             newPage = getPage(removeNewline(removeNewline(tempPage..'\n'..invControllerHiddenTextBelow[color],'Ending'),'Beginning'))
+            if string.len(newPage) < string.len(tempPage) then
+               tempPage = removeNewline(removeNewline(tempPage,'Ending'),'Beginning')
+           else
+               tempPage = ''
+           end
         else
+            tempPage = ''
             newPage = getPage(removeNewline(removeNewline(invControllerHiddenTextBelow[color],'Ending'),'Beginning'))
         end
 
@@ -470,10 +476,10 @@ function scrollDown(obj)
         invControllerStartingText[color] = obj.getDescription()
         if extraLength2 > 0 and extraLength4 <= extraLength3['lineCount'] and extraLength4 > 0 then
             local extraLength5 = extraLength3[extraLength4]
-            invControllerHiddenTextBelow[color] = removeNewline(string.sub(invControllerHiddenTextBelow[color],extraLength5+1),'Beginning')
+            invControllerHiddenTextBelow[color] = removeNewline(string.sub(tempPage..invControllerHiddenTextBelow[color],extraLength5+1),'Beginning')
         else
             if string.len(obj.getDescription()) ~= string.len(invControllerHiddenTextBelow[color]) then
-                invControllerHiddenTextBelow[color] = removeNewline(removeNewline(string.sub(invControllerHiddenTextBelow[color],string.len(obj.getDescription())+1),'Beginning'),'Ending')
+                invControllerHiddenTextBelow[color] = removeNewline(removeNewline(string.sub(tempPage..invControllerHiddenTextBelow[color],string.len(obj.getDescription())+1),'Beginning'),'Ending')
             else
                 invControllerHiddenTextBelow[color] = ''
             end
