@@ -169,26 +169,26 @@ function onload(save_state)
 
 
     monsterPlatform[1].setVar('platformNumber', 1)
-    monsterPlatform[1].setTable('pos',{-2.15,0.1,0})
-    monsterPlatform[1].setTable('rot',{0,-90,0})
-    Global.call('addButton', {monsterPlatform[1].getGUID(),1900,900,300,'Stat Counters','toggleStatCounters',self})
+    -- Temporarily disabling the toggle stat counters button because it's just clutter
+    -- monsterPlatform[1].setTable('pos',{-0.1,0.1,0})
+    -- monsterPlatform[1].setTable('rot',{0,-90,0})
+    -- Global.call('addButton', {monsterPlatform[1].getGUID(),1900,900,300,'Stat Counters','toggleStatCounters',self})
     monsterPlatform[1].setTable('pos',{-2.15,0.1,6.1})
     monsterPlatform[1].setTable('rot',{0,-90,0})
     Global.call('addButton', {monsterPlatform[1].getGUID(),1900,900,300,'Copy Card','cloneCard',self})
     monsterPlatform[1].setTable('pos',{-2.15,0.1,-6.1})
     monsterPlatform[1].setTable('rot',{0,-90,0})
     Global.call('addButton', {monsterPlatform[1].getGUID(),1900,900,300,'Reset','resetPlatform',self})
-    monsterPlatform[1].setVar('platformNumber', 1)
-    monsterPlatform[1].setTable('pos',{-0.1,0.1,0})
+    monsterPlatform[1].setTable('pos',{-2.15,0.1,0})
     monsterPlatform[1].setTable('rot',{0,-90,0})
     Global.call('addButton', {monsterPlatform[1].getGUID(),1900,900,300,'2nd Platform','toggleSecondPlatform',self})
     monsterPlatform[1].setTable('pos',{7.1,0.1,0})
     monsterPlatform[1].setTable('rot',{0,-90,0})
     Global.call('addButton', {monsterPlatform[1].getGUID(),7750,900,300,'Update Miniature(s)','forceUpdateMini',self})
     monsterPlatform[2].setVar('platformNumber', 2)
-    monsterPlatform[2].setTable('pos',{-2.15,0.1,0})
-    monsterPlatform[2].setTable('rot',{0,-90,0})
-    Global.call('addButton', {monsterPlatform[2].getGUID(),1900,900,300,'Stat Counters','toggleStatCounters',self})
+    -- monsterPlatform[2].setTable('pos',{-2.15,0.1,0})
+    -- monsterPlatform[2].setTable('rot',{0,-90,0})
+    -- Global.call('addButton', {monsterPlatform[2].getGUID(),1900,900,300,'Stat Counters','toggleStatCounters',self})
     monsterPlatform[2].setTable('pos',{-2.15,0.1,6.1})
     monsterPlatform[2].setTable('rot',{0,-90,0})
     Global.call('addButton', {monsterPlatform[2].getGUID(),1900,900,300,'Copy Card','cloneCard',self})
@@ -197,7 +197,7 @@ function onload(save_state)
     Global.call('addButton', {monsterPlatform[2].getGUID(),1900,900,300,'Reset','resetPlatform',self})
     monsterPlatform[2].setTable('pos',{7.1,0.1,0})
     monsterPlatform[2].setTable('rot',{0,-90,0})
-    Global.call('addButton', {monsterPlatform[1].getGUID(),7750,900,300,'Update Miniature(s)','forceUpdateMini',self})
+    Global.call('addButton', {monsterPlatform[2].getGUID(),7750,900,300,'Update Miniature(s)','forceUpdateMini',self})
     displayEverything.setVar('miniDisplay','Everything')
     displayEverything.setTable('pos',{0,-0.1,-3.3})
     displayEverything.setTable('rot',{0,270,0})
@@ -659,10 +659,10 @@ function getInitiative()
     end
     local zoneObjs = activeInitiativeZone.getObjects()
     for i,v in pairs(zoneObjs) do
-        if zoneObjs[i].getVar('cardname') ~= nil and zoneObjs[i].getRotation()[2] < 180 then
+        if zoneObjs[i].getVar('cardname') ~= nil and zoneObjs[i].getRotation()[3] <= 0 then
             if zoneObjs[i].getName() ~= '' then
                 name = zoneObjs[i].getName()
-            else name = zoneObjs[i].getVar('cardname')
+            else name = zoneObjs[i].getVar('monsterName')
             end
             table.insert(initiatives, {name, math.random(20) + zoneObjs[i].getVar('initiative')})
         end
@@ -678,7 +678,7 @@ function getInitiative()
 end
 
 function compare(a,b)
-  return a[2] < b[2]
+  return a[2] > b[2]
 end
 
 function nextTurn()
@@ -793,6 +793,11 @@ function onCardEnter(parent) -- Called from the Global onObjectEnterScriptingZon
     if parent.getVar('monsterName') == nil then
         parent.setVar('monsterName', parent.getVar('cardname'))
         parent.setVar('monsterDesc', parent.getVar('carddesc'))
+    end
+    if parent.getName() ~= '' then
+        parent.setVar('monsterName', parent.getName())
+    else
+        parent.setVar('monsterName', parent.getVar('cardname'))
     end
     for i=1,12 do
         monsterPlatformValueCounters[platNumber][i].setValue(parent.getVar('value'..i))
