@@ -1,58 +1,56 @@
 function onload(save_state)
     -- Table initialization
-    invControllerButton = {}
-    invControllerCharacterSheet = {}
-    invControllerInvCard = {}
-    invControllerHiddenTextAbove = {}
-    invControllerHiddenTextBelow = {}
-    invControllerStartingText = {}
     monsterPlatform = {}
     monsterPlatformValueCounterGUIDs = {}
     monsterPlatformTextTool = {}
     monsterPlatformDescCard = {}
     monsterPlatformZoneGUID = {}
     monsterPlatformValueCounters = {}
+    DMHealthCounters = {}
 
     -- Object Config
     invController = getObjectFromGUID('aad6e8')
     invControllerDisplay = getObjectFromGUID('0d093a')
 
-    invControllerButton['red'] = getObjectFromGUID('f2b44d')
-    invControllerButton['orange'] = getObjectFromGUID('b189da')
-    invControllerButton['yellow'] = getObjectFromGUID('649d04')
-    invControllerButton['green'] = getObjectFromGUID('10dea3')
-    invControllerButton['blue'] = getObjectFromGUID('0a66ae')
-    invControllerButton['purple'] = getObjectFromGUID('23f579')
+    invControllerButton = {
+        ['Red'] = getObjectFromGUID('f2b44d'),
+        ['Orange'] = getObjectFromGUID('b189da'),
+        ['Yellow'] = getObjectFromGUID('649d04'),
+        ['Green'] = getObjectFromGUID('10dea3'),
+        ['Blue'] = getObjectFromGUID('0a66ae'),
+        ['Purple'] = getObjectFromGUID('23f579')
+    }
 
-    invControllerInvCard['initiative'] = getObjectFromGUID('bbf673')
-    invControllerInvCard['master'] = getObjectFromGUID('ee09de')
-    invControllerInvCard['red'] = getObjectFromGUID('3f7d23')
-    invControllerInvCard['orange'] = getObjectFromGUID('9865b6')
-    invControllerInvCard['yellow'] = getObjectFromGUID('f26985')
-    invControllerInvCard['green'] = getObjectFromGUID('2780ad')
-    invControllerInvCard['blue'] = getObjectFromGUID('977184')
-    invControllerInvCard['purple'] = getObjectFromGUID('055c17')
+    invControllerInvCard = {
+        ['initiative'] = getObjectFromGUID('bbf673'),
+        ['Master'] = getObjectFromGUID('ee09de'),
+        ['Red'] = getObjectFromGUID('3f7d23'),
+        ['Orange'] = getObjectFromGUID('9865b6'),
+        ['Yellow'] = getObjectFromGUID('f26985'),
+        ['Green'] = getObjectFromGUID('2780ad'),
+        ['Blue'] = getObjectFromGUID('977184'),
+        ['Purple'] = getObjectFromGUID('055c17')
+    }
 
-    invControllerCharacterSheet['red'] = getObjectFromGUID('484e89')
-    invControllerCharacterSheet['orange'] = getObjectFromGUID('27cb8b')
-    invControllerCharacterSheet['yellow'] = getObjectFromGUID('ae3a8d')
-    invControllerCharacterSheet['green'] = getObjectFromGUID('bddaf4')
-    invControllerCharacterSheet['blue'] = getObjectFromGUID('ee8a03')
-    invControllerCharacterSheet['purple'] = getObjectFromGUID('25910c')
+    invControllerCharacterSheet = Global.getTable('CharacterSheets')
 
-    redCharactersheetCounterGUIDs = {'ecfc82','5fbb7b','4363c2','665f1f','3ca728','fccced'}
-    orangeCharactersheetCounterGUIDs = {'0d2655','a41d65','365b53','f29eb6','4a2282','bf19eb'}
-    yellowCharactersheetCounterGUIDs = {'ac80ac','24effb','83aedd','079880','3c15de','a5c79e'}
-    greenCharactersheetCounterGUIDs = {'763818','4f877d','413bdd','53a22d','c01f47','f2cee2'}
-    blueCharactersheetCounterGUIDs = {'79c545','bb48d1','9e38d1','7c4408','0bb964','5adb6f'}
-    purpleCharactersheetCounterGUIDs = {'8a6614','7ca4f5','e6a851','c405e9','c23b16','af6540'}
+    -- Player sheet counters ordering STR,DEX,CON,INT,WIS,CHA
+    CharactersheetCounterGUIDs = {
+        {'ecfc82','5fbb7b','4363c2','665f1f','3ca728','fccced'}, -- Red Player
+        {'0d2655','a41d65','365b53','f29eb6','4a2282','bf19eb'}, -- Orange Player
+        {'ac80ac','24effb','83aedd','079880','3c15de','a5c79e'}, -- Yellow Player
+        {'763818','4f877d','413bdd','53a22d','c01f47','f2cee2'}, -- Green Player
+        {'79c545','bb48d1','9e38d1','7c4408','0bb964','5adb6f'}, -- Blue Player
+        {'PurpleSTR','PurpleDEX','PurpleCON','PurpleINT','PurpleWIS','PurpleCHA'} -- Purple Player
+    }
 
     DMIsHealthController = getObjectFromGUID('e4fb05')
     playerIsHealthController = getObjectFromGUID('f7eb09')
 
     DMSkillCounterGUIDs = {'d05e4e','859337','8a0e67','ba1d15','b9fb4c','f403ae'}
-    DMHealthCounterGUIDs = {'591edd','1a039e','2513de','0c5edf','283218','af016f'}
-    playerHealthCounterGUIDs = {'bf1d7e','c8a982','3503be','5d1212','2734fd','c89e65'}
+
+    DMHealthCounterGUIDs = {'af016f','283218','0c5edf','2513de','1a039e','591edd'}
+    playerHealthCounterGUIDs = {'eb6109','2734fd','5d1212','3503be','c8a982','bf1d7e'}
 
     monsterPlatform[1] = getObjectFromGUID('eea006')
     monsterPlatform[2] = getObjectFromGUID('5081aa')
@@ -69,9 +67,12 @@ function onload(save_state)
     displaySome = getObjectFromGUID('4fb7c1')
     displayNothing = getObjectFromGUID('4bc9ee')
 
+    initiativeIndicatorBlock = getObjectFromGUID('4a4b1f')
     activeInitiativeZone = getObjectFromGUID('d68432')
 
     -- Edit below this line at your own risk.
+
+    orderedPlayerColors = {'Red','Orange','Yellow','Green','Blue','Purple'} -- Used to create color based tables
 
     -- Creates buttons
     invController.setTable('pos',{0,1.289,10.2})
@@ -87,86 +88,28 @@ function onload(save_state)
     playerIsHealthController.setTable('rot',{0,270,0})
     Global.call('addButton', {playerIsHealthController.getGUID(),2550,500,300,'The Player','updateHealthController',self})
 
-    invControllerInvCard['master'].setVar('color', 'master')
-    invControllerInvCard['master'].setTable('pos',{-0.62,3,0.26})
-    invControllerInvCard['master'].setTable('rot',{0,90,0})
-    Global.call('addButton',{invControllerInvCard['master'].getGUID(), 280,10,50,'>','scrollUp',self})
-    invControllerInvCard['master'].setTable('pos',{-0.62,3,-0.26})
-    invControllerInvCard['master'].setTable('rot',{0,90,0})
-    Global.call('addButton',{invControllerInvCard['master'].getGUID(), 280,10,50,'<','scrollDown',self})
-
-    invControllerButton['red'].setVar('color','red')
-    invControllerButton['red'].setTable('pos',{0,-0.2,0})
-    invControllerButton['red'].setTable('rot',{180,90,0})
-    Global.call('addButton', {invControllerButton['red'].getGUID(),1350,600,400,'Red','selectPlayer',self})
-    invControllerInvCard['red'].setVar('color', 'red')
-    invControllerInvCard['red'].setTable('pos',{-0.62,3,0.26})
-    invControllerInvCard['red'].setTable('rot',{0,90,0})
-    Global.call('addButton',{invControllerInvCard['red'].getGUID(), 280,10,50,'>','scrollUp',self})
-    invControllerInvCard['red'].setTable('pos',{-0.62,3,-0.26})
-    invControllerInvCard['red'].setTable('rot',{0,90,0})
-    Global.call('addButton',{invControllerInvCard['red'].getGUID(), 280,10,50,'<','scrollDown',self})
-
-    invControllerButton['orange'].setVar('color','orange')
-    invControllerButton['orange'].setTable('pos',{0,-0.2,0})
-    invControllerButton['orange'].setTable('rot',{180,90,0})
-    Global.call('addButton', {invControllerButton['orange'].getGUID(),1350,600,400,'Orange','selectPlayer',self})
-    invControllerInvCard['orange'].setVar('color', 'orange')
-    invControllerInvCard['orange'].setTable('pos',{-0.62,3,0.26})
-    invControllerInvCard['orange'].setTable('rot',{0,90,0})
-    Global.call('addButton',{invControllerInvCard['orange'].getGUID(), 280,10,50,'>','scrollUp',self})
-    invControllerInvCard['orange'].setTable('pos',{-0.62,3,-0.26})
-    invControllerInvCard['orange'].setTable('rot',{0,90,0})
-    Global.call('addButton',{invControllerInvCard['orange'].getGUID(), 280,10,50,'<','scrollDown',self})
-
-    invControllerButton['yellow'].setVar('color','yellow')
-    invControllerButton['yellow'].setTable('pos',{0,-0.2,0})
-    invControllerButton['yellow'].setTable('rot',{180,90,0})
-    Global.call('addButton', {invControllerButton['yellow'].getGUID(),1350,600,400,'Yellow','selectPlayer',self})
-    invControllerInvCard['yellow'].setVar('color', 'yellow')
-    invControllerInvCard['yellow'].setTable('pos',{-0.62,3,0.26})
-    invControllerInvCard['yellow'].setTable('rot',{0,90,0})
-    Global.call('addButton',{invControllerInvCard['yellow'].getGUID(), 280,10,50,'>','scrollUp',self})
-    invControllerInvCard['yellow'].setTable('pos',{-0.62,3,-0.26})
-    invControllerInvCard['yellow'].setTable('rot',{0,90,0})
-    Global.call('addButton',{invControllerInvCard['yellow'].getGUID(), 280,10,50,'<','scrollDown',self})
-
-    invControllerButton['green'].setVar('color','green')
-    invControllerButton['green'].setTable('pos',{0,-0.2,0})
-    invControllerButton['green'].setTable('rot',{180,90,0})
-    Global.call('addButton', {invControllerButton['green'].getGUID(),1350,600,400,'Green','selectPlayer',self})
-    invControllerInvCard['green'].setVar('color', 'green')
-    invControllerInvCard['green'].setTable('pos',{-0.62,3,0.26})
-    invControllerInvCard['green'].setTable('rot',{0,90,0})
-    Global.call('addButton',{invControllerInvCard['green'].getGUID(), 280,10,50,'>','scrollUp',self})
-    invControllerInvCard['green'].setTable('pos',{-0.62,3,-0.26})
-    invControllerInvCard['green'].setTable('rot',{0,90,0})
-    Global.call('addButton',{invControllerInvCard['green'].getGUID(), 280,10,50,'<','scrollDown',self})
-
-    invControllerButton['blue'].setVar('color','blue')
-    invControllerButton['blue'].setTable('pos',{0,-0.2,0})
-    invControllerButton['blue'].setTable('rot',{180,90,0})
-    Global.call('addButton', {invControllerButton['blue'].getGUID(),1350,600,400,'Blue','selectPlayer',self})
-    invControllerInvCard['blue'].setVar('color', 'blue')
-    invControllerInvCard['blue'].setTable('pos',{-0.62,3,0.26})
-    invControllerInvCard['blue'].setTable('rot',{0,90,0})
-    Global.call('addButton',{invControllerInvCard['blue'].getGUID(), 280,10,50,'>','scrollUp',self})
-    invControllerInvCard['blue'].setTable('pos',{-0.62,3,-0.26})
-    invControllerInvCard['blue'].setTable('rot',{0,90,0})
-    Global.call('addButton',{invControllerInvCard['blue'].getGUID(), 280,10,50,'<','scrollDown',self})
-
-    invControllerButton['purple'].setVar('color','purple')
-    invControllerButton['purple'].setTable('pos',{0,-0.2,0})
-    invControllerButton['purple'].setTable('rot',{180,90,0})
-    Global.call('addButton', {invControllerButton['purple'].getGUID(),1350,600,400,'Purple','selectPlayer',self})
-    invControllerInvCard['purple'].setVar('color', 'purple')
-    invControllerInvCard['purple'].setTable('pos',{-0.62,3,0.26})
-    invControllerInvCard['purple'].setTable('rot',{0,90,0})
-    Global.call('addButton',{invControllerInvCard['purple'].getGUID(), 280,10,50,'>','scrollUp',self})
-    invControllerInvCard['purple'].setTable('pos',{-0.62,3,-0.26})
-    invControllerInvCard['purple'].setTable('rot',{0,90,0})
-    Global.call('addButton',{invControllerInvCard['purple'].getGUID(), 280,10,50,'<','scrollDown',self})
-
+    invControllerInvCard['Master'].setVar('color', 'Master')
+    invControllerInvCard['Master'].setTable('pos',{-0.62,3,0.26})
+    invControllerInvCard['Master'].setTable('rot',{0,90,0})
+    Global.call('addButton',{invControllerInvCard['Master'].getGUID(), 280,10,50,'>','scrollUp',self})
+    invControllerInvCard['Master'].setTable('pos',{-0.62,3,-0.26})
+    invControllerInvCard['Master'].setTable('rot',{0,90,0})
+    Global.call('addButton',{invControllerInvCard['Master'].getGUID(), 280,10,50,'<','scrollDown',self})
+    for i=1,6 do
+        if invControllerCharacterSheet[orderedPlayerColors[i]] ~= nil then
+            invControllerButton[orderedPlayerColors[i]].setVar('color',orderedPlayerColors[i])
+            invControllerButton[orderedPlayerColors[i]].setTable('pos',{0,-0.2,0})
+            invControllerButton[orderedPlayerColors[i]].setTable('rot',{180,90,0})
+            Global.call('addButton', {invControllerButton[orderedPlayerColors[i]].getGUID(),1350,600,400,orderedPlayerColors[i],'selectPlayer',self})
+            invControllerInvCard[orderedPlayerColors[i]].setVar('color', orderedPlayerColors[i])
+            invControllerInvCard[orderedPlayerColors[i]].setTable('pos',{-0.62,3,0.26})
+            invControllerInvCard[orderedPlayerColors[i]].setTable('rot',{0,90,0})
+            Global.call('addButton',{invControllerInvCard[orderedPlayerColors[i]].getGUID(), 280,10,50,'>','scrollUp',self})
+            invControllerInvCard[orderedPlayerColors[i]].setTable('pos',{-0.62,3,-0.26})
+            invControllerInvCard[orderedPlayerColors[i]].setTable('rot',{0,90,0})
+            Global.call('addButton',{invControllerInvCard[orderedPlayerColors[i]].getGUID(), 280,10,50,'<','scrollDown',self})
+        end
+    end
 
     monsterPlatform[1].setVar('platformNumber', 1)
     -- Temporarily disabling the toggle stat counters button because it's just clutter
@@ -215,6 +158,9 @@ function onload(save_state)
     invControllerInvCard['initiative'].setTable('pos',{0,0.8,-0.72})
     invControllerInvCard['initiative'].setTable('rot',{0,180,0})
     Global.call('addButton',{invControllerInvCard['initiative'].getGUID(),450,170,57,'Initiative Roll','callRoutine',self})
+    invControllerInvCard['initiative'].setTable('pos',{0,-5,0})
+    invControllerInvCard['initiative'].setTable('rot',{0,180,0})
+    Global.call('addButton',{invControllerInvCard['initiative'].getGUID(),1,1,1,'Continue','nil',self})
     invControllerInvCard['initiative'].setTable('pos',{0,0.8,0.72})
     invControllerInvCard['initiative'].setTable('rot',{0,180,0})
     Global.call('addButton',{invControllerInvCard['initiative'].getGUID(),450,170,57,'Next Turn','nextTurn',self})
@@ -224,39 +170,26 @@ function onload(save_state)
     invControllerInvCard['initiative'].setTable('pos',{-0.62,3,-0.26})
     invControllerInvCard['initiative'].setTable('rot',{0,90,0})
     Global.call('addButton',{invControllerInvCard['initiative'].getGUID(), 280,10,50,'<','scrollDown',self})
-
-    -- Creates counters
-    invControllerCharacterSheet['red'].setTable('counters_t',createCounters(redCharactersheetCounterGUIDs,6))
-    invControllerCharacterSheet['orange'].setTable('counters_t',createCounters(orangeCharactersheetCounterGUIDs,6))
-    invControllerCharacterSheet['yellow'].setTable('counters_t',createCounters(yellowCharactersheetCounterGUIDs,6))
-    invControllerCharacterSheet['green'].setTable('counters_t',createCounters(greenCharactersheetCounterGUIDs,6))
-    invControllerCharacterSheet['blue'].setTable('counters_t',createCounters(blueCharactersheetCounterGUIDs,6))
-    invControllerCharacterSheet['purple'].setTable('counters_t',createCounters(purpleCharactersheetCounterGUIDs,6))
+    initiativeIndicatorBlock.setTable('pos',{-0.75,0.5,0})
+    initiativeIndicatorBlock.setTable('rot',{0,-90,0})
 
     -- Creates objects from counter GUIDs
+    for key,value in ipairs(CharactersheetCounterGUIDs) do
+        if invControllerCharacterSheet[orderedPlayerColors[i]] ~= nil then
+            invControllerCharacterSheet[orderedPlayerColors[i]].setTable('counters_t',createCounters(value,6))
+        end
+    end
+
     monsterPlatformValueCounters[1] = createCounters(monsterPlatformValueCounterGUIDs_1,13)
     monsterPlatformValueCounters[2] = createCounters(monsterPlatformValueCounterGUIDs_2,13)
 
-    DMHealthCounters = createCounters(DMHealthCounterGUIDs,6)
+    for i=1,6 do
+        DMHealthCounters[orderedPlayerColors[i]] = getObjectFromGUID(DMHealthCounterGUIDs[i])
+    end
     DMSkillCounters = createCounters(DMSkillCounterGUIDs,6)
     playerHealthCounters = createCounters(playerHealthCounterGUIDs,6)
 
-    -- Additional setup
-    invControllerInvCard['master'].setName('Inventory Manager')
-    invControllerInvCard['master'].setDescription('Select a player below and their inventory will be pulled to this card. Any changes you may have made will be sent when clicking "Update"\n\nSelecting a player will tint the highlight bar above with the respective color and the player\'s skills be updated in the counters above that.') -- Clear invControllerInvCard['master']
-    invControllerHiddenTextAbove['master'] = ''
-    invControllerHiddenTextBelow['master'] = ''
-    invControllerDisplay.setColorTint({1,1,1}) -- Set highlight bar to White
-    for i=1,6 do
-        DMSkillCounters[i].setValue(0)
-    end
-    seconds = 0 -- Used by the update function
-    frame = 0 -- Used by the update function
-    initiativeLabels = {'Initiative Roll','Cancel'}
-    initiativeTracker = 0
-    -- player initiatives is what you need to get from the players, Rolando. Right now they're just random.
-    playerInitiatives = {{'Purple Player', 1}, {'Blue Player', 10}, {'Green Player', 5}, {'Yellow Player', 6}, {'Orange Player', 2}, {'Red Player',1}}
-
+    -- Table describing the width of all basic characters in a max 100,000 system
     characterWidthTable = {
         ['`'] = 2381, ['~'] = 2381, ['1'] = 1724, ['!'] = 1493, ['2'] = 2381,
         ['@'] = 4348, ['3'] = 2381, ['#'] = 3030, ['4'] = 2564, ['$'] = 2381,
@@ -280,28 +213,40 @@ function onload(save_state)
         ['\t'] = 5128, ['\r'] = 0, ['\n'] = 100000
     }
 
+    -- Setting variables from the JSON save
     local savedVars = JSON.decode(save_state)
-    invControllerHiddenTextAbove['red'] = savedVars['redAbove']
-    invControllerHiddenTextAbove['orange'] = savedVars['orangeAbove']
-    invControllerHiddenTextAbove['yellow'] = savedVars['yellowAbove']
-    invControllerHiddenTextAbove['green'] = savedVars['greenAbove']
-    invControllerHiddenTextAbove['blue'] = savedVars['blueAbove']
-    invControllerHiddenTextAbove['purple'] = savedVars['purpleAbove']
-    invControllerHiddenTextAbove['initiative'] = savedVars['initiativeAbove']
-    invControllerHiddenTextBelow['red'] = savedVars['redBelow']
-    invControllerHiddenTextBelow['orange'] = savedVars['orangeBelow']
-    invControllerHiddenTextBelow['yellow'] = savedVars['yellowBelow']
-    invControllerHiddenTextBelow['green'] = savedVars['greenBelow']
-    invControllerHiddenTextBelow['blue'] = savedVars['blueBelow']
-    invControllerHiddenTextBelow['purple'] = savedVars['purpleBelow']
-    invControllerHiddenTextBelow['initiative'] = savedVars['initiativeBelow']
-    invControllerStartingText['red'] = savedVars['redStarting']
-    invControllerStartingText['orange'] = savedVars['orangeStarting']
-    invControllerStartingText['yellow'] = savedVars['yellowStarting']
-    invControllerStartingText['green'] = savedVars['greenStarting']
-    invControllerStartingText['blue'] = savedVars['blueStarting']
-    invControllerStartingText['purple'] = savedVars['purpleStarting']
-    invControllerStartingText['initiative'] = savedVars['initiativeStarting']
+    invControllerHiddenTextAbove = {
+        ['Red'] = savedVars['redAbove'],
+        ['Orange'] = savedVars['orangeAbove'],
+        ['Yellow'] = savedVars['yellowAbove'],
+        ['Green'] = savedVars['greenAbove'],
+        ['Blue'] = savedVars['blueAbove'],
+        ['Purple'] = savedVars['purpleAbove'],
+        ['initiative'] = savedVars['initiativeAbove'],
+        ['Master'] = ''
+    }
+
+    invControllerHiddenTextBelow = {
+        ['Red'] = savedVars['redBelow'],
+        ['Orange'] = savedVars['orangeBelow'],
+        ['Yellow'] = savedVars['yellowBelow'],
+        ['Green'] = savedVars['greenBelow'],
+        ['Blue'] = savedVars['blueBelow'],
+        ['Purple'] = savedVars['purpleBelow'],
+        ['initiative'] = savedVars['initiativeBelow'],
+        ['Master'] = ''
+    }
+
+    invControllerStartingText = {
+        ['Red'] = savedVars['redStarting'],
+        ['Orange'] = savedVars['orangeStarting'],
+        ['Yellow'] = savedVars['yellowStarting'],
+        ['Green'] = savedVars['greenStarting'],
+        ['Blue'] = savedVars['blueStarting'],
+        ['Purple'] = savedVars['purpleStarting'],
+        ['initiative'] = savedVars['initiativeStarting']
+    }
+
     healthController = savedVars['healthController']
     miniDisplay = savedVars['miniDisplay']
     cardsOnMonsterPlatform = {}
@@ -311,26 +256,27 @@ function onload(save_state)
     statCountersToggled[1] = savedVars['statCountersToggled1']
     statCountersToggled[2] = savedVars['statCountersToggled2']
     secondPlatformToggled = savedVars['secondPlatformToggled']
+    initiativeBroadcastState = savedVars['initiativeBroadcastState']
 
     -- JSON onSave prep
-    -- invControllerHiddenTextAbove['red'] = ''
-    -- invControllerHiddenTextAbove['orange'] = ''
-    -- invControllerHiddenTextAbove['yellow'] = ''
-    -- invControllerHiddenTextAbove['green'] = ''
-    -- invControllerHiddenTextAbove['blue'] = ''
-    -- invControllerHiddenTextAbove['purple'] = ''
-    -- invControllerHiddenTextBelow['red'] = ''
-    -- invControllerHiddenTextBelow['orange'] = ''
-    -- invControllerHiddenTextBelow['yellow'] = ''
-    -- invControllerHiddenTextBelow['green'] = ''
-    -- invControllerHiddenTextBelow['blue'] = ''
-    -- invControllerHiddenTextBelow['purple'] = ''
-    -- invControllerStartingText['red'] = invControllerInvCard['red'].getDescription()
-    -- invControllerStartingText['orange'] = invControllerInvCard['orange'].getDescription()
-    -- invControllerStartingText['yellow'] = invControllerInvCard['yellow'].getDescription()
-    -- invControllerStartingText['green'] = invControllerInvCard['green'].getDescription()
-    -- invControllerStartingText['blue'] = invControllerInvCard['blue'].getDescription()
-    -- invControllerStartingText['purple'] = invControllerInvCard['purple'].getDescription()
+    -- invControllerHiddenTextAbove['Red'] = ''
+    -- invControllerHiddenTextAbove['Orange'] = ''
+    -- invControllerHiddenTextAbove['Yellow'] = ''
+    -- invControllerHiddenTextAbove['Green'] = ''
+    -- invControllerHiddenTextAbove['Blue'] = ''
+    -- invControllerHiddenTextAbove['Purple'] = ''
+    -- invControllerHiddenTextBelow['Red'] = ''
+    -- invControllerHiddenTextBelow['Orange'] = ''
+    -- invControllerHiddenTextBelow['Yellow'] = ''
+    -- invControllerHiddenTextBelow['Green'] = ''
+    -- invControllerHiddenTextBelow['Blue'] = ''
+    -- invControllerHiddenTextBelow['Purple'] = ''
+    -- invControllerStartingText['Red'] = invControllerInvCard['Red'].getDescription()
+    -- invControllerStartingText['Orange'] = invControllerInvCard['Orange'].getDescription()
+    -- invControllerStartingText['Yellow'] = invControllerInvCard['Yellow'].getDescription()
+    -- invControllerStartingText['Green'] = invControllerInvCard['Green'].getDescription()
+    -- invControllerStartingText['Blue'] = invControllerInvCard['Blue'].getDescription()
+    -- invControllerStartingText['Purple'] = invControllerInvCard['Purple'].getDescription()
     -- healthController = 'DM'
     -- miniDisplay = 'Everything'
     -- cardsOnMonsterPlatform = {}
@@ -340,51 +286,74 @@ function onload(save_state)
     -- statCountersToggled[1] = 0
     -- statCountersToggled[2] = 0
     -- secondPlatformToggled = 0
+    -- initiativeBroadcastState = 'Off'
+
+    -- Additional setup
+    invControllerInvCard['Master'].setName('Inventory Manager')
+    invControllerInvCard['Master'].setDescription([[Select a player below and their inventory will be pulled to this card. Any changes you may have made will be sent when clicking "Update"\n\nSelecting a player will tint the highlight bar above with the respective color and the player\'s skills be updated in the counters above that.]])
+    invControllerStartingText['Master'] = invControllerInvCard['Master'].getDescription()
+    invControllerDisplay.setColorTint({1,1,1}) -- Set highlight bar to White
+
+    for i=1,6 do
+        DMSkillCounters[i].setValue(0)
+    end
+
+    seconds = 0 -- Used by the update function
+    frame = 0 -- Used by the update function
+
+    initiativeLabels = {'Initiative Roll','Cancel'}
+    initiativeTracker = 0
+    Global.call('addButton',{initiativeIndicatorBlock.getGUID(), 1050,270,87,'Next Turn Broadcast is: '..initiativeBroadcastState,'toggleInitiativeBroadcast',self})
+
+    monsterPlatformTextTool[1].interactable = false
+    monsterPlatformTextTool[2].interactable = false
 end
 
-function onSave()
-    local savedVars = {}
-    savedVars['redAbove'] = invControllerHiddenTextAbove['red']
-    savedVars['orangeAbove'] = invControllerHiddenTextAbove['orange']
-    savedVars['yellowAbove'] = invControllerHiddenTextAbove['yellow']
-    savedVars['greenAbove'] = invControllerHiddenTextAbove['green']
-    savedVars['blueAbove'] = invControllerHiddenTextAbove['blue']
-    savedVars['purpleAbove'] = invControllerHiddenTextAbove['purple']
-    savedVars['initiativeAbove'] = invControllerHiddenTextAbove['initiative']
-    savedVars['redBelow'] = invControllerHiddenTextBelow['red']
-    savedVars['orangeBelow'] = invControllerHiddenTextBelow['orange']
-    savedVars['yellowBelow'] = invControllerHiddenTextBelow['yellow']
-    savedVars['greenBelow'] = invControllerHiddenTextBelow['green']
-    savedVars['blueBelow'] = invControllerHiddenTextBelow['blue']
-    savedVars['purpleBelow'] = invControllerHiddenTextBelow['purple']
-    savedVars['initiativeBelow'] = invControllerHiddenTextBelow['initiative']
-    savedVars['redStarting'] = invControllerStartingText['red']
-    savedVars['orangeStarting'] = invControllerStartingText['orange']
-    savedVars['yellowStarting'] = invControllerStartingText['yellow']
-    savedVars['greenStarting'] = invControllerStartingText['green']
-    savedVars['blueStarting'] = invControllerStartingText['blue']
-    savedVars['purpleStarting'] = invControllerStartingText['purple']
-    savedVars['initiativeStarting'] = invControllerStartingText['initiative']
-    savedVars['healthController'] = healthController
-    savedVars['miniDisplay'] = miniDisplay
-    savedVars['cardsOnMonsterPlatform1'] = cardsOnMonsterPlatform[1]
-    savedVars['cardsOnMonsterPlatform2'] = cardsOnMonsterPlatform[2]
-    savedVars['statCountersToggled1'] = statCountersToggled[1]
-    savedVars['statCountersToggled2'] = statCountersToggled[2]
-    savedVars['secondPlatformToggled'] = secondPlatformToggled
+function onSave() -- Saving all of the necessary variables to an encoded JSON variable
+    local savedVars = {
+        ['redAbove'] = invControllerHiddenTextAbove['Red'],
+        ['orangeAbove'] = invControllerHiddenTextAbove['Orange'],
+        ['yellowAbove'] = invControllerHiddenTextAbove['Yellow'],
+        ['greenAbove'] = invControllerHiddenTextAbove['Green'],
+        ['blueAbove'] = invControllerHiddenTextAbove['Blue'],
+        ['purpleAbove'] = invControllerHiddenTextAbove['Purple'],
+        ['initiativeAbove'] = invControllerHiddenTextAbove['initiative'],
+        ['redBelow'] = invControllerHiddenTextBelow['Red'],
+        ['orangeBelow'] = invControllerHiddenTextBelow['Orange'],
+        ['yellowBelow'] = invControllerHiddenTextBelow['Yellow'],
+        ['greenBelow'] = invControllerHiddenTextBelow['Green'],
+        ['blueBelow'] = invControllerHiddenTextBelow['Blue'],
+        ['purpleBelow'] = invControllerHiddenTextBelow['Purple'],
+        ['initiativeBelow'] = invControllerHiddenTextBelow['initiative'],
+        ['redStarting'] = invControllerStartingText['Red'],
+        ['orangeStarting'] = invControllerStartingText['Orange'],
+        ['yellowStarting'] = invControllerStartingText['Yellow'],
+        ['greenStarting'] = invControllerStartingText['Green'],
+        ['blueStarting'] = invControllerStartingText['Blue'],
+        ['purpleStarting'] = invControllerStartingText['Purple'],
+        ['initiativeStarting'] = invControllerStartingText['initiative'],
+        ['healthController'] = healthController,
+        ['miniDisplay'] = miniDisplay,
+        ['cardsOnMonsterPlatform1'] = cardsOnMonsterPlatform[1],
+        ['cardsOnMonsterPlatform2'] = cardsOnMonsterPlatform[2],
+        ['statCountersToggled1'] = statCountersToggled[1],
+        ['statCountersToggled2'] = statCountersToggled[2],
+        ['secondPlatformToggled'] = secondPlatformToggled,
+        ['initiativeBroadcastState'] = 'Off'
+    }
     return JSON.encode(savedVars)
 end
 
-function update()
-    frame = frame + 1 --[[ Counts Frames ]]--
-    if frame%60==0 then  --[[Every 60 Frames]]--
-        seconds=seconds+1 --[[Adds a second]]--
+function update() -- Used to keep the health counters in sync
+    frame = frame + 1 -- Counts Frames --
+    if frame%60==0 then  --Every 60 Frames--
+        seconds=seconds+1 --Adds a second--
         if seconds%2==0 then updateCounters()
         end
     end
 end
 
-function createCounters(table, counters)
+function createCounters(table, counters) -- Receives a table of GUIDs, returns a table of objects.
     newTable = {}
     for i=1,counters do
         newTable[i] = getObjectFromGUID(table[i])
@@ -392,29 +361,27 @@ function createCounters(table, counters)
     return newTable
 end
 
-function selectPlayer(obj)
--- Changes selection of player and sets color of the highlight bar
--- Copies the selected player's inventory to the invControllerInvCard['master']
+function selectPlayer(obj) -- Changes selection of player and sets color of the highlight bar
+-- Copies the selected player's inventory to the invControllerInvCard['Master']
 -- This function is called from a button - ergo obj is the button's object that made the call
     colorSelector = obj.getVar('color')
     updateSkillCounters(invControllerCharacterSheet[colorSelector].getTable('counters_t'))
 
     local fullText = getFullText(colorSelector)
     local newPage = getPage(fullText)
-    invControllerInvCard['master'].setDescription(newPage)
-    invControllerHiddenTextAbove['master'] = ''
-    invControllerHiddenTextBelow['master'] = removeNewline(removeNewline(plainReplace(fullText,newPage,''),'Beginning'),'Ending')
-    invControllerStartingText['master'] = invControllerInvCard['master'].getDescription()
+    invControllerInvCard['Master'].setDescription(newPage)
+    invControllerHiddenTextAbove['Master'] = ''
+    invControllerHiddenTextBelow['Master'] = removeNewline(removeNewline(plainReplace(fullText,newPage,''),'Beginning'),'Ending')
+    invControllerStartingText['Master'] = invControllerInvCard['Master'].getDescription()
 
     setDisplayColor(colorSelector)
 end
 
-function push()
--- Updates the selected player's inventory to a copy of the invControllerInvCard['master']
+function push() -- Updates the selected player's inventory to a copy of the invControllerInvCard['Master']
     if colorSelector == nil then
         print("Select a color first!")
     else
-        local fullText = getFullText('master')
+        local fullText = getFullText('Master')
         local newPage = getPage(fullText)
         invControllerInvCard[colorSelector].setDescription(newPage)
         invControllerHiddenTextAbove[colorSelector] = ''
@@ -422,8 +389,7 @@ function push()
     end
 end
 
-function scrollUp(obj)
--- Concatenates the last 10 lines of the auxiliary inventory to the beginning of the main inventory.
+function scrollUp(obj) -- Concatenates the last 9 lines of the auxiliary inventory to the beginning of the main inventory.
 -- This function is called from a button - ergo obj is the button that made the call.
     local color = obj.getVar('color')
     if invControllerHiddenTextAbove[color] ~= '' then
@@ -447,8 +413,7 @@ function scrollUp(obj)
     end
 end
 
-function scrollDown(obj)
--- Concatenates the first 10 lines of the main inventory to the end of the auxiliary inventory.
+function scrollDown(obj) -- Concatenates the first 9 lines of the main inventory to the end of the auxiliary inventory.
 -- This function is called from a button - ergo obj is the button that made the call.
     local color = obj.getVar('color')
     if obj.getDescription() ~= '' or invControllerHiddenTextBelow[color] ~= '' then
@@ -487,8 +452,7 @@ function scrollDown(obj)
     end
 end
 
-function getPage(invStr)
--- Iterates through the str and sums the estimated line length based on characterWidthTable for each character in a max 100000 system. Margin for error is 200.
+function getPage(invStr) -- Iterates through the str and sums the estimated line length based on characterWidthTable for each character in a max 100000 system. Margin for error is 200.
     local lineWidth = 0
     local lineCount = 0
     local placeholder = 1
@@ -518,8 +482,7 @@ function getPage(invStr)
     return page
 end
 
-function getLines(str)
-    -- Returns a table countaining the number of lines in a string as well as the location of the end of each line.
+function getLines(str) -- Returns a table countaining the number of lines in a string as well as the location of the end of each line.
     local lineWidth = 0
     local lineCount = 0
     local length = string.len(str)
@@ -552,7 +515,7 @@ function getLines(str)
     return lineTable
 end
 
-function removeNewline(str, location)
+function removeNewline(str, location) -- Removes all \n characters from either the beginning or end of a string until a non \n character
     if location == 'Beginning' then
         while string.sub(str,1,1) == '\n' do
             str = string.sub(str,2,-1)
@@ -566,7 +529,11 @@ function removeNewline(str, location)
     end
 end
 
-function getFullText(color)
+function callGetFullText(table) -- Used as an accessor for other objects to getFullText.
+    return getFullText(table[1])
+end
+
+function getFullText(color) -- Returns the full data of above, current and below on notecards as a single string.
     local fullText = invControllerInvCard[color].getDescription()
     if invControllerHiddenTextAbove[color] ~= '' then
         fullText = invControllerHiddenTextAbove[color]..'\n'..fullText
@@ -577,7 +544,7 @@ function getFullText(color)
     return fullText
 end
 
-function plainReplace(str, pattern, replacement)
+function plainReplace(str, pattern, replacement) -- Finds an exact copy of the pattern within the string and exchanges it for the replacement
     local x,y = str:find(pattern,1,true)
     if x==nil then
        return str
@@ -586,37 +553,61 @@ function plainReplace(str, pattern, replacement)
     end
 end
 
-function setDisplayColor(color)
--- Sets color of highlight bar, receives color as string | setDisplayColor("blue")
+function setDisplayColor(color) -- Sets color of highlight bar, receives color as string | setDisplayColor("blue")
     local tint = {}
-    tint['red'] = {0.856,0.1,0.094}
-    tint['orange'] = {0.956,0.392,0.113}
-    tint['yellow'] = {0.905,0.898,0.172}
-    tint['green'] = {0.192,0.701,0.168}
-    tint['blue'] = {0.118,0.53,1.0}
-    tint['purple'] = {0.627,0.125,0.941}
+    tint['Red'] = {0.856,0.1,0.094}
+    tint['Orange'] = {0.956,0.392,0.113}
+    tint['Yellow'] = {0.905,0.898,0.172}
+    tint['Green'] = {0.192,0.701,0.168}
+    tint['Blue'] = {0.118,0.53,1.0}
+    tint['Purple'] = {0.627,0.125,0.941}
     invControllerDisplay.setColorTint(tint[color])
 end
 
-function updateCounters()
+function updateCounters() -- Called from the Update function to keep the health counters in sync
     if healthController=='DM' then
         for i=1,6 do
-            playerHealthCounters[i].setValue(DMHealthCounters[i].getValue())
+            if invControllerCharacterSheet[orderedPlayerColors[i]] ~= nil then
+                playerHealthCounters[i].setValue(DMHealthCounters[orderedPlayerColors[i]].getValue())
+            end
         end
     else
         for i=1,6 do
-            DMHealthCounters[i].setValue(playerHealthCounters[i].getValue())
+            if invControllerCharacterSheet[orderedPlayerColors[i]] ~= nil then
+                DMHealthCounters[orderedPlayerColors[i]].setValue(playerHealthCounters[i].getValue())
+            end
         end
     end
 end
 
-function updateSkillCounters(skillCounters)
-    for i=1,6 do
-        DMSkillCounters[i].setValue(skillCounters[i].getValue())
+function toggleHealthCounter(color,flag) -- Hides or reveals a DM Health Counter for when a player changes color.
+    local pos = DMHealthCounters[color].getPosition()
+    if flag == 0 then
+        pos['y'] = -5
+    else
+        pos['y'] = 1
+    end
+    DMHealthCounters[color].setPosition(pos)
+end
+
+function toggleInvControllerButton(color,flag) -- Removes or adds a button on the invController for when a player changes color.
+    if flag == 0 then
+        invControllerButton[color].clearButtons()
+    else
+        invControllerButton[color].setVar('color',color)
+        invControllerButton[color].setTable('pos',{0,-0.2,0})
+        invControllerButton[color].setTable('rot',{180,90,0})
+        Global.call('addButton', {invControllerButton[color].getGUID(),1350,600,400,color,'selectPlayer',self})
     end
 end
 
-function updateHealthController(obj)
+function updateSkillCounters(skillCounters) -- Gets the STR, DEX, etc., from the player when selectPlayer is called
+    for i=1,6 do
+        DMSkillCounters[i].setValue(tonumber(skillCounters[i].getValue()))
+    end
+end
+
+function updateHealthController(obj) -- Changes the direction that health counters are synced
     if obj.getVar('Controller') == 'DM' then
         healthController = 'DM'
         DMIsHealthController.setColorTint({0,1,0})
@@ -628,30 +619,47 @@ function updateHealthController(obj)
     end
 end
 
-function callRoutine()
+function callRoutine() -- Accesses the Roll core to begin the initiative call and manages buttons.
     startLuaCoroutine(getObjectFromGUID('ROLL'),'initiativeCall')
     initiativeTracker = 1 - initiativeTracker
-    params = invControllerInvCard['initiative'].getButtons()
+    local params = invControllerInvCard['initiative'].getButtons()
     params[1]['label'] = initiativeLabels[initiativeTracker+1]
     params[1]['click_function'] = 'cancelInit'
+    params[1]['position'] = {-0.26,0.8,-0.72}
+    params[1]['width'] = 250
     invControllerInvCard['initiative'].editButton(params[1])
-    getInitiative()
+    params[2]['click_function'] = 'getInitiative'
+    params[2]['position'] = {0.26,0.8,-0.72}
+    params[2]['width'] = 250
+    params[2]['height'] = 170
+    params[2]['font_size'] = 57
+    invControllerInvCard['initiative'].editButton(params[2])
 end
 
-function cancelInit()
-    callLuaFunctionInOtherScript(getObjectFromGUID('ROLL'), 'cleanupInitiative')
+function cancelInit() -- Accesses the Roll core to end the initiative call and manages buttons.
+    getObjectFromGUID('ROLL').call('cleanupInitiative')
     initiativeTracker = 1 - initiativeTracker
-    params = invControllerInvCard['initiative'].getButtons()
+    local params = invControllerInvCard['initiative'].getButtons()
     params[1]['label'] = initiativeLabels[initiativeTracker+1]
     params[1]['click_function'] = 'callRoutine'
+    params[1]['position'] = {0,0.8,-0.72}
+    params[1]['width'] = 450
     invControllerInvCard['initiative'].editButton(params[1])
+    params[2]['click_function'] = 'nil'
+    params[2]['position'] = {0,-5,0}
+    params[2]['width'] = 1
+    params[2]['height'] = 1
+    params[2]['font_size'] = 1
+    invControllerInvCard['initiative'].editButton(params[2])
 end
 
-function getInitiative()
+function getInitiative() -- Called when the DM continues after the players have rolled. Sets the initiative card and gathers monster initiative.
+    cancelInit()
     invControllerInvCard['initiative'].setDescription('')
     invControllerHiddenTextAbove['initiative'] = ''
     invControllerHiddenTextBelow['initiative'] = ''
     invControllerStartingText['initiative'] = ''
+    playerInitiatives = getObjectFromGUID('ROLL').getTable('initiativeReturnTable')
     local name
     initiatives = {}
     for i,v in pairs (playerInitiatives) do
@@ -677,20 +685,37 @@ function getInitiative()
     invControllerInvCard['initiative'].setDescription(removeNewline(invControllerInvCard['initiative'].getDescription(),'Ending'))
 end
 
-function compare(a,b)
+function compare(a,b) -- Describes the sorting mechanism for getInitiative.
   return a[2] > b[2]
 end
 
-function nextTurn()
+function nextTurn() -- Takes the next line of the initiative card and sets it as the name; takes the name and puts it on the bottom.
     local fullText = getFullText('initiative')
     local i = string.find(fullText,'\n',1)
     invControllerHiddenTextAbove['initiative'] = ''
     invControllerHiddenTextBelow['initiative'] = ''
+    invControllerStartingText['initiative'] = invControllerInvCard['initiative'].getDescription()
     invControllerInvCard['initiative'].setDescription(string.sub(fullText,i+1)..'\n'..string.sub(invControllerInvCard['initiative'].getName(),12))
     invControllerInvCard['initiative'].setName('Up Next is '..string.sub(fullText,1,i-1))
+    if initiativeBroadcastState == 'On' then
+      printToAll(invControllerInvCard['initiative'].getName(),{0,1,0})
+    end
 end
 
-function forceUpdateMini(obj) -- Finds the card within the scripting zone and sends it to the core updateMini function.
+function toggleInitiativeBroadcast() -- Changes whether, on clicking next turn, the console will print the title of the card to all players.
+  local params = initiativeIndicatorBlock.getButtons()
+  if initiativeBroadcastState == 'On' then
+    params[1]['label'] = 'Next Turn Broadcast is: Off'
+    initiativeIndicatorBlock.editButton(params[1])
+    initiativeBroadcastState = 'Off'
+  else
+    params[1]['label'] = 'Next Turn Broadcast is: On'
+    initiativeIndicatorBlock.editButton(params[1])
+    initiativeBroadcastState = 'On'
+  end
+end
+
+function forceUpdateMini(obj) -- Finds the card within the monster platform scripting zone and sends it to the core updateMini function.
     local parent
     local platNumber = obj.getVar('platformNumber')
     local zoneObjs = getObjectFromGUID(monsterPlatformZoneGUID[platNumber]).getObjects()
@@ -712,7 +737,7 @@ function updateMini(parent, platNumber) -- Takes a monster card and sends its va
     parent.setVar('monsterName', monsterPlatformTextTool[platNumber].getValue():gsub("[%[%]]", "%%%0"))
     parent.setVar('monsterDesc', monsterPlatformDescCard[platNumber].getDescription():gsub("[%[%]]", "%%%0"))
 
-    -- Sets values into the card's script to be preserved across saves. Possibly a JSON rework could be better here but it works fine.
+    -- Encodes values into the card's script to be preserved across saves. Possibly a JSON rework could be better here but it works fine.
     local tempScript = parent.getLuaScript()
     local QRPGVars = '--*&\n--This is QRPG code designed for use with the monster platform.\n'
     for i = 1,12 do
@@ -835,7 +860,7 @@ function cloneCard(obj) -- Copies and pastes the card(s) on the platform.
     end
 end
 
-function resetPlatform(obj)
+function resetPlatform(obj) -- Debug button to completely reset the platform and its associated variables.
     local platNumber = obj.getVar('platformNumber')
     local zoneObjs = getObjectFromGUID(monsterPlatformZoneGUID[platNumber]).getObjects()
     for i,v in pairs(zoneObjs) do
