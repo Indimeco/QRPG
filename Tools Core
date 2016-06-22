@@ -101,13 +101,22 @@ function onload(save_state)
             invControllerButton[orderedPlayerColors[i]].setTable('pos',{0,-0.2,0})
             invControllerButton[orderedPlayerColors[i]].setTable('rot',{180,90,0})
             Global.call('addButton', {invControllerButton[orderedPlayerColors[i]].getGUID(),1350,600,400,orderedPlayerColors[i],'selectPlayer',self})
+
             invControllerInvCard[orderedPlayerColors[i]].setVar('color', orderedPlayerColors[i])
-            invControllerInvCard[orderedPlayerColors[i]].setTable('pos',{-0.62,3,0.26})
+
+            invControllerInvCard[orderedPlayerColors[i]].setTable('pos',{-0.38,0,0.35})
+            invControllerInvCard[orderedPlayerColors[i]].setTable('rot',{0,-90,0})
+            Global.call('addButton',{invControllerInvCard[orderedPlayerColors[i]].getGUID(), 1,1,1,'','scrollUp',self})
+            invControllerInvCard[orderedPlayerColors[i]].setTable('pos',{-0.46,5,0.45})
+            invControllerInvCard[orderedPlayerColors[i]].setTable('rot',{0,-90,0})
+            Global.call('addButton',{invControllerInvCard[orderedPlayerColors[i]].getGUID(), 0,0,70,'<','placeHolder',self})
+
+            invControllerInvCard[orderedPlayerColors[i]].setTable('pos',{-0.38,0,-0.35})
             invControllerInvCard[orderedPlayerColors[i]].setTable('rot',{0,90,0})
-            Global.call('addButton',{invControllerInvCard[orderedPlayerColors[i]].getGUID(), 280,10,50,'>','scrollUp',self})
-            invControllerInvCard[orderedPlayerColors[i]].setTable('pos',{-0.62,3,-0.26})
+            Global.call('addButton',{invControllerInvCard[orderedPlayerColors[i]].getGUID(), 1,1,1,'','scrollDown',self})
+            invControllerInvCard[orderedPlayerColors[i]].setTable('pos',{-0.46,5,-0.45})
             invControllerInvCard[orderedPlayerColors[i]].setTable('rot',{0,90,0})
-            Global.call('addButton',{invControllerInvCard[orderedPlayerColors[i]].getGUID(), 280,10,50,'<','scrollDown',self})
+            Global.call('addButton',{invControllerInvCard[orderedPlayerColors[i]].getGUID(), 0,0,70,'<','placeHolder',self})
         end
     end
 
@@ -175,8 +184,8 @@ function onload(save_state)
 
     -- Creates objects from counter GUIDs
     for key,value in ipairs(CharactersheetCounterGUIDs) do
-        if invControllerCharacterSheet[orderedPlayerColors[i]] ~= nil then
-            invControllerCharacterSheet[orderedPlayerColors[i]].setTable('counters_t',createCounters(value,6))
+        if invControllerCharacterSheet[orderedPlayerColors[key]] ~= nil then
+            invControllerCharacterSheet[orderedPlayerColors[key]].setTable('counters_t',createCounters(value,6))
         end
     end
 
