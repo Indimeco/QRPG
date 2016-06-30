@@ -1,0 +1,420 @@
+function addSheetTextTools(color) -- Adds buttons to the character sheets for edit mode.
+    local params = {
+        ['type'] = '3DText',
+        ['callback'] = 'addTextToolButtons',
+        ['callback_owner'] = self
+    }
+    local i = 1
+    local textToolInfo1 = {}
+    local textToolInfo2 = {}
+    local obj = {}
+
+    playerInfoValueTable = {'STR','DEX','CON','INT','WIS','CHA'}
+    for i=1,6 do -- Adding the ability score buttons.
+        textToolInfo1 = getTextToolPosition({0.7,1.35,color,playerInfoValueTable[i]})
+        textToolInfo2 = getTextToolPosition({-0.7,1.35,color,playerInfoValueTable[i]})
+
+        params['position'] = textToolInfo1['position']
+        obj = spawnObject(params)
+        obj.setRotationSmooth(textToolInfo1['rotation'])
+        addTextToolInfo({obj,color,{0,-29.3,0},64,playerInfoValueTable[i],-1,13900,'editAbilityScore','-'})
+
+        params['position'] = textToolInfo2['position']
+        obj = spawnObject(params)
+        obj.setRotationSmooth(textToolInfo2['rotation'])
+        addTextToolInfo({obj,color,{0,-29.3,0},64,playerInfoValueTable[i],1,13900,'editAbilityScore','+'})
+    end
+
+    playerInfoValueTable = {'Armor_Class','Max_HP','Initiative','Speed'}
+    for i=1,4 do -- Adds AC through Speed
+        textToolInfo1 = getTextToolPosition({0.8,0,color,playerInfoValueTable[i]})
+        textToolInfo2 = getTextToolPosition({-0.8,0,color,playerInfoValueTable[i]})
+
+        params['position'] = textToolInfo1['position']
+        obj = spawnObject(params)
+        obj.setRotationSmooth(textToolInfo1['rotation'])
+        addTextToolInfo({obj,color,{0,-12,0},12,playerInfoValueTable[i],-1,10000,'editGenericStat','-'})
+
+        params['position'] = textToolInfo2['position']
+        obj = spawnObject(params)
+        obj.setRotationSmooth(textToolInfo2['rotation'])
+        addTextToolInfo({obj,color,{0,-12,0},12,playerInfoValueTable[i],1,10000,'editGenericStat','+'})
+    end
+
+    playerInfoValueTable = {'Max_Hit_Dice'} -- Adds Max Hit Dice
+    textToolInfo1 = getTextToolPosition({0.7,-0.52,color,playerInfoValueTable[i]})
+    textToolInfo2 = getTextToolPosition({-0.7,-0.52,color,playerInfoValueTable[i]})
+
+    params['position'] = textToolInfo1['position']
+    obj = spawnObject(params)
+    obj.setRotationSmooth(textToolInfo1['rotation'])
+    addTextToolInfo({obj,color,{0,-12,0},12,playerInfoValueTable[i],-1,10000,'editHitDice','-'})
+
+    params['position'] = textToolInfo2['position']
+    obj = spawnObject(params)
+    obj.setRotationSmooth(textToolInfo2['rotation'])
+    addTextToolInfo({obj,color,{0,-12,0},12,playerInfoValueTable[i],1,10000,'editHitDice','+'})
+
+    playerInfoValueTable = {'Current_Hit_Dice'} -- Adds Current Hit Dice
+    textToolInfo1 = getTextToolPosition({0.7,1.12,color,playerInfoValueTable[i]})
+    textToolInfo2 = getTextToolPosition({-0.7,1.12,color,playerInfoValueTable[i]})
+
+    params['position'] = textToolInfo1['position']
+    obj = spawnObject(params)
+    obj.setRotationSmooth(textToolInfo1['rotation'])
+    addTextToolInfo({obj,color,{0,-12,0},12,playerInfoValueTable[i],-1,10000,'editHitDice','-'})
+
+    params['position'] = textToolInfo2['position']
+    obj = spawnObject(params)
+    obj.setRotationSmooth(textToolInfo2['rotation'])
+    addTextToolInfo({obj,color,{0,-12,0},12,playerInfoValueTable[i],1,10000,'editHitDice','+'})
+
+    playerInfoValueTable = {'Spell_Save_DC','Spell_Attack_Bonus'}
+    for i=1,2 do -- Adds Spell Save DC and Spell Attk.
+        textToolInfo1 = getTextToolPosition({0.35,-0.63,color,playerInfoValueTable[i]})
+        textToolInfo2 = getTextToolPosition({-0.35,-0.63,color,playerInfoValueTable[i]})
+
+        params['position'] = textToolInfo1['position']
+        obj = spawnObject(params)
+        obj.setRotationSmooth(textToolInfo1['rotation'])
+        addTextToolInfo({obj,color,{0,-12,0},12,playerInfoValueTable[i],-1,10000,'editGenericStat','-'})
+
+        params['position'] = textToolInfo2['position']
+        obj = spawnObject(params)
+        obj.setRotationSmooth(textToolInfo2['rotation'])
+        addTextToolInfo({obj,color,{0,-12,0},12,playerInfoValueTable[i],1,10000,'editGenericStat','+'})
+    end
+
+    playerInfoValueTable = {'Inspiration'} -- Adds Inspiration
+    textToolInfo1 = getTextToolPosition({-2.9,0.1,color,playerInfoValueTable[i]})
+    textToolInfo2 = getTextToolPosition({-2.9,-0.35,color,playerInfoValueTable[i]})
+
+    params['position'] = textToolInfo1['position']
+    obj = spawnObject(params)
+    obj.setRotationSmooth(textToolInfo1['rotation'])
+    addTextToolInfo({obj,color,{0,-29.3,0},64,playerInfoValueTable[i],-1,13900,'editGenericStat','-'})
+
+    params['position'] = textToolInfo2['position']
+    obj = spawnObject(params)
+    obj.setRotationSmooth(textToolInfo2['rotation'])
+    addTextToolInfo({obj,color,{0,-29.3,0},64,playerInfoValueTable[i],1,13900,'editGenericStat','+'})
+
+    playerInfoValueTable = {'Proficiency_Bonus'} -- Adds Proficiency Bonus.
+    textToolInfo1 = getTextToolPosition({-2.9,0.1,color,playerInfoValueTable[i]})
+    textToolInfo2 = getTextToolPosition({-2.9,-0.35,color,playerInfoValueTable[i]})
+
+    params['position'] = textToolInfo1['position']
+    obj = spawnObject(params)
+    obj.setRotationSmooth(textToolInfo1['rotation'])
+    addTextToolInfo({obj,color,{0,-29.3,0},64,playerInfoValueTable[i],-1,13900,'editProficiencyBonus','-'})
+
+    params['position'] = textToolInfo2['position']
+    obj = spawnObject(params)
+    obj.setRotationSmooth(textToolInfo2['rotation'])
+    addTextToolInfo({obj,color,{0,-29.3,0},64,playerInfoValueTable[i],1,13900,'editProficiencyBonus','+'})
+
+    playerInfoValueTable = {'Max_Hit_Dice'} -- Adds Hit Dice Types
+    textToolInfo1 = getTextToolPosition({0,-0.8,color,playerInfoValueTable[i]})
+
+    params['position'] = textToolInfo1['position']
+    obj = spawnObject(params)
+    obj.setRotationSmooth(textToolInfo1['rotation'])
+    addTextToolInfo({obj,color,{0,-12,0},2,playerInfoValueTable[i],-0.9,25000,'editHitDiceType','Type'})
+
+    playerInfoValueTable = {'Vision'} -- Adds Vision Types.
+    textToolInfo1 = getTextToolPosition({-1.5,0,color,playerInfoValueTable[i]})
+
+    params['position'] = textToolInfo1['position']
+    obj = spawnObject(params)
+    obj.setRotationSmooth(textToolInfo1['rotation'])
+    addTextToolInfo({obj,color,{0,-12,0},2,playerInfoValueTable[i],-1,25000,'editVisionType','Type'})
+
+    playerInfoValueTable = {'Spell_Casting_Ability'} -- Adds Vision Types.
+    textToolInfo1 = getTextToolPosition({0,-0.63,color,playerInfoValueTable[i]})
+
+    params['position'] = textToolInfo1['position']
+    obj = spawnObject(params)
+    obj.setRotationSmooth(textToolInfo1['rotation'])
+    addTextToolInfo({obj,color,{0,-12,0},2,playerInfoValueTable[i],-1,25000,'editSCAType','Type'})
+
+    playerInfoValueTable = {'Success_Save'} -- Adds Success Saves
+    textToolInfo1 = getTextToolPosition({0.6,-0.14,color,playerInfoValueTable[i]})
+    textToolInfo2 = getTextToolPosition({-0.57,-0.14,color,playerInfoValueTable[i]})
+
+    params['position'] = textToolInfo1['position']
+    obj = spawnObject(params)
+    obj.setRotationSmooth(textToolInfo1['rotation'])
+    addTextToolInfo({obj,color,{0,-12,0},12,playerInfoValueTable[i],-1,6000,'editDeathSave','-'})
+
+    params['position'] = textToolInfo2['position']
+    obj = spawnObject(params)
+    obj.setRotationSmooth(textToolInfo2['rotation'])
+    addTextToolInfo({obj,color,{0,-12,0},12,playerInfoValueTable[i],1,6000,'editDeathSave','+'})
+
+    playerInfoValueTable = {'Fail_Save'} -- Adds Fail Save.
+    textToolInfo1 = getTextToolPosition({0.6,0.45,color,playerInfoValueTable[i]})
+    textToolInfo2 = getTextToolPosition({-0.57,0.45,color,playerInfoValueTable[i]})
+
+    params['position'] = textToolInfo1['position']
+    obj = spawnObject(params)
+    obj.setRotationSmooth(textToolInfo1['rotation'])
+    addTextToolInfo({obj,color,{0,-12,0},12,playerInfoValueTable[i],-1,6000,'editDeathSave','-'})
+
+    params['position'] = textToolInfo2['position']
+    obj = spawnObject(params)
+    obj.setRotationSmooth(textToolInfo2['rotation'])
+    addTextToolInfo({obj,color,{0,-12,0},12,playerInfoValueTable[i],1,6000,'editDeathSave','+'})
+end
+
+function addSheetTableTextTools(color) -- Adds text tools for the multi-part text tools.
+    local params = {
+        ['type'] = '3DText',
+        ['callback'] = 'addTextToolButtons',
+        ['callback_owner'] = self
+    }
+    local textToolInfo1 = {}
+    local textToolInfo2 = {}
+    local obj = {}
+
+    -- Adding saving throws proficiencies buttons.
+    local playerInfoValueTable = {'STR','DEX','CON','INT','WIS','CHA'}
+    local x = 0
+    for i=1,6 do
+        textToolInfo1 = getTextToolPosition({0.18,0-x,color,'Saving_Throws_Proficiencies'})
+
+        params['position'] = textToolInfo1['position']
+        obj = spawnObject(params)
+        obj.setRotationSmooth(textToolInfo1['rotation'])
+        addTextToolInfo({obj,color,{0,-12,0},12,playerInfoValueTable[i],nil,6000,'editProficiencyCheck','x'})
+        obj.setVar('tableName','Saving_Throws_Proficiencies')
+        x = x - 0.392
+    end
+
+    -- Adding ability proficiencies buttons.
+    playerInfoValueTable = {'Acrobatics','Animal Handling','Arcana','Athletics','Deception','History','Insight','Intimidation','Investigation','Medicine','Nature','Perception','Performance','Persuasion','Religion','Sleight Of Hand','Stealth','Survival'}
+    local x = 0
+    for i=1,18 do
+        textToolInfo1 = getTextToolPosition({0.18,0-x,color,'Skill_Proficiencies'})
+
+        params['position'] = textToolInfo1['position']
+        obj = spawnObject(params)
+        obj.setRotationSmooth(textToolInfo1['rotation'])
+        addTextToolInfo({obj,color,{0,-12,0},12,playerInfoValueTable[i],nil,6000,'editProficiencyCheck','x'})
+        obj.setVar('tableName','Skill_Proficiencies')
+        x = x - 0.392
+    end
+end
+
+function addCurrencyButtons(color)
+    local params = {
+        ['type'] = '3DText',
+        ['callback'] = 'addTextToolButtons',
+        ['callback_owner'] = self
+    }
+
+    playerInfoValueTable = {'Copper','Silver','Electrum','Gold','Platinum'}
+    for i=1,5 do -- Adding the currency buttons and passive perception.
+        local textToolInfo1 = getTextToolPosition({0.35,0.5,color,playerInfoValueTable[i]})
+        local textToolInfo2 = getTextToolPosition({-0.35,0.5,color,playerInfoValueTable[i]})
+
+        params['position'] = textToolInfo1['position']
+        local obj = spawnObject(params)
+        obj.setRotationSmooth(textToolInfo1['rotation'])
+        addTextToolInfo({obj,color,{0,-29.3,0},64,playerInfoValueTable[i],-1,13900,'editGenericStat','-'})
+
+        params['position'] = textToolInfo2['position']
+        obj = spawnObject(params)
+        obj.setRotationSmooth(textToolInfo2['rotation'])
+        addTextToolInfo({obj,color,{0,-29.3,0},64,playerInfoValueTable[i],1,13900,'editGenericStat','+'})
+    end
+end
+
+function getTextToolPosition(infoTable) -- Takes x position, z position, color and value name as arguments.
+    local returnTable = {['position'] = {},['rotation'] = {}}
+    if infoTable[3] == 'Purple' or infoTable[3] == 'Blue' then
+        returnTable['position'] = {sheetPos[infoTable[3]][1] + offsetList[infoTable[4]][1] + infoTable[1],1.08,sheetPos[infoTable[3]][3] + offsetList[infoTable[4]][2] + infoTable[2]}
+        returnTable['rotation'] = {90,180,0}
+    elseif infoTable[3] == 'Red' or infoTable[3] == 'Orange' then
+        returnTable['position'] = {sheetPos[infoTable[3]][1] - offsetList[infoTable[4]][1] - infoTable[1],1.08,sheetPos[infoTable[3]][3] - offsetList[infoTable[4]][2] - infoTable[2]}
+        returnTable['rotation'] = {90,0,0}
+    elseif infoTable[3] == 'Yellow' or infoTable[3] == 'Green' then
+        returnTable['position'] = {sheetPos[infoTable[3]][1] + offsetList[infoTable[4]][2] + infoTable[2],1.08,sheetPos[infoTable[3]][3] - offsetList[infoTable[4]][1] - infoTable[1]}
+        returnTable['rotation'] = {90,270,0}
+    else
+        print('Invalid call to getTextToolPosition')
+    end
+    return returnTable
+end
+
+function addTextToolInfo(params) -- Callback function for a newly spawned TextTool with params{obj,color,pos,fontsize,value,modifier,buttonSize,clickFunction,text}
+    params[1].setVar('color',params[2])
+    params[1].TextTool.setFontColor(returnColorTable('Black'))
+    params[1].TextTool.setFontSize(params[4])
+    params[1].setTable('pos', params[3])
+    params[1].setTable('rot',{90,0,0})
+    params[1].setVar('value',params[5])
+    params[1].setVar('modifier',params[6])
+    params[1].setVar('buttonSize',params[7])
+    params[1].setVar('clickFunction',params[8])
+    params[1].setValue(params[9])
+end
+
+function addTextToolButtons(obj) -- Callback function for the + and - text tools spawned for the stat buttons.
+    Global.call('addButton', {obj.getGUID(),obj.getVar('buttonSize'),obj.getVar('buttonSize'),1,'',obj.getVar('clickFunction'),self})
+end
+
+function editGenericStat(obj)
+    local tempVar = tempJournal.getVar(obj.getVar('value')) + obj.getVar('modifier')
+    tempJournal.setVar(obj.getVar('value'),tempVar)
+    playerInformation[obj.getVar('color')][obj.getVar('value')].setValue(tostring(tempVar))
+end
+
+function editAbilityScore(obj) -- Calculates the new stat value as well as the modifier.
+    local workTable = tempJournal.getTable('Base_Stats')
+    workTable[obj.getVar('value')] = workTable[obj.getVar('value')] + obj.getVar('modifier')
+    tempJournal.setTable('Base_Stats',workTable)
+    playerInformation[obj.getVar('color')][obj.getVar('value')].TextTool.setValue(tostring(workTable[obj.getVar('value')]))
+    calculateCharacterSheetValues(obj.getVar('color'))
+end
+
+function editHitDice(obj)
+    local tempVar = tempJournal.getVar(obj.getVar('value')) + obj.getVar('modifier')
+    tempJournal.setVar(obj.getVar('value'),tempVar)
+    playerInformation[obj.getVar('color')][obj.getVar('value')].setValue(tostring(tempVar)..'d'..tostring(tempJournal.getVar('Type')))
+end
+
+function editHitDiceType(obj)
+    local diceTypes = {6,8,10,12}
+    if tempJournal.getVar('Type') == 6 then
+        obj.setVar('diceTypeTracker',1)
+    elseif tempJournal.getVar('Type') == 8 then
+        obj.setVar('diceTypeTracker',2)
+    elseif tempJournal.getVar('Type') == 10 then
+        obj.setVar('diceTypeTracker',3)
+    elseif tempJournal.getVar('Type') == 12 or tempJournal.getVar('Type') == nil then
+        obj.setVar('diceTypeTracker',0)
+    else
+        print('Error changing dice types. Please file a bug report.')
+    end
+    playerInformation[obj.getVar('color')]['Max_Hit_Dice'].TextTool.setValue(tempJournal.getVar('Max_Hit_Dice')..'d'..tostring(diceTypes[obj.getVar('diceTypeTracker')+1]))
+    playerInformation[obj.getVar('color')]['Current_Hit_Dice'].TextTool.setValue(tempJournal.getVar('Current_Hit_Dice')..'d'..tostring(diceTypes[obj.getVar('diceTypeTracker')+1]))
+    tempJournal.setVar('Type',diceTypes[obj.getVar('diceTypeTracker')+1])
+end
+
+function editSCAType(obj)
+    local SCATypes = {'STR','DEX','CON','INT','WIS','CHA'}
+    if tempJournal.getVar('Spell_Casting_Ability') == 'STR' then
+        obj.setVar('SCATypeTracker',1)
+    elseif tempJournal.getVar('Spell_Casting_Ability') == 'DEX' then
+        obj.setVar('SCATypeTracker',2)
+    elseif tempJournal.getVar('Spell_Casting_Ability') == 'CON' then
+        obj.setVar('SCATypeTracker',3)
+    elseif tempJournal.getVar('Spell_Casting_Ability') == 'INT' then
+        obj.setVar('SCATypeTracker',4)
+    elseif tempJournal.getVar('Spell_Casting_Ability') == 'WIS' then
+        obj.setVar('SCATypeTracker',5)
+    elseif tempJournal.getVar('Spell_Casting_Ability') == 'CHA' or tempJournal.getVar('Spell_Casting_Ability') == nil then
+        obj.setVar('SCATypeTracker',0)
+    else
+        print('Error changing SCA types. Please file a bug report.')
+    end
+    tempJournal.setVar('Spell_Casting_Ability',SCATypes[obj.getVar('SCATypeTracker')+1])
+    playerInformation[obj.getVar('color')]['Spell_Casting_Ability'].TextTool.setValue(SCATypes[obj.getVar('SCATypeTracker')+1])
+end
+
+function editVisionType(obj)
+    local visionTypes = {'Blinded','Normal','Darkvision','Truesight'}
+    if obj.getVar('visionTypeTracker') == nil or obj.getVar('visionTypeTracker') == 4 then
+        obj.setVar('visionTypeTracker',1)
+    else
+        obj.setVar('visionTypeTracker',obj.getVar('visionTypeTracker')+1)
+    end
+    tempJournal.setVar('Vision',visionTypes[obj.getVar('visionTypeTracker')])
+    playerInformation[obj.getVar('color')]['Vision'].TextTool.setValue(visionTypes[obj.getVar('visionTypeTracker')])
+end
+
+function editProficiencyCheck(obj)
+    local workTable = tempJournal.getTable(obj.getVar('tableName'))
+    workTable[obj.getVar('value')] = not workTable[obj.getVar('value')]
+    tempJournal.setTable(obj.getVar('tableName'),workTable)
+    playerInformation[obj.getVar('color')][obj.getVar('tableName')].TextTool.setValue(getProficienciesString(obj.getVar('color'),obj.getVar('tableName')))
+end
+
+function editProficiencyBonus(obj)
+    local tempVar = tempJournal.getVar('Proficiency_Bonus') + obj.getVar('modifier')
+    tempJournal.setVar('Proficiency_Bonus',tempVar)
+    playerInformation[obj.getVar('color')]['Proficiency_Bonus'].TextTool.setValue(tostring(tempVar))
+    calculateCharacterSheetValues(obj.getVar('color'))
+end
+
+function editDeathSave(obj)
+    local tempVar = tempJournal.getVar(obj.getVar('value')) + obj.getVar('modifier')
+    if tempVar ~= 4 and tempVar ~= -1 then
+        tempJournal.setVar(obj.getVar('value'),tempVar)
+        local str = ''
+        if tempVar == 0 then
+            str = ' '
+        elseif tempVar == 1 then
+            str = '@       '
+        elseif tempVar == 2 then
+            str = '@@    '
+        elseif tempVar == 3 then
+            str = '@@@'
+        end
+        playerInformation[obj.getVar('color')][obj.getVar('value')].TextTool.setValue(str)
+    end
+end
+
+function getProficienciesString(color, tableName) -- Reads vars from the journal and creates a string of unicode circles based on the result.
+    local str = ''
+    local itemTable = tempJournal.getTable(tableName)-- specific journal related to color to be edited here
+    for i,v in pairs(itemTable) do
+        if itemTable[i] == true then -- specific journal related to color to be edited here
+            str = str..'@\n'
+        else
+            str = str..'\n'
+        end
+    end
+    return str
+end
+
+function calculateCharacterSheetValues(color)
+    local str = ''
+
+    -- Calculate Ability Modifiers.
+    local abilityMod = {}
+    local statTable = tempJournal.getTable('Base_Stats')
+    for key,value in pairs(statTable) do
+        abilityMod[key] = math.floor((value-10)/2)
+        playerInformation[color][key..'Mod'].setValue('+'..tostring(abilityMod[key]))
+    end
+
+    -- Calculate Saving Throws.
+    statTable = tempJournal.getTable('Saving_Throws_Proficiencies')
+    for key,value in pairs(statTable) do
+        if value == true then
+            str = str..tostring(abilityMod[key] + tempJournal.getVar('Proficiency_Bonus'))..'\n'
+        else
+            str = str..tostring(abilityMod[key])..'\n'
+        end
+    end
+    playerInformation[color]['Saving_Throws_Numbers'].TextTool.setValue(str)
+
+    -- Calculate Skill Scores
+    str = ''
+    statTable = tempJournal.getTable('Skill_Proficiencies')
+    abilityModUseOrder = {'DEX','WIS','INT','STR','CHA','INT','WIS','CHA','INT','WIS','INT','WIS','CHA','CHA','INT','DEX','DEX','WIS'} -- The order of the skills in terms of their parent ability.
+    local i = 1
+    for key,value in pairs(statTable) do
+        if value == true then
+            str = str..tostring(abilityMod[abilityModUseOrder[i]] + tempJournal.getVar('Proficiency_Bonus'))..'\n'
+        else
+            str = str..tostring(abilityMod[abilityModUseOrder[i]])..'\n'
+        end
+        i = i+1
+    end
+    playerInformation[color]['Skill_Numbers'].TextTool.setValue(str)
+
+    -- Calculate Passive Perception
+    playerInformation[color]['Passive_Perception'].TextTool.setValue(tostring(10+abilityMod['WIS']))
+end
