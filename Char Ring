@@ -1,0 +1,1109 @@
+Base_Stats = {'STR','DEX','CON','INT','WIS','CHA'}
+counterOffsetList = { -- Text Tools that will spawn modifiers - for numbers
+    -- +/-
+    -- ['gap']={+Right/+Left,+Below/+Above}
+   -- ['mod']={Right/Left,Down/Up}
+
+    ['Speed']              = { 2.074633,-0.23846,['size'] = 36,['gap']={0.6,0},  ['mod']={0,0.3} },
+    ['Initiative']         = { 2.074633,-1.3,    ['size'] = 40,['gap']={0.6,0},  ['mod']={0,0.3} },
+    ['Inspiration']        = { 12.78864,-5.92592,['size'] = 40,['gap']={0,-0.15},['mod']={3.1,0.3},['modSize']=150 },
+    ['Proficiency_Bonus']  = { 12.71865,-4.97593,['size'] = 40,['gap']={0,-0.15},['mod']={3,0.3}, ['modSize']=150 },
+    ['Spell_Save_DC']      = { 7.052309,-3.18593,['size'] = 40,['gap']={0.52,0}, ['mod']={0,0.26} },
+    ['Spell_Attack_Bonus'] = { 5.488634,-3.18593,['size'] = 40,['gap']={0.52,0}, ['mod']={0,0.26} },
+    ['Max_HP']             = { 1.454685,-3.27593,['size'] = 64,['gap']={0.6,0},  ['mod']={0,0.5} },
+    ['Current_Hit_Dice']   = { 3.488621,-3.07589,['size'] = 72,['gap']={0.6,0},  ['mod']={0.02,0.9} },
+    ['Armor_Class']        = { 4.790911,-5.37751,['size'] = 72,['gap']={0.85,0}, ['mod']={0,0},   ['modSize']=180, ['color'] = 'Silver'},
+    ['STR']                = { 14.88861,-6.01784,['size'] = 72,['gap']={0.85,0}, ['mod']={0,1.8}, ['modSize']=250, ['color'] = 'Red'},
+    ['DEX']                = { 14.88863,-3.52217,['size'] = 72,['gap']={0.85,0}, ['mod']={0,1.8}, ['modSize']=250, ['color'] = 'Green'},
+    ['CON']                = { 14.88863,-1.04589,['size'] = 72,['gap']={0.85,0}, ['mod']={0,1.8}, ['modSize']=250, ['color'] = 'Black'},
+    ['INT']                = { 14.88863,1.44407, ['size'] = 72,['gap']={0.85,0}, ['mod']={0,1.8}, ['modSize']=250, ['color'] = 'Blue'},
+    ['WIS']                = { 14.88863,3.934117,['size'] = 72,['gap']={0.85,0}, ['mod']={0,1.8}, ['modSize']=250, ['color'] = 'Pink'},
+    ['CHA']                = { 14.88863,6.424077,['size'] = 72,['gap']={0.85,0}, ['mod']={0,1.8}, ['modSize']=250, ['color'] = 'Yellow'},
+    ['Copper']             = { 8.488632,6.974126,['size'] = 36,['gap']={0.4,0},  ['mod']={0,0.8}, ['color'] = 'Copper',  ['always_visible']=1},
+    ['Silver']             = { 6.688649,6.974126,['size'] = 36,['gap']={0.4,0},  ['mod']={0,0.8}, ['color'] = 'Silver',  ['always_visible']=1},
+    ['Electrum']           = { 4.868639,6.974126,['size'] = 36,['gap']={0.4,0},  ['mod']={0,0.8}, ['color'] = 'Electrum',['always_visible']=1},
+    ['Gold']               = { 3.02866,6.97431,  ['size'] = 36,['gap']={0.4,0},  ['mod']={0,0.8}, ['color'] = 'Gold',    ['always_visible']=1},
+    ['Platinum']           = { 1.258625,6.974126,['size'] = 36,['gap']={0.4,0},  ['mod']={0,0.8}, ['color'] = 'Platinum',['always_visible']=1}
+}
+
+objectOffsetList = { -- Objects different than 3DText's
+    ['HP']        = { 2.161939,-4.81705,    ['type'] = 'Counter',  ['height'] = 0.4229977, ['rot'] = {-90,0,0}, ['scale'] = 1.05,  ['name'] = 'Health'},
+    ['Note1']     = { -2.5398102,-3.9832565,['type'] = 'Notecard', ['height'] = 1.04,      ['rot'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Traits'},
+    ['Note2']     = { -7.2604314,-3.9832565,['type'] = 'Notecard', ['height'] = 1.04,      ['rot'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Features'},
+    ['Note3']     = { -2.5398102,-1.02831,  ['type'] = 'Notecard', ['height'] = 1.04,      ['rot'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Languages'},
+    ['Note4']     = { -7.2604314,-1.02831,  ['type'] = 'Notecard', ['height'] = 1.04,      ['rot'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Bonds'},
+    ['Note5']     = { -4.9058342,5.02206,   ['type'] = 'Notecard', ['height'] = 1.014,     ['rot'] = {-90,0,0}, ['scale'] = 1.175, ['name'] = 'Other Notes'},
+    ['Equipment'] = { 6.476904,-0.0266,     ['type'] = 'Notecard', ['height'] = 1.031,     ['rot'] = {-90,0,0}, ['scale'] = 0.775, ['name'] = 'Equipment'},
+    ['Inventory'] = { 4.994779,4.361943,    ['type'] = 'Notecard', ['height'] = 1.023388,  ['rot'] = {-90,0,0}, ['scale'] = 0.925, ['name'] = 'Inventory'}
+}
+
+textOffsetList = { -- Text Tools that will be unlocked - for words
+    ['Path']            = { 7.767517,-6.87593,['size'] = 24},
+    ['Background']      = { 4.656049,-7.57593,['size'] = 24},
+    ['Alignment']       = { 4.632616,-6.87593,['size'] = 24},
+    ['Party']           = { 1.564409,-6.87593,['size'] = 24},
+    ['Race_Class']      = { 7.707871,-7.57593,['size'] = 24},
+    ['Character_Level'] = { 10.19124,-7.30251,['size'] = 32, ['color'] = 'Black'},
+    ['Character_Name']  = { 13.26529,-7.56156,['size'] = 36, ['color'] = true}
+}
+
+specialOffsetList = { -- Special spawns, like meters, checkboxes and such - unavailable in custom
+    ['Player']             = { 1.564409,-7.57593,['size'] = 24,},
+    ['Success_Save']       = { 7.038649,-5.42593,['size'] = 45, ['color'] = 'Black'},
+    ['Fail_Save']          = { 7.038649,-4.97593,['size'] = 45, ['color'] = 'Black'},
+    ['STRMod']             = { 13.78865,-5.7159, ['size'] = 40, ['color'] = 'Red'},
+    ['DEXMod']             = { 13.78865,-3.25593,['size'] = 40, ['color'] = 'Green'},
+    ['CONMod']             = { 13.78865,-0.76592,['size'] = 40, ['color'] = 'Black'},
+    ['INTMod']             = { 13.78865,1.72407, ['size'] = 40, ['color'] = 'Blue'},
+    ['WISMod']             = { 13.78865,4.254094,['size'] = 40, ['color'] = 'Pink'},
+    ['CHAMod']             = { 13.78865,6.74407, ['size'] = 40, ['color'] = 'Yellow'},
+    ['Passive_Perception'] = { 12.71865,7.22407, ['size'] = 40},
+    ['Vision']             = { 2.074633,0.97407, ['size'] = 24},
+    ['Max_Hit_Dice']       = { 3.488621,-3.47588,['size'] = 30},
+    ['Spell_Casting_Ability'] = { 8.558649,-3.18593,['size'] = 40},
+    ['Skill_Numbers']         = { 12.49865,-0.69991,['size'] = 26},
+    ['Skill_Proficiencies']   = { 12.89858,-0.68993,['size'] = 26,['color'] = 'Black'},
+    ['Saving_Throws_Numbers'] = { 12.48865,-3.94673,['size'] = 26},
+    ['Saving_Throws_Proficiencies'] = { 12.89858,-3.94673,['size'] = 26,['color'] = 'Black'}
+}
+
+tabsOffsetList = { -- Tabs for QRPG - unavailable in custom
+    ['Tab_1'] = { -1.5,-7.1,['text'] = "Combat",    ['size'] = 30,['color']='Platinum'},
+    ['Tab_2'] = { -4,-7.1,  ['text'] = "Spellbook", ['size'] = 30,['color']='Platinum'},
+    ['Tab_3'] = { -6,-7.1,  ['text'] = "Bio",       ['size'] = 30,['color']='Platinum'},
+    ['Tab_4'] = { -8,-7.1,  ['text'] = "[Notes]",   ['size'] = 30,['color']='Copper'}
+}
+
+strings = {
+    'Character_Name','Character_Level','Race_Class','Path','Background','Alignment','Player',
+    'STR','DEX','CON','INT','WIS','CHA','Inspiration','Saving_Throws_Proficiencies',
+    'Saving_Throws_Numbers','Skill_Proficiencies','Skill_Numbers',
+    'Passive_Perception','Proficiency_Bonus','Copper','Silver','Electrum',
+    'Gold','Platinum','Vision','Speed','Initiative','Max_HP','Armor_Class','Success_Save',
+    'Fail_Save','Spell_Casting_Ability','Spell_Save_DC','Spell_Attack_Bonus','Current_Hit_Dice','Max_Hit_Dice'
+}
+
+zoneColor = {
+    ['4201a1'] = 'Red',
+    ['4201a2'] = 'Orange',
+    ['4201a3'] = 'Yellow',
+    ['4201a4'] = 'Green',
+    ['4201a5'] = 'Blue',
+    ['4201a9'] = 'Purple'
+}
+
+sheetPos = {
+    ['Red'] = {-26.5910873,1.07,-40.87593},
+    ['Orange'] = {19.4391747,1.07,-40.87593},
+    ['Yellow'] = {58.7964745,1.07,-18.4719715},
+    ['Green'] = {58.7964745,1.07,18.4564972},
+    ['Blue'] = {19.4391747,1.07,40.87593},
+    ['Purple'] = {-26.2886486,1.07,40.87593}
+}
+
+sheetRot = {
+    ['Red'] = {0,180,0},
+    ['Orange'] = {0,180,0},
+    ['Yellow'] = {0,90,0},
+    ['Green'] = {0,90,0},
+    ['Blue'] = {0,0,0},
+    ['Purple'] = {0,0,0}
+}
+
+playerInformation = {
+    ['Red'] = {},
+    ['Orange'] = {},
+    ['Yellow'] = {},
+    ['Green'] = {},
+    ['Blue'] = {},
+    ['Purple'] = {}
+}
+
+diffuseURL = {
+    ['Red'] = 'http://i.imgur.com/Cjxl27X.png',
+    ['Orange'] = 'http://i.imgur.com/BgykAHw.png',
+    ['Yellow'] = 'http://i.imgur.com/PyOqEio.png',
+    ['Green'] = 'http://i.imgur.com/apMwPRx.png',
+    ['Blue'] = 'http://i.imgur.com/cDR9t6o.png',
+    ['Purple'] = 'http://i.imgur.com/TKJSAjY.png'
+}
+
+
+function onload(save_state)
+    lookupPos = {}
+    keyLookup = {}
+    customSheet = false
+    circle = Global.getVar('unicodeCircle')
+
+    config = Global.getVar('config')
+    tool = Global.getVar('tool')
+    roll = Global.getVar('roll')
+
+    currentPlayers = getSeatedPlayersExcept({'White'})
+    --createCache()
+    -- Calculate Lookup
+    for key,value in pairs(counterOffsetList) do
+        lookupPos[key] = {
+            [1] = {value['mod'][1] + value['gap'][1],0,value['mod'][2] + value['gap'][2]},
+            [2] = {value['mod'][1] - value['gap'][1],0,value['mod'][2] - value['gap'][2]},
+            [3] = value['modSize'] or 200
+        }
+    end
+
+    if save_state == "[]" or save_state == "" then
+        CharacterSheets = {}
+        CharacterJournals = {}
+        keyLookupGUID = {}
+    else
+        --print(save_state)
+        local function getObjectFromGUIDTable(e)
+            local result = {}
+            for key,guid in pairs(e) do
+                if type(guid) == "table" then
+                    result[key] = getObjectFromGUIDTable(guid)
+                else
+                    result[key] = getObjectFromGUID(guid)
+                end
+            end
+            return result
+        end
+        local savedVars = JSON.decode(save_state)
+        CharacterSheets   = getObjectFromGUIDTable(savedVars['CharacterSheets'])
+        playerInformation = getObjectFromGUIDTable(savedVars['playerInformation'])
+        CharacterJournals = getObjectFromGUIDTable(savedVars['CharacterJournals'])
+        keyLookupGUID = savedVars['keyLookupGUID']
+        -- Saving Safe
+        for key,color in pairs(Global.getTable('colorTable')) do
+            if next(playerInformation[color]) ~= nil then
+                if not Player[color].seated then -- if theres info and is not seated, delete
+                    if CharacterJournals[color] ~= nil then closeBook(color) end
+                    destroyCharacterSheet(color)
+                else -- there's info and someones seated - reassociate
+                    tool.call('loadPlayer',{color})
+                    local function deepInteractable(e)
+                        for key,object in pairs(e) do
+                            if type(object) == "table" then
+                                deepInteractable(object)
+                            elseif string.sub(tostring(object),1,-30) ~= "Notecard" then
+                                object.interactable = false
+                            end
+                        end
+                    end
+                    --deepInteractable(playerInformation[color])
+                    CharacterSheets[color]['interactable'] = false
+                    Global.call('setZone',{color,1})
+                end
+                if CharacterJournals[color] ~= nil then
+                    enableManager(color)
+                    Global.call('setZone',{color,2})
+                end
+            else
+                if Player[color].seated then -- if theres no info but someone is seated, spawn
+                    initSheet(color)
+                end
+            end
+        end -- for
+    end
+
+--[[
+    -- This spawns new sheets for all players
+    currentPlayers = getSeatedPlayersExcept({'White'})
+    for i=1,#currentPlayers do
+        if currentPlayers[i] ~= 'Grey' and currentPlayers[i] ~= 'Black' and currentPlayers[i] ~= 'White' then
+            initSheet(currentPlayers[i])
+        end
+    end
+]]
+end
+
+x = 0
+function onSave()
+    local savedVars = {}
+    local function getGUIDFromObjectTable(e)
+        local result = {}
+        for key,object in pairs(e) do
+            if type(object) == "table" then
+                result[key] = getGUIDFromObjectTable(object)
+            else
+                result[key] = object.getGUID()
+            end
+        end
+        return result
+    end
+
+    savedVars['CharacterSheets'] = getGUIDFromObjectTable(CharacterSheets)
+    savedVars['CharacterJournals'] = getGUIDFromObjectTable(CharacterJournals)
+    savedVars['playerInformation'] = getGUIDFromObjectTable(playerInformation)
+    savedVars['keyLookupGUID'] = keyLookupGUID
+
+
+    --if x==0 then print_r(savedVars) x=1 end
+    return JSON.encode_pretty(savedVars)
+end
+
+function initSheet(color)
+    keyLookup[color] = {}
+    playerInformation[color]['edit'] = {}
+    playerInformation[color]['edit']['always_visible'] = {}
+    if not custom then playerInformation[color]['tabs'] = {} end
+
+    local sheet = spawnObject({
+        ['type'] = 'Custom_Model',
+        ['position'] = sheetPos[color],
+        ['rotation'] = sheetRot[color]
+    })
+
+    sheet.setCustomObject({
+        ['mesh'] = 'http://pastebin.com/raw/WM95FWL5',
+        ['diffuse'] = diffuseURL[color],
+        ['type'] = 4, -- Board
+        ['material'] = 3, -- Cardboard
+        ['specular_intensity'] = 0.1,
+        ['specular_sharpness'] = 7.25,
+        ['fresnel_strength'] = 0.60,
+        ['cast_shadows'] = false
+    })
+    sheet['interactable'] = false
+    sheet.setName(color.."CS")
+    sheet.lock()
+    CharacterSheets[color] = sheet
+    
+    local offsetArray = {objectOffsetList,counterOffsetList,textOffsetList,specialOffsetList,tabsOffsetList}
+    for index,offsetList in ipairs(offsetArray) do
+        local position = {}
+        local rotation = {}
+        local obj
+        for key,value in pairs(offsetList) do
+            if color == 'Purple' or color == 'Blue' then
+                position = {sheetPos[color][1] + value[1],1.08,sheetPos[color][3] + value[2]}
+                rotation = {90,180,0}
+            elseif color == 'Red' or color == 'Orange' then
+                position = {sheetPos[color][1] - value[1],1.08,sheetPos[color][3] - value[2]}
+                rotation = {90,0,0}
+            elseif color == 'Yellow' or color == 'Green' then
+                position = {sheetPos[color][1] + value[2],1.08,sheetPos[color][3] - value[1]}
+                rotation = {90,270,0}
+            end
+
+            if index > 1 then -- Avoid spawning objects as textools
+                obj = spawnObject({
+                    ['type'] = '3DText',
+                    ['position'] = position
+                })
+                obj.setRotationSmooth(rotation)
+                obj.TextTool.setFontSize(value['size'] or 64)
+                obj.TextTool.setFontColor(returnColorTable(value['color'] or 'White'))
+                obj.TextTool.setValue(value['text'] or ' ')
+                obj['interactable'] = false
+            end
+            local switch = {
+                [1] = function () -- Objects
+                    obj = spawnObject({
+                        ['type'] = value['type'],
+                        ['position'] = {position[1],value['height'],position[3]},
+                        ['rotation'] = {rotation[1]+value['rot'][1],rotation[2]+value['rot'][2],value['rot'][3]}
+                    })
+                    obj.setName(value['name'] or '')
+                    obj.setScale({value['scale'],value['scale'],value['scale']})
+                    obj.lock()
+                    --obj['interactable'] = false
+                end,
+                [2] = function() -- Counters
+                    local modifier = spawnObject({
+                        ['type'] = 'Custom_Model',
+                        ['position'] = position,
+                        ['rotation'] = {rotation[1]-270,rotation[2],0}
+                    })
+                    modifier.setColorTint({0,0,0})
+                    modifier.setCustomObject({['mesh'] = 'http://pastebin.com/raw/yteXiDWq'})
+                    modifier.lock()
+                    if value['always_visible'] == 1 then
+                        playerInformation[color]['edit']['always_visible'][key] = modifier
+                    else
+                        playerInformation[color]['edit'][key] = modifier
+                        modifier.setScale({0,0,0})
+                    end
+                    keyLookup[color][obj] = modifier
+                end,
+                [3] = function() -- Text
+                    if value['color'] == true then obj.TextTool.setFontColor(returnColorTable(color)) end
+                end
+            }
+            if not (custom and index < 4) and switch[index] ~= nil then switch[index]() end -- Validate execution
+            if index == 5 then playerInformation[color]['tabs'][key] = obj
+            else playerInformation[color][key] = obj end
+        end
+    end
+    Timer.create({
+        ['identifier'] = 'initPlayer'..color,
+        ['function_name'] = 'initPlayer',
+        ['function_owner'] = self,
+        ['parameters'] = {color},
+        ['delay'] = 0.2
+    })
+end
+
+function initPlayer(color) -- Receives Table
+    color = color[1]
+    -- Executes 1 second after everything in a char sheet is spawned
+    keyLookupGUID[color] = {}
+    for key,value in pairs(keyLookup[color]) do
+        keyLookupGUID[color][key.getGUID()] = value.getGUID()
+    end
+    tool.call('loadPlayer',{color})
+    Global.call('setZone',{color,1})
+end
+
+-- Triggered when valid book enters available zone - called from onObjectEnterScriptingZone
+function loadCharacter(arg)
+    local enter_object = arg[1]
+    local zone = arg[2]
+    local color = arg[3]
+    openBook(enter_object,zone)
+    enableManager(color)
+end
+
+
+function openBook(book,zone)  
+    local param = book.getCustomObject()
+    param['mesh'] = 'http://pastebin.com/raw/YTsHZRfG'
+    param['diffuse'] = 'http://i.imgur.com/XgSo3GV.png'
+    local obj = spawnObject({
+        type = 'Custom_Model',
+        position = zone.getPosition(),
+        rotation = zone.getRotation()
+    })
+    obj.setCustomObject(param)
+
+    local code = book.getLuaScript()
+    obj.setLuaScript(code)
+    obj.setVar('open', 1)
+    obj['interactable'] = false
+    CharacterJournals[keyFromValue(Global.getTable('zoneFromColor'),zone.guid)] = obj
+    readFromBook(keyFromValue(Global.getTable('zoneFromColor'),zone.guid),book)
+    book.destruct()
+end
+
+function enableManager(color)
+    -- This funciton enables buttons
+
+    -- Called when:
+    -- 1) A character has finished loading, after open Book.
+    -- 2) A rewind/reload was made and sheet needs buttons.
+
+    local function createButtonsFromTable(table)
+        for key,object in pairs(table) do
+            if type(object) == 'table' then
+                createButtonsFromTable(object)
+            else
+                local modSize = lookupPos[key][3]
+                Global.call('addButton',{object.getGUID(),modSize,modSize,modSize,'+','modifierAdd',self,lookupPos[key][1]})
+                Global.call('addButton',{object.getGUID(),modSize,modSize,modSize,'-','modifierSub',self,lookupPos[key][2]})
+            end
+        end
+    end
+
+    --CharacterSheets[color].setVar('color',color)
+
+    -- TODO: Decide where and how edit mode is reset
+    --CharacterSheets[color].setVar('edit',1)
+    --shrinkEditModeButtons(color)
+    Global.call('addButton', {CharacterSheets[color].getGUID(),3000,500,350,'Spawn Figurine','nil',self,{13.2,0.01,-2.3}})
+    Global.call('addButton', {CharacterSheets[color].getGUID(),3000,500,350,'Add XP/Level Up','nil',self,{13.2,0.01,-1.0}})
+    Global.call('addButton', {CharacterSheets[color].getGUID(),3000,500,350,'Something','nil',self,{13.2,0.01,0.3}})
+    Global.call('addButton', {CharacterSheets[color].getGUID(),3000,500,350,'DEBUG: NOTECARDS','DEBUGPrintNotecardPos',self,{13.2,0.01,1.6}})
+    Global.call('addButton', {CharacterSheets[color].getGUID(),3000,500,350,'DEBUG: JOURNAL','DEBUGprintJournal',self,{13.2,0.01,2.9}})
+    Global.call('addButton', {CharacterSheets[color].getGUID(),3000,500,350,'DEBUG: INFO','DEBUGprintPlayerInfo',self,{13.2,0.01,4.2}})
+    Global.call('addButton', {CharacterSheets[color].getGUID(),3000,500,350,'Edit Sheet','toggleEdit',self,{13.2,0.01,5.5}})
+    Global.call('addButton', {CharacterSheets[color].getGUID(),3000,600,350,'Save & Close','saveCharacter',self,{13.2,0.01,7.2}})
+    createButtonsFromTable(playerInformation[color]['edit'])
+        -- Set Edit Buttons to hidden.
+
+    --addAlwaysVisibileButtons(color)
+    --addEditModeButtons(color)
+end
+
+function toggleEdit(obj,player)
+    -- TODO: Validate that player clicking is the owner of the sheet
+
+    local labels = {'Edit Sheet','Exit Edit Mode'}
+    local msg = {DA.."Edit Mode is now off.",DA.."You are now editing your sheet. To Finish editing, Press \"Exit Edit Mode\""}
+    local x = 1 - (obj.getVar('editMode') or 0)
+    obj.setVar('editMode', x)
+    params = obj.getButtons()
+    params[7]['label'] = labels[x+1]
+    printToColor(msg[x+1],player,{0.2,0.8,0.8})
+    obj.editButton(params[7])
+
+    local action = {
+        [0] = function() -- Edit mode OFF
+            for _,object in pairs(playerInformation[player]['edit']) do
+                if type(object) ~= 'table' then
+                    object.setScale({0,0,0})
+                end
+            end
+            for key,_ in pairs(textOffsetList) do
+                playerInformation[player][key]['interactable'] = false
+            end
+        end,
+        [1] = function() -- Edit mode ON
+            for _,object in pairs(playerInformation[player]['edit']) do
+                if type(object) ~= 'table' then
+                    object.setScale({1,1,1})
+                end
+            end
+            for key,_ in pairs(textOffsetList) do
+                playerInformation[player][key]['interactable'] = true
+            end
+        end
+    }
+    action[x]()
+end
+
+function modifierAdd(obj,player)
+    local counter = getObjectFromGUID(keyFromValue(keyLookupGUID[player],obj.guid))
+    local key = keyFromValue(playerInformation[player],counter)
+    local newValue = tonumber(counter.TextTool.getValue()) + 1
+    if contains(Base_Stats,key) then
+        local BSTable = CharacterJournals[player].getTable('Base_Stats')
+        BSTable[key] = newValue
+        CharacterJournals[player].setTable('Base_Stats',BSTable)
+        calculateCharacterSheetValues(player)
+    else
+        CharacterJournals[player].setVar(key,newValue)
+    end
+    counter.TextTool.setValue(tostring(newValue))
+end
+
+function modifierSub(obj,player)
+    local counter = getObjectFromGUID(keyFromValue(keyLookupGUID[player],obj.guid))
+    local key = keyFromValue(playerInformation[player],counter)
+    local newValue = tonumber(counter.TextTool.getValue()) - 1
+    if contains(Base_Stats,key) then
+        local BSTable = CharacterJournals[player].getTable('Base_Stats')
+        BSTable[key] = newValue
+        CharacterJournals[player].setTable('Base_Stats',BSTable)
+        calculateCharacterSheetValues(player)
+    else
+        CharacterJournals[player].setVar(key,newValue)
+    end
+    counter.TextTool.setValue(tostring(newValue))
+end
+
+function readFromBook(color,journal)
+    local exceptions = {
+        'Player','Max_Hit_Dice',
+        'STR','DEX','CON','INT','WIS','CHA',
+        'Saving_Throws_Proficiencies','Saving_Throws_Numbers',
+        'Skill_Proficiencies','Skill_Numbers',
+        'Success_Save','Fail_Save'
+    }
+
+    for _,value in pairs(strings) do
+        if not contains(exceptions,value) then
+            playerInformation[color][value].TextTool.setValue(tostring(journal.getVar(value)))
+        else
+            if value == 'Max_Hit_Dice' then
+                playerInformation[color][value].TextTool.setValue(tostring(journal.getVar(value))..'d'..tostring(journal.getVar('Type')))
+            end
+            if value == 'Saving_Throws_Proficiencies' or value == 'Skill_Proficiencies' then
+                CharacterJournals[color].setTable(value, journal.getTable(value))
+                playerInformation[color][value].TextTool.setValue(getProficienciesString(color,value))
+            end
+            if value == 'STR' or value == 'DEX' or value == 'CON' or value == 'INT' or value == 'WIS' or value == 'CHA' then
+                playerInformation[color][value].TextTool.setValue(tostring(journal.getTable('Base_Stats')[value]))
+            end
+            if value == 'Player' then
+                playerInformation[color][value].TextTool.setValue(Player[color].steam_name)
+            end
+        end
+    end
+
+    getObjectFromGUID(color.."NameDisplay").TextTool.setValue(journal.getVar('Character_Name'))
+
+    local DMCounter = getObjectFromGUID(tool.getTable('DMHealthCounterGUIDs')[keyFromValue(Global.getVar('colorTable'),color)])
+    DMCounter.setName(journal.getVar('Character_Name').."'s Health")
+    if tool.getVar('healthController') == "DM" then
+        DMCounter.Counter.setValue(journal.getVar('HP'))
+    else
+        playerInformation[color]['HP'].Counter.setValue(journal.getVar('HP'))
+    end
+
+    playerInformation[color]['Success_Save'].TextTool.setValue(getSaves(journal.getVar('Success_Save')))
+    playerInformation[color]['Fail_Save'].TextTool.setValue(getSaves(journal.getVar('Fail_Save')))
+
+    tool.call('setupNewInventory',{color,journal.getVar('Inventory')})
+    playerInformation[color]['Equipment'].setDescription(journal.getVar('Equipment'))
+    for i=1,5 do
+        if journal.getVar('Note'..i..'_Title') ~= nil then playerInformation[color]['Note'..i].setName(journal.getVar('Note'..i..'_Title')) end
+        if journal.getVar('Note'..i) ~= nil then playerInformation[color]['Note'..i].setDescription(journal.getVar('Note'..i)) end
+    end
+
+    CharacterJournals[color].setTable('Base_Stats', journal.getTable('Base_Stats'))
+    CharacterJournals[color].setVar('Proficiency_Bonus', journal.getVar('Proficiency_Bonus'))
+
+    calculateCharacterSheetValues(color)
+end
+
+
+function saveCharacter(obj,player)
+    -- delete buttons
+    -- save variables
+    -- close book
+    -- destruct figurine
+    -- on book exit - change zone to 1
+    CharacterSheets[player].clearButtons()
+    --destroyCharacterSheet(color)
+    --initSheet(color)
+    if obj.getVar('editMode') == 1 then -- Set edit buttons back to default.
+        toggleEdit(obj,player)
+    end
+    closeBook(player)
+    cleanText(player)
+    Global.call('setZone',{player,1})
+end
+
+function closeBook(color)
+    local param = CharacterJournals[color].getCustomObject()
+    local pos = CharacterJournals[color].getPosition()
+    if color == 'Blue' or color == 'Purple' then
+        pos[3] = pos[3]+7
+    elseif color == 'Green' or color == 'Yellow' then
+        pos[1] = pos[1]+7
+    elseif color == 'Red' or color == 'Orange' then
+        pos[3] = pos[3]-7
+    end
+    local obj_param = {
+        type = 'Custom_Model',
+        position = pos,
+        rotation = CharacterJournals[color].getRotation()
+    }
+
+    param["mesh"] = "http://pastebin.com/raw/y4hs8Riy"
+    param["diffuse"] = "http://i.imgur.com/eT6yiIu.png"
+    local obj = spawnObject(obj_param)
+    obj.setCustomObject(param)
+
+    obj.setLuaScript(encodeBook(color))
+    CharacterJournals[color].destruct()
+    CharacterJournals[color] = nil
+    obj['interactable'] = true
+end
+
+
+function destroyCharacterSheet(color)
+    if Global.call('getZone',{color}) == 2 then
+        closeBook(color)
+    end
+    cleanText(color)
+    CharacterSheets[color].destruct() -- Sheet Itself
+    CharacterSheets[color] = nil
+    destroyObjects(playerInformation[color])
+    for k in pairs(keyLookupGUID[color]) do keyLookupGUID[color][k] = nil end
+    keyLookupGUID[color] = nil
+    Global.call('setZone',{color,0})
+    getObjectFromGUID("TOOLS").call('removePlayerButton',{color})
+end
+
+function destroyObjects(table)
+    for key,value in pairs(table) do
+        if type(value) == 'userdata' then
+            value.destruct()
+        --else destroyObjects(value)
+        elseif type(value) == "table" then
+            destroyObjects(value)
+        end
+        table[key] = nil
+    end
+end
+
+function cleanText(color)
+    local exclude = {
+        'HP','Inventory','Equipment','Note1','Note2','Note3','Note4','Note5'
+    }
+    for key,value in pairs(playerInformation[color]) do
+        --print(key)
+        if not contains(exclude,key) and type(value) == 'userdata' then
+            value.TextTool.setValue(' ')
+        end
+    end
+    for _,value in pairs(exclude) do
+        --playerInformation[color][value].setName(' ')
+        playerInformation[color][value].setDescription(' ')
+    end
+    local DMCounter = getObjectFromGUID(tool.getTable('DMHealthCounterGUIDs')[keyFromValue(Global.getVar('colorTable'),color)])
+    DMCounter.setName(' ')
+    if tool.getVar('healthController') == "DM" then
+        DMCounter.Counter.setValue(0)
+    else
+        playerInformation[color]['HP'].Counter.setValue(0)
+    end
+    getObjectFromGUID(color.."NameDisplay").TextTool.setValue(' ')
+end
+
+function onPlayerChangedColor(color)
+    local oldColor = {}
+    local holdPlayers = getSeatedPlayersExcept({'White',color})
+    oldColor = array_sub(holdPlayers,currentPlayers)
+    if color == 'Grey' then
+        if oldColor[1] != 'White' and oldColor[1] ~= nil then
+            destroyCharacterSheet(oldColor[1])
+        end
+    else
+        if color != 'Black' then
+            if color != 'White'then
+                initSheet(color)
+            end
+        else
+            print("[0ff4f0]PLEASE USE WHITE AS COLOR TO DM")
+        end
+        if oldColor[1] != 'White' and oldColor[1] ~= nil then
+            destroyCharacterSheet(oldColor[1])
+        end
+            --pActiveZoneArray[getZoneGUIDFromColor(color)] = 1
+    end
+    currentPlayers = getSeatedPlayersExcept({'White'})
+end
+
+function encodeBook(color)
+    local save = CharacterJournals[color]
+    local script = [[-- Quality RPG CHARACTER SAVE
+-- ]].. os.date("Saved %X UTC ~ %a %d, %B %Y") ..[[
+
+version = ]]..Global.getVar('currentVersion')..[=[
+
+---------------------------[[ Basic Information ]]------------------------------
+Character_Name  = ']=].. parseSave(playerInformation[color]['Character_Name'].TextTool.getValue()) ..[['
+Gender          = ']].. parseSave(save.getVar('Gender')) ..[['
+Age             = ']].. parseSave(save.getVar('Age')) ..[['
+Height_Width    = ']].. parseSave(save.getVar('Height_Width')) ..[['
+Race_Class      = ']].. parseSave(playerInformation[color]['Race_Class'].TextTool.getValue()) ..[['
+
+Path            = ']].. parseSave(playerInformation[color]['Path'].TextTool.getValue()) ..[['
+Alignment       = ']].. parseSave(playerInformation[color]['Alignment'].TextTool.getValue()) ..[['
+Background      = ']].. parseSave(playerInformation[color]['Background'].TextTool.getValue()) ..[['
+
+Party           = ']].. parseSave(playerInformation[color]['Party'].TextTool.getValue()) ..[['
+
+Character_Level = ]].. playerInformation[color]['Character_Level'].getValue() ..[[
+
+Experience      = ]].. save.getVar('Experience') ..[=[
+
+
+------------------------------[[ Base Stats ]]----------------------------------
+Base_Stats = {
+    ['STR'] = ]=].. save.getTable('Base_Stats')['STR'] ..[[,
+    ['DEX'] = ]].. save.getTable('Base_Stats')['DEX'] ..[[,
+    ['CON'] = ]].. save.getTable('Base_Stats')['CON'] ..[[,
+    ['INT'] = ]].. save.getTable('Base_Stats')['INT'] ..[[,
+    ['WIS'] = ]].. save.getTable('Base_Stats')['WIS'] ..[[,
+    ['CHA'] = ]].. save.getTable('Base_Stats')['CHA'] ..[[
+
+}
+
+Saving_Throws_Proficiencies = {
+    ['STR'] = ]].. tostring(save.getTable('Saving_Throws_Proficiencies')['STR']) ..[[,
+    ['DEX'] = ]].. tostring(save.getTable('Saving_Throws_Proficiencies')['DEX']) ..[[,
+    ['CON'] = ]].. tostring(save.getTable('Saving_Throws_Proficiencies')['CON']) ..[[,
+    ['INT'] = ]].. tostring(save.getTable('Saving_Throws_Proficiencies')['INT']) ..[[,
+    ['WIS'] = ]].. tostring(save.getTable('Saving_Throws_Proficiencies')['WIS']) ..[[,
+    ['CHA'] = ]].. tostring(save.getTable('Saving_Throws_Proficiencies')['CHA']) ..[[
+
+}
+
+Spell_Casting_Ability = ']].. save.getVar('Spell_Casting_Ability') ..[[' -- Changes depending on class/race
+Spell_Save_DC         = ]].. save.getVar('Spell_Save_DC') ..[[ -- 8 + proficiency_bonus + SCAMod
+Spell_Attack_Bonus    = ]].. save.getVar('Spell_Attack_Bonus') ..[[ -- proficiency_bonus + SCAMod
+
+Initiative = ]].. save.getVar('Initiative') ..[[
+
+Speed      = ]].. save.getVar('Speed') ..[[
+
+Vision     = ']].. save.getVar('Vision') ..[=['
+
+--------------------------[[ Proficiencies ]]-----------------------------------
+Skill_Proficiencies = {
+    ['Acrobatics']      = ]=].. tostring(save.getTable('Skill_Proficiencies')['Acrobatics']      )..[[,
+    ['Animal Handling'] = ]].. tostring(save.getTable('Skill_Proficiencies')['Animal Handling'] )..[[,
+    ['Arcana']          = ]].. tostring(save.getTable('Skill_Proficiencies')['Arcana']          )..[[,
+    ['Athletics']       = ]].. tostring(save.getTable('Skill_Proficiencies')['Athletics']       )..[[,
+    ['Deception']       = ]].. tostring(save.getTable('Skill_Proficiencies')['Deception']       )..[[,
+    ['History']         = ]].. tostring(save.getTable('Skill_Proficiencies')['History']         )..[[,
+    ['Insight']         = ]].. tostring(save.getTable('Skill_Proficiencies')['Insight']         )..[[,
+    ['Intimidation']    = ]].. tostring(save.getTable('Skill_Proficiencies')['Intimidation']    )..[[,
+    ['Investigation']   = ]].. tostring(save.getTable('Skill_Proficiencies')['Investigation']   )..[[,
+    ['Medicine']        = ]].. tostring(save.getTable('Skill_Proficiencies')['Medicine']        )..[[,
+    ['Nature']          = ]].. tostring(save.getTable('Skill_Proficiencies')['Nature']          )..[[,
+    ['Perception']      = ]].. tostring(save.getTable('Skill_Proficiencies')['Perception']      )..[[,
+    ['Performance']     = ]].. tostring(save.getTable('Skill_Proficiencies')['Performance']     )..[[,
+    ['Persuasion']      = ]].. tostring(save.getTable('Skill_Proficiencies')['Persuasion']      )..[[,
+    ['Religion']        = ]].. tostring(save.getTable('Skill_Proficiencies')['Religion']        )..[[,
+    ['Sleight Of Hand'] = ]].. tostring(save.getTable('Skill_Proficiencies')['Sleight Of Hand'] )..[[,
+    ['Stealth']         = ]].. tostring(save.getTable('Skill_Proficiencies')['Stealth']         )..[[,
+    ['Survival']        = ]].. tostring(save.getTable('Skill_Proficiencies')['Survival']        )..[[
+
+}
+
+Inspiration           = ]].. save.getVar('Inspiration') ..[[
+
+Proficiency_Bonus     = ]].. save.getVar('Proficiency_Bonus') ..[[
+
+Passive_Perception    = ]].. save.getVar('Passive_Perception') ..[=[ -- 10 + WIS
+
+----------------------------[[ Char Status ]]-----------------------------------
+
+HP           = ]=].. playerInformation[color]['HP'].Counter.getValue() ..[[
+
+Max_HP       = ]].. save.getVar('Max_HP') ..[[
+
+Armor_Class  = ]].. save.getVar('Armor_Class') ..[[
+
+
+Success_Save = ]].. save.getVar('Success_Save') ..[[
+
+Fail_Save    = ]].. save.getVar('Fail_Save') ..[[
+
+
+Max_Hit_Dice     = ]].. save.getVar('Max_Hit_Dice') ..[[
+
+Current_Hit_Dice = ]].. save.getVar('Current_Hit_Dice') ..[[
+
+Type             = ]].. save.getVar('Type') ..[=[ -- 6 means d6
+
+------------------------------[[ Currency ]]------------------------------------
+Copper   = ]=].. save.getVar('Copper') ..[[
+
+Silver   = ]].. save.getVar('Silver') ..[[
+
+Electrum = ]].. save.getVar('Electrum') ..[[
+
+Gold     = ]].. save.getVar('Gold') ..[[
+
+Platinum = ]].. save.getVar('Platinum') ..[=[
+
+----------------------------[[ Notecards ]]------------------------------------
+
+Inventory = ']=].. parseSave(tool.call("callGetFullText",{color})) ..[['
+Equipment = ']].. parseSave(playerInformation[color]['Equipment'].getDescription()) ..[['
+
+Note1_Title = ']].. parseSave(playerInformation[color]['Note1'].getName()) ..[['
+      Note1 = ']].. parseSave(playerInformation[color]['Note1'].getDescription()) ..[['
+
+Note2_Title = ']].. parseSave(playerInformation[color]['Note2'].getName()) ..[['
+      Note2 = ']].. parseSave(playerInformation[color]['Note2'].getDescription()) ..[['
+
+Note3_Title = ']].. parseSave(playerInformation[color]['Note3'].getName()) ..[['
+      Note3 = ']].. parseSave(playerInformation[color]['Note3'].getDescription()) ..[['
+
+Note4_Title = ']].. parseSave(playerInformation[color]['Note4'].getName()) ..[['
+      Note4 = ']].. parseSave(playerInformation[color]['Note4'].getDescription()) ..[['
+
+Note5_Title = ']].. parseSave(playerInformation[color]['Note5'].getName()) ..[['
+      Note5 = ']].. parseSave(playerInformation[color]['Note5'].getDescription()) ..[['
+
+function onLoad(save_state)
+    self.setName(Character_Name)
+    self.setDescription(Race_Class.." Lvl "..Character_Level)
+end]]
+    return script
+end
+
+function createCache()
+    for _,v in pairs(diffuseURL) do
+        local sheet = spawnObject({
+            ['type'] = 'Custom_Model',
+            ['position'] = {0,-25,0}
+        })
+        sheet.setCustomObject({
+        ['mesh'] = 'http://pastebin.com/raw/WM95FWL5',
+        ['diffuse'] = v,
+        })
+        --sheet.setScale{0.001,0.001,0.001}
+        sheet.lock()
+        --sheet['interactable'] = false
+    end
+    local openBook = spawnObject({
+        ['type'] = 'Custom_Model',
+        ['position'] = {0,-25,0}
+    })
+    openBook.setCustomObject({
+        ['mesh'] = 'http://pastebin.com/raw/YTsHZRfG',
+        ['diffuse'] = 'http://i.imgur.com/XgSo3GV.png',
+    })
+    --openBook.setScale{0,0,0}
+    openBook.lock()
+    --openBook['interactable'] = false
+    local closedBook = spawnObject({
+        ['type'] = 'Custom_Model',
+        ['position'] = {0,-25,0}
+    })
+    closedBook.setCustomObject({
+        ['mesh'] = 'http://pastebin.com/raw/y4hs8Riy',
+        ['diffuse'] = 'http://i.imgur.com/eT6yiIu.png',
+    })
+    --closedBook.setScale{0,0,0}
+    closedBook.lock()
+    --closedBook['interactable'] = false
+end
+
+function parseSave(content)
+    local result = content:gsub("\n","\\n")
+    return result:gsub("%'", "\\'")
+    --return result
+end
+
+function returnColorTable(color)
+    if color == true then return {['r']=0,['g']=0,['b']=0} end
+    local tint = {
+        ['Red']         = {0.856,0.1,0.094},
+        ['Orange']      = {0.956,0.392,0.113},
+        ['Yellow']      = {0.905,0.898,0.172},
+        ['Green']       = {0.192,0.701,0.168},
+        ['Blue']        = {0.118,0.53,1.0},
+        ['Purple']      = {0.627,0.125,0.941},
+        ['Black']       = {0,0,0},
+        ['White']       = {1,1,1},
+        ['Pink']        = {1.0,0.3222451,1.0},
+        ['Copper']      = {0.71,0.39,0.15},
+        ['Silver']      = {0.75,0.75,0.75},
+        ['Electrum']    = {0.8,0.81,0.6},
+        ['Gold']        = {1.0,0.84,0.0},
+        ['Platinum']    = {0.75,0.79,0.85},
+    }
+    return {['r']=tint[color][1],['g']=tint[color][2],['b']=tint[color][3]}
+end
+
+function array_sub(t1, t2)
+  local t = {}
+  local result = t2
+  for i = 1, #t1 do
+    t[t1[i]] = true;
+  end
+  for i = #t2, 1, -1 do
+    if t[t2[i]] then
+      table.remove(result, i);
+    end
+  end
+  return result
+end
+
+function keyFromValue( t, value )
+  for k,v in pairs(t) do
+    if v==value then return k end
+    end
+  return nil
+end
+
+function getSaves(number)
+    local str = ' '
+    if number == 1 then
+        str = circle..'       '
+    elseif number == 2 then
+        str = circle..' '..circle..'   '
+    elseif number == 3 then
+        str = circle..' '..circle' '..circle
+    end
+    return str
+end
+
+function contains(table, element)
+  for _, value in pairs(table) do
+    if value == element then
+      return true
+    end
+  end
+  return false
+end
+
+function editAbilityScore(obj) -- Calculates the new stat value as well as the modifier.
+    local workTable = CharacterJournals[obj.getVar('color')].getTable('Base_Stats')
+    workTable[obj.getVar('value')] = workTable[obj.getVar('value')] + obj.getVar('modifier')
+    CharacterJournals[obj.getVar('color')].setTable('Base_Stats',workTable)
+    playerInformation[obj.getVar('color')][obj.getVar('value')].TextTool.setValue(tostring(workTable[obj.getVar('value')]))
+    calculateCharacterSheetValues(obj.getVar('color'))
+end
+
+function editHitDice(obj)
+    local tempVar = CharacterJournals[obj.getVar('color')].getVar(obj.getVar('value')) + obj.getVar('modifier')
+    CharacterJournals[obj.getVar('color')].setVar(obj.getVar('value'),tempVar)
+    playerInformation[obj.getVar('color')][obj.getVar('value')].setValue(tostring(tempVar)..'d'..tostring(CharacterJournals[obj.getVar('color')].getVar('Type')))
+end
+
+function editHitDiceType(obj)
+    local diceTypes = {6,8,10,12}
+    if CharacterJournals[obj.getVar('color')].getVar('Type') == 6 then
+        obj.setVar('diceTypeTracker',1)
+    elseif CharacterJournals[obj.getVar('color')].getVar('Type') == 8 then
+        obj.setVar('diceTypeTracker',2)
+    elseif CharacterJournals[obj.getVar('color')].getVar('Type') == 10 then
+        obj.setVar('diceTypeTracker',3)
+    elseif CharacterJournals[obj.getVar('color')].getVar('Type') == 12 or CharacterJournals[obj.getVar('color')].getVar('Type') == nil then
+        obj.setVar('diceTypeTracker',0)
+    else
+        print('Error changing dice types. Please file a bug report.')
+    end
+    playerInformation[obj.getVar('color')]['Max_Hit_Dice'].TextTool.setValue(CharacterJournals[obj.getVar('color')].getVar('Max_Hit_Dice')..'d'..tostring(diceTypes[obj.getVar('diceTypeTracker')+1]))
+    CharacterJournals[obj.getVar('color')].setVar('Type',diceTypes[obj.getVar('diceTypeTracker')+1])
+end
+
+function editSCAType(obj)
+    local SCATypes = {'STR','DEX','CON','INT','WIS','CHA'}
+    if CharacterJournals[obj.getVar('color')].getVar('Spell_Casting_Ability') == 'STR' then
+        obj.setVar('SCATypeTracker',1)
+    elseif CharacterJournals[obj.getVar('color')].getVar('Spell_Casting_Ability') == 'DEX' then
+        obj.setVar('SCATypeTracker',2)
+    elseif CharacterJournals[obj.getVar('color')].getVar('Spell_Casting_Ability') == 'CON' then
+        obj.setVar('SCATypeTracker',3)
+    elseif CharacterJournals[obj.getVar('color')].getVar('Spell_Casting_Ability') == 'INT' then
+        obj.setVar('SCATypeTracker',4)
+    elseif CharacterJournals[obj.getVar('color')].getVar('Spell_Casting_Ability') == 'WIS' then
+        obj.setVar('SCATypeTracker',5)
+    elseif CharacterJournals[obj.getVar('color')].getVar('Spell_Casting_Ability') == 'CHA' or CharacterJournals[obj.getVar('color')].getVar('Spell_Casting_Ability') == nil then
+        obj.setVar('SCATypeTracker',0)
+    else
+        print('Error changing Spell_Casting_Ability types. Please file a bug report.')
+    end
+    CharacterJournals[obj.getVar('color')].setVar('Spell_Casting_Ability',SCATypes[obj.getVar('SCATypeTracker')+1])
+    playerInformation[obj.getVar('color')]['Spell_Casting_Ability'].TextTool.setValue(SCATypes[obj.getVar('SCATypeTracker')+1])
+end
+
+function editVisionType(obj)
+    local visionTypes = {'Blinded','Normal','Darkvision','Truesight'}
+    if obj.getVar('visionTypeTracker') == nil or obj.getVar('visionTypeTracker') == 4 then
+        obj.setVar('visionTypeTracker',1)
+    else
+        obj.setVar('visionTypeTracker',obj.getVar('visionTypeTracker')+1)
+    end
+    CharacterJournals[obj.getVar('color')].setVar('Vision',visionTypes[obj.getVar('visionTypeTracker')])
+    playerInformation[obj.getVar('color')]['Vision'].TextTool.setValue(visionTypes[obj.getVar('visionTypeTracker')])
+end
+
+function editProficiencyCheck(obj)
+    local workTable = CharacterJournals[obj.getVar('color')].getTable(obj.getVar('tableName'))
+    workTable[obj.getVar('value')] = not workTable[obj.getVar('value')]
+    CharacterJournals[obj.getVar('color')].setTable(obj.getVar('tableName'),workTable)
+    playerInformation[obj.getVar('color')][obj.getVar('tableName')].TextTool.setValue(getProficienciesString(obj.getVar('color'),obj.getVar('tableName')))
+    calculateCharacterSheetValues(obj.getVar('color'))
+end
+
+function editDeathSave(obj)
+    local tempVar = CharacterJournals[obj.getVar('color')].getVar(obj.getVar('value')) + obj.getVar('modifier')
+    if tempVar ~= 4 and tempVar ~= -1 then
+        CharacterJournals[obj.getVar('color')].setVar(obj.getVar('value'),tempVar)
+        playerInformation[obj.getVar('color')][obj.getVar('value')].TextTool.setValue(getSaves(tempVar))
+    end
+end
+
+function getProficienciesString(color, tableName) -- Reads vars from the journal and creates a string of unicode circles based on the result.
+    local str = ''
+    local itemTable = CharacterJournals[color].getTable(tableName)-- specific journal related to color to be edited here
+    for i,v in pairs(itemTable) do
+        if itemTable[i] == true then -- specific journal related to color to be edited here
+            str = str..circle..'\n'
+        else
+            str = str..'\n'
+        end
+    end
+    return str
+end
+
+function calculateCharacterSheetValues(color)
+    local str = ''
+
+    -- Calculate Ability Modifiers.
+    local abilityMod = {}
+    local statTable = CharacterJournals[color].getTable('Base_Stats')
+    for key,value in pairs(statTable) do
+        abilityMod[key] = math.floor((value-10)/2)
+        if abilityMod[key] > 0 then
+            playerInformation[color][key..'Mod'].setValue('+'..tostring(abilityMod[key]))
+        else
+            playerInformation[color][key..'Mod'].setValue(tostring(abilityMod[key]))
+        end
+    end
+
+    -- Calculate Saving Throws.
+    statTable = CharacterJournals[color].getTable('Saving_Throws_Proficiencies')
+    --print_r(statTable)
+    for key,value in pairs(statTable) do
+        if value == true then
+            str = str..tostring(abilityMod[key] + CharacterJournals[color].getVar('Proficiency_Bonus'))..'\n'
+        else
+            str = str..tostring(abilityMod[key])..'\n'
+        end
+    end
+    playerInformation[color]['Saving_Throws_Numbers'].TextTool.setValue(str)
+
+    -- Calculate Skill Scores
+    str = ''
+    statTable = CharacterJournals[color].getTable('Skill_Proficiencies')
+    abilityModUseOrder = {'DEX','WIS','INT','STR','CHA','INT','WIS','CHA','INT','WIS','INT','WIS','CHA','CHA','INT','DEX','DEX','WIS'} -- The order of the skills in terms of their parent ability.
+    local i = 1
+    for key,value in pairs(statTable) do
+        if value == true then
+            str = str..tostring(abilityMod[abilityModUseOrder[i]] + CharacterJournals[color].getVar('Proficiency_Bonus'))..'\n'
+        else
+            str = str..tostring(abilityMod[abilityModUseOrder[i]])..'\n'
+        end
+        i = i+1
+    end
+    playerInformation[color]['Skill_Numbers'].TextTool.setValue(str)
+
+    -- Calculate Passive Perception
+    playerInformation[color]['Passive_Perception'].TextTool.setValue(tostring(10+abilityMod['WIS']))
+end
+
+
+
+function print_r ( t )
+    local print_r_cache={}
+    local function sub_print_r(t,indent)
+        if (print_r_cache[tostring(t)]) then
+            print(indent.."*"..tostring(t))
+        else
+            print_r_cache[tostring(t)]=true
+            if (type(t)=="table") then
+                for pos,val in pairs(t) do
+                    if (type(val)=="table") then
+                        print(indent.."['"..pos.."\'] => "..tostring(t).." {")
+                        sub_print_r(val,indent..string.rep(" ",string.len(pos)+8))
+                        print(indent..string.rep(" ",string.len(pos)+6).."}")
+                    elseif (type(val)=="string") then
+                        print(indent.."['"..pos..'\'] => "'..val..'"')
+                    else
+                        print(indent.."['"..pos.."\'] => "..tostring(val))
+                    end
+                end
+            else
+                print(indent..tostring(t))
+            end
+        end
+    end
+    if (type(t)=="table") then
+        print(tostring(t).." {")
+        sub_print_r(t,"  ")
+        print("}")
+    else
+        sub_print_r(t,"  ")
+    end
+    print()
+end
+
+
+function DEBUGPrintNotecardPos()
+    print_r(playerInformation['purple']['Equipoment'].getPosition())
+    for i=1,5 do
+        print_r(playerInformation['purple']['Note'..i].getPosition())
+    end
+end
+function DEBUGprintJournal()
+    print_r(CharacterJournals)
+end
+function DEBUGprintPlayerInfo()
+    print_r(playerInformation)
+end
+
+function getSeatedPlayersExcept(table)
+    local result = getSeatedPlayers()
+    return array_sub(table,result)
+end
