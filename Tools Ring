@@ -760,7 +760,13 @@ function callGetFullText(table) -- Used as an accessor for other objects to getF
 end
 
 function getFullText(color) -- Returns the full data of above, current and below on notecards as a single string.
-    local fullText = char.getTable('playerInformation')[color]['Inventory'].getDescription()
+    local fullText
+    if color == 'Master' or color == 'Initiative' then
+        fullText = invControllerInvCard[color]
+    else
+        fullText = char.getTable('playerInformation')[color]['Inventory']
+    end
+    fullText = fullText.getDescription()
     if invControllerHiddenTextAbove[color] ~= '' then
         fullText = invControllerHiddenTextAbove[color]..'\n'..fullText
     end
@@ -1005,8 +1011,6 @@ function updateMini(parent, platNumber) -- Takes a monster card and sends its va
     for i = 1,12 do
         QRPGVars = QRPGVars..'value'..i..' = '..monsterPlatformValueCounters[platNumber][i].getValue()..'\n'
     end
-
-print("init ="..monsterPlatformValueCounters[platNumber][13].Counter.getValue())
 
     QRPGVars = QRPGVars..'initiative = '..monsterPlatformValueCounters[platNumber][13].Counter.getValue()..'\n'
     QRPGVars = QRPGVars..'monsterName = \[\['..monsterPlatformTextTool[platNumber].getValue()..'\]\]\n'..'monsterDesc = \[\['..monsterPlatformDescCard[platNumber].getDescription()..'\]\]\n--*&'
