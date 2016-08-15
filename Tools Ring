@@ -1,0 +1,1232 @@
+-- DEBUG Functions
+function sendto1() currentLayoutGet(1) currentLayout = 0 end
+function sendto2() currentLayoutGet(2) currentLayout = 0 end
+function sendto3() currentLayoutGet(3) currentLayout = 0 end
+function getfrom1() currentLayoutSend(1) end
+function getfrom2() currentLayoutSend(2) end
+function getfrom3() currentLayoutSend(3) end
+
+-- Vars initialization
+case = 1
+yPos = 200
+frame = 0 -- Used by the update function
+seconds = 0 -- Used by the update function
+shrink = 0.1 -- shrink factor, do not edit
+initiativeTracker = 0
+
+-- Table initialization
+monsterPlatform = {}
+DMHealthCounters = {}
+playerHealthCounters = {}
+monsterPlatformTextTool = {}
+monsterPlatformDescCard = {}
+monsterPlatformValueCounters = {}
+monsterPlatformValueCounterGUIDs = {}
+
+monsterPlatformZoneGUID = {'c0ccc7','6e38a4'}
+DMSkillCounterGUIDs = {'d05e4e','859337','8a0e67','ba1d15','b9fb4c','f403ae'}
+DMHealthCounterGUIDs = {'af016f','283218','0c5edf','2513de','1a039e','591edd'}
+monsterPlatformValueCounterGUIDs_1 = {'1ba1f5','ecccee','7d7d5f','ce521a','a97acb','c0a4e4','ea3819','825236','d4cde7','622613','d18abd','361bb8','9107ab'}
+monsterPlatformValueCounterGUIDs_2 = {'136710','ec67c6','27fad5','64962d','4bfdb4','6b69ce','f95a0c','a172ae','3ed4a0','5f4dac','b79442','84e811','b12726'}
+
+initiativeLabels = {'Initiative Roll','Cancel'}
+
+-- Add GUIDs here to be IGNORED by oblivion swaps
+layoutExceptions = {
+    'bf7a11', -- Screen
+    '1c1c26', -- Table
+    'd42072', -- Dashboard
+    'f6aac5', -- Welcome Card
+    'b6790a', -- Welcome Button
+    '2be5e4', -- Layered FoW
+    '6958e1', -- Stated Help Dialog
+    '92ad2f', -- Help 1
+    '285cd8', -- Help 2
+    '7d0166', -- Help 3
+    'bcc56d', -- Stone Circle
+    '94eca8', -- Runes
+    '365d5e', '10b541', '442c36', '154524', -- Dig's Brain
+    'CONFIG','TOOLS','CHAR','ROLL','OBLIVION'
+}
+
+-- Table describing the width of all basic characters in a max 100,000 system
+characterWidthTable = {
+    ['`'] = 2381, ['~'] = 2381, ['1'] = 1724, ['!'] = 1493, ['2'] = 2381,
+    ['@'] = 4348, ['3'] = 2381, ['#'] = 3030, ['4'] = 2564, ['$'] = 2381,
+    ['5'] = 2381, ['%'] = 3846, ['6'] = 2564, ['^'] = 2564, ['7'] = 2174,
+    ['&'] = 2777, ['8'] = 2564, ['*'] = 2174, ['9'] = 2564, ['('] = 1724,
+    ['0'] = 2564, [')'] = 1724, ['-'] = 1724, ['_'] = 2381, ['='] = 2381,
+    ['+'] = 2381, ['q'] = 2564, ['Q'] = 3226, ['w'] = 3704, ['W'] = 4167,
+    ['e'] = 2174, ['E'] = 2381, ['r'] = 1724, ['R'] = 2777, ['t'] = 1724,
+    ['T'] = 2381, ['y'] = 2564, ['Y'] = 2564, ['u'] = 2564, ['U'] = 3030,
+    ['i'] = 1282, ['I'] = 1282, ['o'] = 2381, ['O'] = 3226, ['p'] = 2564,
+    ['P'] = 2564, ['['] = 1724, ['{'] = 1724, [']'] = 1724, ['}'] = 1724,
+    ['|'] = 1493, ['\\'] = 1923, ['a'] = 2564, ['A'] = 2777, ['s'] = 1923,
+    ['S'] = 2381, ['d'] = 2564, ['D'] = 3030, ['f'] = 1724, ['F'] = 2381,
+    ['g'] = 2564, ['G'] = 2777, ['h'] = 2564, ['H'] = 3030, ['j'] = 1075,
+    ['J'] = 1282, ['k'] = 2381, ['K'] = 2777, ['l'] = 1282, ['L'] = 2174,
+    [';'] = 1282, [':'] = 1282, ['\''] = 855, ['"'] = 1724, ['z'] = 1923,
+    ['Z'] = 2564, ['x'] = 2381, ['X'] = 2777, ['c'] = 1923, ['C'] = 2564,
+    ['v'] = 2564, ['V'] = 2777, ['b'] = 2564, ['B'] = 2564, ['n'] = 2564,
+    ['N'] = 3226, ['m'] = 3846, ['M'] = 3846, [','] = 1282, ['<'] = 2174,
+    ['.'] = 1282, ['>'] = 2174, ['/'] = 1923, ['?'] = 2174, [' '] = 1282,
+    ['\t'] = 5128, ['\r'] = 0, ['\n'] = 100000
+}
+
+function onload(save_state)
+    addDashboard('d42072',{
+        { 'Toggle\nScreen',{2,2},'toggleScreen',1},
+        { 'Toggle\nReferences',{2,2},'function2',1},
+        { 'Show\nTablet',{2,2},'toggleTablet',1},
+        { 'Spawn All\nDungeon\nTiles',{2,2},'spawnAllTiles',9},
+        { 'To 1',{2,2},'sendto1',1},
+        { 'To 2',{2,2},'sendto2',1},
+        { 'To 3',{2,2},'sendto3',1},
+        { 'Toggle\nShade Grid',{2,2},'toggleShadowGrid',9},
+        { 'From 1',{2,2},'getfrom1',1},
+        {'From 2',{2,2},'getfrom2',1},
+        {'From 3',{2,2},'getfrom3',1},
+        {'Action 12',{2,2},'function3',17},
+        {'?',{1,1},'showHelp',1},
+        {'RPG\nDesk',{1,2},'changeLayoutTo1',1},
+        {'Props\nDesk',{1,2},'changeLayoutTo2',1},
+        {'Maps\nDesk',{1,2},'changeLayoutTo3',0},
+    })
+
+
+    config = Global.getVar('config')
+    char   = Global.getVar('char')
+    roll   = Global.getVar('roll')
+
+    -- Object GETs
+    fow                      = getObjectFromGUID('2be5e4')
+    screen                   = getObjectFromGUID('bf7a11')
+    oblivion                 = getObjectFromGUID('OBLIVION')
+    initShell                = getObjectFromGUID('a0421e')
+    shadowGrid               = getObjectFromGUID('42a648')
+    smallTablet              = getObjectFromGUID('a81134')
+    displaySome              = getObjectFromGUID('4fb7c1')
+    invController            = getObjectFromGUID('aad6e8')
+    displayNothing           = getObjectFromGUID('4bc9ee')
+    activeMiniZone1          = getObjectFromGUID('413e0c') -- The zone in which minis will be updated
+    clearTableButton         = getObjectFromGUID('9f02aa')
+    displayEverything        = getObjectFromGUID('ebea77') -- The following three are settings for the monster platform
+    DMIsHealthController     = getObjectFromGUID('e4fb05')
+    activeInitiativeZone     = getObjectFromGUID('b6053a')
+    invControllerDisplay     = getObjectFromGUID('0d093a')
+    playerIsHealthController = getObjectFromGUID('f7eb09')
+
+    monsterPlatform          = {getObjectFromGUID('9107ab'),getObjectFromGUID('b12726')}
+    monsterPlatformTextTool  = {getObjectFromGUID('5f7739'),getObjectFromGUID('ca9f1d')}
+    monsterPlatformDescCard  = {getObjectFromGUID('f30f00'),getObjectFromGUID('7db223')}
+    invControllerButton = {
+        ['Red']    = getObjectFromGUID('f2b44d'),
+        ['Orange'] = getObjectFromGUID('b189da'),
+        ['Yellow'] = getObjectFromGUID('649d04'),
+        ['Green']  = getObjectFromGUID('10dea3'),
+        ['Blue']   = getObjectFromGUID('0a66ae'),
+        ['Purple'] = getObjectFromGUID('23f579')
+    }
+    invControllerInvCard = {
+        ['initiative'] = getObjectFromGUID('bbf673'),
+        ['Master'] = getObjectFromGUID('ee09de')
+    }
+
+    -- Setting variables from the JSON save
+    if(save_state == "[]" or save_state == "") then
+        -- First time you open save load default values.
+        invControllerHiddenTextAbove = {['Red'] = '',['Orange'] = '',['Yellow'] = '',['Green'] = '',['Blue'] = '',['Purple'] = '',['initiative']='',['Master'] = ''}
+        invControllerHiddenTextBelow = {['Red'] = '',['Orange'] = '',['Yellow'] = '',['Green'] = '',['Blue'] = '',['Purple'] = '',['initiative']='',['Master'] = ''}
+        invControllerStartingText = {['Red'] = '',['Orange'] = '',['Yellow'] = '',['Green'] = '',['Blue'] = '',['Purple'] = ''}
+        healthController = 'DM'
+        secondPlatformToggled = 0
+        miniDisplay = 'Everything'
+        statCountersToggled = {0,0}
+        cardsOnMonsterPlatform = {0,0}
+        initiativeBroadcastState = 0
+        currentLayout = 0
+        shadowGrid.setVar('size', 0)
+        screen.setVar('screenToggle', true)
+        smallTablet.setVar('tabletToggle', false)
+    else
+        -- Otherwise load stored values
+        local savedVars = JSON.decode(save_state)
+        invControllerHiddenTextAbove = {
+            ['Red'] = savedVars['RedAbove'],
+            ['Orange'] = savedVars['OrangeAbove'],
+            ['Yellow'] = savedVars['YellowAbove'],
+            ['Green'] = savedVars['GreenAbove'],
+            ['Blue'] = savedVars['BlueAbove'],
+            ['Purple'] = savedVars['PurpleAbove'],
+            ['initiative'] = savedVars['initiativeAbove'],
+            ['Master'] = ''
+        }
+        invControllerHiddenTextBelow = {
+            ['Red'] = savedVars['RedBelow'],
+            ['Orange'] = savedVars['OrangeBelow'],
+            ['Yellow'] = savedVars['YellowBelow'],
+            ['Green'] = savedVars['GreenBelow'],
+            ['Blue'] = savedVars['BlueBelow'],
+            ['Purple'] = savedVars['PurpleBelow'],
+            ['initiative'] = savedVars['initiativeBelow'],
+            ['Master'] = ''
+        }
+        invControllerStartingText = {
+            ['Red'] = savedVars['RedStarting'],
+            ['Orange'] = savedVars['OrangeStarting'],
+            ['Yellow'] = savedVars['YellowStarting'],
+            ['Green'] = savedVars['GreenStarting'],
+            ['Blue'] = savedVars['BlueStarting'],
+            ['Purple'] = savedVars['PurpleStarting'],
+            ['initiative'] = savedVars['initiativeStarting']
+        }
+        statCountersToggled = {}
+        cardsOnMonsterPlatform = {}
+        miniDisplay = savedVars['miniDisplay']
+        currentLayout = savedVars['currentLayout']
+        healthController = savedVars['healthController']
+        shadowGrid.setVar('size',savedVars['shadowGridSize'])
+        screen.setVar('screenToggle', savedVars['screenToggle'])
+        statCountersToggled[1] = savedVars['statCountersToggled1']
+        statCountersToggled[2] = savedVars['statCountersToggled2']
+        secondPlatformToggled = savedVars['secondPlatformToggled']
+        smallTablet.setVar('tabletToggle', savedVars['tabletToggle'])
+        initiativeBroadcastState = savedVars['initiativeBroadcastState']
+        cardsOnMonsterPlatform[1] = savedVars['cardsOnMonsterPlatform1']
+        cardsOnMonsterPlatform[2] = savedVars['cardsOnMonsterPlatform2']
+    end
+
+    -- Setup to be done every load, Resets and such.
+    invControllerInvCard['Master'].setName('Inventory Manager')
+    invControllerInvCard['Master'].setDescription("Select a player below and their inventory will be pulled to this card. Any changes you may have made will be sent when clicking \"Update\"\nSelecting a player will tint the highlight bar above with the respective color and the player's skills be updated in the counters above that.")
+    invControllerInvCard['initiative'].setDescription("This card will keep track of player\n and monster initiatives.\n\nA monster's initiative will be calculated if\ninside the monster area and face up.")
+    invControllerInvCard['initiative'].setName("Initiative Tracker")
+    invControllerStartingText['Master'] = invControllerInvCard['Master'].getDescription()
+    invControllerStartingText['initiative'] = invControllerInvCard['initiative'].getDescription()
+    invControllerDisplay.setColorTint({1,1,1}) -- Set highlight bar to White
+
+    -- Set variables to objects to avoid having tons of scripts
+    displaySome.setVar('miniDisplay','Some')
+    displayNothing.setVar('miniDisplay','Nothing')
+    displayEverything.setVar('miniDisplay','Everything')
+    monsterPlatform[1].setVar('platformNumber', 1)
+    monsterPlatform[2].setVar('platformNumber', 2)
+    DMIsHealthController.setVar('Controller', 'DM')
+    playerIsHealthController.setVar('Controller', 'Player')
+    invControllerInvCard['Master'].setVar('color', 'Master')
+    invControllerInvCard['initiative'].setVar('color','initiative')
+
+    DMSkillCounters = createCounters(DMSkillCounterGUIDs)
+    monsterPlatformValueCounters[1] = createCounters(monsterPlatformValueCounterGUIDs_1)
+    monsterPlatformValueCounters[2] = createCounters(monsterPlatformValueCounterGUIDs_2)
+    for i=1,6 do DMHealthCounters[Global.getVar('colorTable')[i]] = getObjectFromGUID(DMHealthCounterGUIDs[i]) end
+    for i=1,6 do DMSkillCounters[i].setValue(0) end
+
+    -- Dynamic position for Oblivion, only useful when debugging
+    local planePos = oblivion.getPosition()
+    slotCenterPos = {
+        {planePos['x'],yPos,planePos['z']+20},
+        {planePos['x'],yPos,planePos['z']},
+        {planePos['x'],yPos,planePos['z']-20}
+    }
+
+    -- User Interfaces
+    Global.call('addButton', {invController.getGUID(),7100,1000,500,'Update','push',self,{0,1.289,10.2},{0,0,0}})
+    Global.call('addButton',{clearTableButton.getGUID(),1400,650,200,'Clear Table','confirmClearTable',self,{0,-0.2,0},{0,-90,180}})
+    Global.call('addButton', {DMIsHealthController.getGUID(),2550,500,300,'The DM','updateHealthController',self,{0,0.05,-3.3},{0,270,0}})
+    Global.call('addButton', {playerIsHealthController.getGUID(),2550,500,300,'The Player','updateHealthController',self,{0,0.05,-3.3},{0,270,0}})
+    Global.call('addButton',{invControllerInvCard['Master'].getGUID(), 1,1,1,'','scrollUp',self,{-0.38,0,0.35},{0,-90,0}})
+    Global.call('addButton',{invControllerInvCard['Master'].getGUID(), 0,0,70,'<','placeHolder',self,{-0.46,5,0.45},{0,-90,0}})
+    Global.call('addButton',{invControllerInvCard['Master'].getGUID(), 1,1,1,'','scrollDown',self,{-0.38,0,-0.35},{0,90,0}})
+    Global.call('addButton',{invControllerInvCard['Master'].getGUID(), 0,0,70,'<','placeHolder',self,{-0.46,5,-0.45},{0,90,0}})
+    -- Temporarily disabling the toggle stat counters button because it's just clutter
+    -- monsterPlatform[1].setTable('pos',{-0.1,0.1,0})
+    -- monsterPlatform[1].setTable('rot',{0,-90,0})
+    -- Global.call('addButton', {monsterPlatform[1].getGUID(),1900,900,300,'Stat Counters','toggleStatCounters',self})
+    Global.call('addButton', {monsterPlatform[2].getGUID(),950,380,190,'Copy Card','cloneCard',self,{-1.6,0.22,0.1},{0,180,0}})
+    Global.call('addButton', {monsterPlatform[2].getGUID(),950,380,190,'Reset','resetPlatform',self,{1.6,0.22,0.1},{0,180,0}})
+    --Global.call('addButton', {monsterPlatform[1].getGUID(),1900,900,300,'2nd Platform','toggleSecondPlatform',self{-2.15,0.1,0},{0,-90,0}})
+    Global.call('addButton', {monsterPlatform[2].getGUID(),2100,380,190,'Update Figurine','forceUpdateMini',self,{0,0.22,-3.2},{0,180,0}})
+    -- monsterPlatform[2].setTable('pos',{-2.15,0.1,0})
+    -- monsterPlatform[2].setTable('rot',{0,-90,0})
+    -- Global.call('addButton', {monsterPlatform[2].getGUID(),1900,900,300,'Stat Counters','toggleStatCounters',self})
+
+    Global.call('addButton', {monsterPlatform[1].getGUID(),950,380,190,'Copy Card','cloneCard',self,{-1.6,0.22,0.1},{0,180,0}})
+    Global.call('addButton', {monsterPlatform[1].getGUID(),950,380,190,'Reset','resetPlatform',self,{1.6,0.22,0.1},{0,180,0}})
+    Global.call('addButton', {monsterPlatform[1].getGUID(),2100,380,190,'Update Figurine','forceUpdateMini',self,{0,0.22,-3.2},{0,180,0}})
+
+    Global.call('addButton', {displayEverything.getGUID(),2550,500,300,'Display Everything','updateMiniDisplay',self,{0,0.05,-3.3},{0,270,0}})
+    Global.call('addButton', {displaySome.getGUID(),2550,500,300,'Display Info Only','updateMiniDisplay',self,{0,0.05,-3.3},{0,270,0}})
+    Global.call('addButton', {displayNothing.getGUID(),2550,500,300,'Display Nothing','updateMiniDisplay',self,{0,0.05,-3.3},{0,270,0}})
+
+    Global.call('addButton',{initShell.getGUID(),3250,500,250,'Initiative Roll','callRoutine',self,{-0.25,0.1,-3.3},{0,180,0}})
+    Global.call('addButton',{initShell.getGUID(),1,1,1,'Continue','nil',self,{0,-5,0},{0,180,0}})
+    Global.call('addButton',{initShell.getGUID(),400,500,150,Global.getVar('unicodeNextTurn'),'nextTurn',self,{-4.5,0.1,-3.3},{0,180,0}})
+    if initiativeBroadcastState == 1 then
+        Global.call('addButton',{initShell.getGUID(), 400,500,150,Global.getVar('unicodeCheckedBox'),'toggleInitiativeBroadcast',self,{3.6,0.1,-3.3},{0,180,0}})
+    else
+        Global.call('addButton',{initShell.getGUID(), 400,500,150,Global.getVar('unicodeCrossBox'),'toggleInitiativeBroadcast',self,{3.95,0.1,-3.3},{0,180,0}})
+    end
+    Global.call('addButton',{invControllerInvCard['initiative'].getGUID(), 1,1,1,'','scrollUp',self,{-0.38,0,0.35},{0,-90,0}})
+    Global.call('addButton',{invControllerInvCard['initiative'].getGUID(), 0,0,70,'<','placeHolder',self,{-0.46,5,0.45},{0,-90,0}})
+    Global.call('addButton',{invControllerInvCard['initiative'].getGUID(), 1,1,1,'','scrollDown',self,{-0.38,0,-0.35},{0,90,0}})
+    Global.call('addButton',{invControllerInvCard['initiative'].getGUID(), 0,0,70,'<','placeHolder',self,{-0.46,5,-0.45},{0,90,0}})
+end
+
+function toggleScreen() --[[Shrinks and displaces the screen or resets it]]--
+    local pos =  screen.getPosition()
+    local screenToggle = screen.getVar('screenToggle')
+    screen.lock()
+
+    if (screenToggle == true) then
+        screen.scale({0.001,0.001,0.001})
+        fow.scale({0.001,0.001,0.001})
+        screen.setPosition({pos[1], pos[2] - 25, pos[3]})
+        fow.setPosition({pos[1], pos[2] - 25, pos[3]})
+        screen.setVar('screenToggle', false)
+    elseif (screenToggle == false) then
+        screen.scale(1000)
+        fow.scale(1000)
+        screen.setPosition({pos[1], pos[2] + 25, pos[3]})
+        fow.setPosition({-55.7,0.73,0.0})
+        screen.setVar('screenToggle', true)
+    end
+end
+
+function toggleTablet() --[[Shrinks and displaces the self or resets it]]--
+    if currentLayout == 1 then
+        local tabletToggle = smallTablet.getVar('tabletToggle')
+        smallTablet.lock()
+
+        if (tabletToggle == true) then
+            smallTablet.setScale({2.25,2.25,2.25})
+            smallTablet.setPosition({-50.67,21.34,0})
+            smallTablet.setRotation({57.5,90,0})
+            smallTablet.setVar('tabletToggle', false)
+        elseif (tabletToggle == false) then
+            smallTablet.setScale({1,1,1})
+            smallTablet.setPosition({-86.159,1.59,33.594})
+            smallTablet.setRotation({0,222.85,0})
+            smallTablet.setVar('tabletToggle', true)
+        end
+    else
+        printToColor("?DA?Must be on RPG Desk to toggle tablet", "White", {1,1,1})
+    end
+end
+
+function toggleShadowGrid()
+    local sizes = {[0]=1,0}
+    shadowGrid.setVar('size',sizes[1-keyFromValue(sizes,shadowGrid.getVar('size'))])
+    shadowGrid.setScale({shadowGrid.getVar('size'),1,shadowGrid.getVar('size')})
+end
+
+function onSave() -- Saving all of the necessary variables to an encoded JSON variable
+    local savedVars = {
+        ['shadowGridSize'] = shadowGrid.getVar('size'),
+        ['tabletToggle'] = smallTablet.getVar('tabletToggle'),
+        ['screenToggle'] = screen.getVar('screenToggle'),
+        ['RedAbove'] = invControllerHiddenTextAbove['Red'],
+        ['OrangeAbove'] = invControllerHiddenTextAbove['Orange'],
+        ['YellowAbove'] = invControllerHiddenTextAbove['Yellow'],
+        ['GreenAbove'] = invControllerHiddenTextAbove['Green'],
+        ['BlueAbove'] = invControllerHiddenTextAbove['Blue'],
+        ['PurpleAbove'] = invControllerHiddenTextAbove['Purple'],
+        ['initiativeAbove'] = invControllerHiddenTextAbove['initiative'],
+        ['RedBelow'] = invControllerHiddenTextBelow['Red'],
+        ['OrangeBelow'] = invControllerHiddenTextBelow['Orange'],
+        ['YellowBelow'] = invControllerHiddenTextBelow['Yellow'],
+        ['GreenBelow'] = invControllerHiddenTextBelow['Green'],
+        ['BlueBelow'] = invControllerHiddenTextBelow['Blue'],
+        ['PurpleBelow'] = invControllerHiddenTextBelow['Purple'],
+        ['initiativeBelow'] = invControllerHiddenTextBelow['initiative'],
+        ['RedStarting'] = invControllerStartingText['Red'],
+        ['OrangeStarting'] = invControllerStartingText['Orange'],
+        ['YellowStarting'] = invControllerStartingText['Yellow'],
+        ['GreenStarting'] = invControllerStartingText['Green'],
+        ['BlueStarting'] = invControllerStartingText['Blue'],
+        ['PurpleStarting'] = invControllerStartingText['Purple'],
+        ['initiativeStarting'] = invControllerStartingText['initiative'],
+        ['healthController'] = healthController,
+        ['miniDisplay'] = miniDisplay,
+        ['cardsOnMonsterPlatform1'] = cardsOnMonsterPlatform[1],
+        ['cardsOnMonsterPlatform2'] = cardsOnMonsterPlatform[2],
+        ['statCountersToggled1'] = statCountersToggled[1],
+        ['statCountersToggled2'] = statCountersToggled[2],
+        ['secondPlatformToggled'] = secondPlatformToggled,
+        ['initiativeBroadcastState'] = 0,
+        ['currentLayout'] = currentLayout
+    }
+    --return JSON.encode(savedVars)
+    return JSON.encode_pretty(savedVars)
+end
+
+function update() -- Used to keep the health counters in sync
+    frame = frame + 1 -- Counts Frames --
+    if frame%60==0 then  --Every 60 Frames--
+        seconds=seconds+1 --Adds a second--
+        if seconds%2==0 then updateCounters() end
+    end
+    changeColor(frame)
+end
+
+
+function loadPlayer(param)
+    local color = param[1]
+    invControllerInvCard[color] = char.getTable('playerInformation')[color]['Inventory']
+    invControllerButton[color].setVar('color',color)
+    Global.call('addButton', {invControllerButton[color].guid,1350,600,400,color,'selectPlayer',self,{0,-0.2,0},{180,90,0}})
+    invControllerInvCard[color].setVar('color', color)
+    Global.call('addButton',{invControllerInvCard[color].guid, 1,1,1,'','scrollUp',self,{-0.38,0,0.35},{0,-90,0}})
+    Global.call('addButton',{invControllerInvCard[color].guid, 0,0,70,'<','placeHolder',self,{-0.46,5,0.45},{0,-90,0}})
+    Global.call('addButton',{invControllerInvCard[color].guid, 1,1,1,'','scrollDown',self,{-0.38,0,-0.35},{0,90,0}})
+    Global.call('addButton',{invControllerInvCard[color].guid, 0,0,70,'<','placeHolder',self,{-0.46,5,-0.45},{0,90,0}})
+    playerHealthCounters[keyFromValue(Global.getVar('colorTable'),color)] = char.getTable('playerInformation')[color]['HP']
+end
+
+function removePlayerButton(param)
+    local color = param[1]
+    invControllerButton[color].removeButton(0)
+end
+
+function keyFromValue( t, value )
+  for k,v in pairs(t) do
+    if v==value then return k end
+    end
+  return nil
+end
+
+function confirmClearTable()
+    local buttons = clearTableButton.getButtons()
+    Global.call('print_r',{buttons})
+    buttons[1]['label'] = 'Confirm'
+end
+
+function changeLayoutTo1() changeLayoutTo(1) end
+function changeLayoutTo2() changeLayoutTo(2) end
+function changeLayoutTo3() changeLayoutTo(3) end
+function changeLayoutTo(num)
+    if currentLayout ~= num then
+        if currentLayout ~= 0 and currentLayout ~= nil then
+            currentLayoutGet(currentLayout)
+        end
+        currentLayoutSend(num)
+        currentLayout = num
+    end
+end
+
+function currentLayoutGet(slot) -- layout es a que ranura lo quieres guardar
+    postarget = slotCenterPos[slot]
+    deskScriptingZones = {'50cfbd','c9cf10','4a50a3'}
+
+    activesceneobjects = catZoneTable(deskScriptingZones)
+    for i,v in pairs(activesceneobjects) do
+        if not contains(layoutExceptions,v.guid) then
+            local type = string.sub(tostring(v),1,-30)
+            if type == "Card" or type == "Deck" or type == "Infinite_Bag" then
+                v.lock()
+            end
+            scaletbl=v.getScale()
+            v.setScale({scaletbl['x']*self.getVar('shrink'),scaletbl['y']*self.getVar('shrink'),scaletbl['z']*self.getVar('shrink')})
+        end
+    end
+
+    for i,v in pairs(activesceneobjects) do
+        if not contains(layoutExceptions,v.guid) then
+            pos=v.getPosition()
+            v.setPosition({pos['x']*self.getVar('shrink'),pos['y']*self.getVar('shrink'),pos['z']*self.getVar('shrink')})
+        end
+    end
+    for i,v in pairs(activesceneobjects) do
+        if not contains(layoutExceptions,v.guid) then
+            pos=v.getPosition()
+            v.setPosition({pos['x']+postarget[1],pos['y']+postarget[2],pos['z']+postarget[3]})
+        end
+    end
+end
+
+function currentLayoutSend(slot) -- layout es de que ranura vas a leer
+  posself = slotCenterPos[slot]
+  allobjects=getAllObjects()
+  for i,v in pairs(allobjects) do
+    pos=v.getPosition()
+    if not contains(layoutExceptions,v.guid)
+        and pos['x']>=(posself[1]-15) and pos['x']<=(posself[1]+10)
+        and pos['y']>=(posself[2]-10) and pos['y']<=(posself[2]+10)
+        and pos['z']>=(posself[3]-10) and pos['z']<=(posself[3]+10)
+    then
+      local type = string.sub(tostring(v),1,-30)
+      if type == "Card" or type == "Deck" then
+        v.unlock()
+      end
+      v.setPosition({pos['x']-posself[1],pos['y']-posself[2],pos['z']-posself[3]})
+      pos=v.getPosition()
+      v.setPosition({pos['x']*(1/self.getVar('shrink')),pos['y']*(1/self.getVar('shrink')),pos['z']*(1/self.getVar('shrink'))})
+      scaletbl=v.getScale()
+      v.setScale({scaletbl['x']*(1/self.getVar('shrink')),scaletbl['y']*(1/self.getVar('shrink')),scaletbl['z']*(1/self.getVar('shrink'))})
+    end
+  end
+end
+
+function catZoneTable(table)
+    t1 = getObjectFromGUID(table[1]).getObjects()
+    TableConcat(t1,getObjectFromGUID(table[2]).getObjects())
+    TableConcat(t1,getObjectFromGUID(table[3]).getObjects())
+    result = removeDup(t1)
+    return result
+end
+
+function TableConcat(t1,t2)
+    for i=1,#t2 do
+        t1[#t1+1] = t2[i]
+    end
+    return t1
+end
+
+function removeDup(table)
+    local hash = {}
+    local res = {}
+
+    for _,v in ipairs(table) do
+       if (not hash[v]) then
+           res[#res+1] = v -- you could print here instead of saving to result table if you wanted
+           hash[v] = true
+       end
+    end
+    return res
+end
+
+function contains(table, element)
+  for _, value in pairs(table) do
+    if value == element then
+      return true
+    end
+  end
+  return false
+end
+
+function changeColor(i)
+    steps = 300
+    frequency = 2*math.pi/steps
+
+    -- * Width + Center
+    red   = math.sin(frequency*i+0) * 9 + 12; -- 0
+    green = math.sin(frequency*i+0) * 41 + 55; -- 2
+    blue  = math.sin(frequency*i+0) * 108 + 146; -- 4
+    getObjectFromGUID('CONFIG').setColorTint({red/255,green/255,blue/255} )
+
+    steps = 1000
+    frequency = 2*math.pi/steps
+    -- * Width + Center
+    if case == 1 then
+        red   = 0
+        green = 0
+        blue = math.sin(frequency*i+0) * 75 + 75; -- 2
+        if math.floor(blue) == 0 then case = 2 end
+    elseif case == 2 then
+        red   = math.sin(frequency*i+0) * 75 + 75; -- 2
+        green = 0
+        blue = 0
+        if math.floor(red) == 0 then case = 3 end
+    elseif case == 3 then
+        red   = 0
+        green = math.sin(frequency*i+0) * 75 + 75; -- 2
+        blue = 0
+        if math.floor(green) == 0 then case = 1 end
+    end
+    --printToAll(blue.."##################################",{red/255,green/255,blue/255})
+    roll.setColorTint({red/255,green/255,blue/255} )
+    char.setColorTint({red/255,green/255,blue/255} )
+    self.setColorTint({red/255,green/255,blue/255} )
+
+end
+
+function setupNewInventory(params) -- Called by the char core to setup an inventory notecard from a saved fulltext string.
+    local newPage = getPage(params[2])
+    char.getTable('playerInformation')[params[1]]['Inventory'].setDescription(newPage)
+    invControllerHiddenTextAbove[params[1]] = ''
+    invControllerHiddenTextBelow[params[1]] = removeNewline(removeNewline(plainReplace(params[2],newPage,''),'Beginning'),'Ending')
+    invControllerStartingText[params[1]] = char.getTable('playerInformation')[params[1]]['Inventory'].getDescription()
+end
+
+function showHelp()
+    print("AIUDA")
+    getObjectFromGUID('6958e1').setPositionSmooth({-71,13,0})
+    Timer.create({
+        ['identifier'] = 'timer',
+        ['function_name'] = 'lockHelp',
+        ['function_owner'] = self,
+        ['delay'] = 1.7
+    })
+    getObjectFromGUID('b1a666').setValue('https://www.youtube.com/watch?v=nAwzJHX3KKI')
+    getObjectFromGUID('d42072').removeButton(12)
+end
+
+function lockHelp()
+    getObjectFromGUID('6958e1').lock()
+end
+
+function createCounters(table) -- Receives a table of GUIDs, returns a table of objects.
+    newTable = {}
+    for i=1,#table do
+        newTable[i] = getObjectFromGUID(table[i])
+    end
+    return newTable
+end
+
+function selectPlayer(obj) -- Changes selection of player and sets color of the highlight bar
+-- Copies the selected player's inventory to the invControllerInvCard['Master']
+-- This function is called from a button - ergo obj is the button's object that made the call
+    colorSelector = obj.getVar('color')
+    updateSkillCounters(colorSelector)
+
+    local fullText = getFullText(colorSelector)
+    local newPage = getPage(fullText)
+    invControllerInvCard['Master'].setDescription(newPage)
+    invControllerHiddenTextAbove['Master'] = ''
+    invControllerHiddenTextBelow['Master'] = removeNewline(removeNewline(plainReplace(fullText,newPage,''),'Beginning'),'Ending')
+    invControllerStartingText['Master'] = invControllerInvCard['Master'].getDescription()
+
+    setDisplayColor(colorSelector)
+end
+
+function push() -- Updates the selected player's inventory to a copy of the invControllerInvCard['Master']
+    if colorSelector == nil then
+        printToColor("Select a color first!", "White", {1,1,1})
+    else
+        local fullText = getFullText('Master')
+        local newPage = getPage(fullText)
+        char.getTable('playerInformation')[colorSelector]['Inventory'].setDescription(newPage)
+        invControllerHiddenTextAbove[colorSelector] = ''
+        invControllerHiddenTextBelow[colorSelector] = removeNewline(removeNewline(plainReplace(fullText,newPage,''),'Beginning'),'Ending')
+    end
+end
+
+function scrollUp(obj) -- Concatenates the last 9 lines of the auxiliary inventory to the beginning of the main inventory.
+-- This function is called from a button - ergo obj is the button that made the call.
+    local color = obj.getVar('color')
+    if invControllerHiddenTextAbove[color] ~= '' then
+        local newPage = string.reverse(getPage(string.reverse(invControllerHiddenTextAbove[color])))
+        if obj.getDescription() ~= '' then
+            local i = string.len(newPage)
+            tempPage = getPage(removeNewline(removeNewline(newPage..'\n'..preserveNewline(obj.getDescription()),'Ending'),'Beginning'))
+            local j = string.len(tempPage)
+            if i < j then
+                newPage = tempPage
+                invControllerHiddenTextAbove[color] = removeNewline(removeNewline(plainReplace(invControllerHiddenTextAbove[color],string.sub(newPage,1,i),''),'Ending'),'Beginning')
+                invControllerHiddenTextBelow[color] = removeNewline(removeNewline(plainReplace(preserveNewline(obj.getDescription()),removeNewline(string.sub(newPage,i+1,j),'Beginning'),'')..'\n'..invControllerHiddenTextBelow[color],'Beginning'),'Ending')
+            else
+                invControllerHiddenTextAbove[color] = removeNewline(plainReplace(invControllerHiddenTextAbove[color],removeNewline(removeNewline(newPage,'Ending'),'Beginning'),''),'Ending')
+                invControllerHiddenTextBelow[color] = removeNewline(removeNewline(preserveNewline(obj.getDescription())..'\n'..invControllerHiddenTextBelow[color],'Ending'),'Beginning')
+            end
+        else
+            invControllerHiddenTextAbove[color] = removeNewline(plainReplace(invControllerHiddenTextAbove[color],removeNewline(removeNewline(newPage,'Ending'),'Beginning'),''),'Ending')
+        end
+        obj.setDescription(removeNewline(removeNewline(newPage,'Ending'),'Beginning'))
+        invControllerStartingText[color] = obj.getDescription()
+    end
+end
+
+function scrollDown(obj) -- Concatenates the first 9 lines of the main inventory to the end of the auxiliary inventory.
+-- This function is called from a button - ergo obj is the button that made the call.
+    local color = obj.getVar('color')
+    if obj.getDescription() ~= '' or invControllerHiddenTextBelow[color] ~= '' then
+        local newPage = getPage(preserveNewline(obj.getDescription()))
+        invControllerHiddenTextAbove[color] = removeNewline(invControllerHiddenTextAbove[color]..'\n'..newPage,'Beginning')
+        local tempPage = string.sub(preserveNewline(obj.getDescription()),string.len(newPage)+1,-1)
+        if tempPage ~= '' then
+            newPage = getPage(removeNewline(removeNewline(tempPage..'\n'..invControllerHiddenTextBelow[color],'Ending'),'Beginning'))
+            if string.len(newPage) > string.len(tempPage) then
+                tempPage = ''
+            end
+        else
+            tempPage = ''
+            newPage = getPage(removeNewline(removeNewline(invControllerHiddenTextBelow[color],'Ending'),'Beginning'))
+        end
+
+        local extraLength1 = getLines(preserveNewline(obj.getDescription()))
+        local tempStartingText = getLines(invControllerStartingText[color])
+        local extraLength2 = extraLength1['lineCount'] - tempStartingText['lineCount']
+        local extraLength3 = getLines(invControllerHiddenTextBelow[color])
+        local extraLength4 = tempStartingText['lineCount'] - extraLength2
+        local extraLength5 = extraLength3[extraLength4]
+        obj.setDescription(removeNewline(removeNewline(newPage,'Beginning'),'Ending'))
+        invControllerStartingText[color] = obj.getDescription()
+
+        if extraLength2 > 0 and extraLength4 <= extraLength3['lineCount'] and extraLength4 > 0 and extraLength5 ~= nil then
+            invControllerHiddenTextBelow[color] = removeNewline(string.sub(tempPage..invControllerHiddenTextBelow[color],extraLength5+1),'Beginning')
+        else
+            if string.len(obj.getDescription()) ~= string.len(invControllerHiddenTextBelow[color]) then
+                invControllerHiddenTextBelow[color] = removeNewline(removeNewline(string.sub(tempPage..invControllerHiddenTextBelow[color],string.len(obj.getDescription())+2),'Ending'),'Beginning')
+            else
+                invControllerHiddenTextBelow[color] = ''
+            end
+        end
+    end
+end
+
+function getPage(invStr) -- Iterates through the str and sums the estimated line length based on characterWidthTable for each character in a max 100000 system. Margin for error is 200.
+    local lineWidth = 0
+    local lineCount = 0
+    local placeholder = 1
+    local key = ''
+    local page = ''
+    local i = 1
+    while lineCount ~= 9 do
+        key = string.sub(invStr, i, i)
+        if key == '' then
+            page = page..string.sub(invStr,placeholder,i)
+            break
+        end
+        lineWidth = lineWidth + characterWidthTable[key]
+        if lineWidth > 99878 then
+            if key == '\n' then
+                page = page..string.sub(invStr,placeholder,i-1)
+                placeholder = i
+            else
+                page = page..string.sub(invStr,placeholder,i)
+                placeholder = i + 1
+            end
+            lineCount = lineCount + 1
+            lineWidth = 0
+        end
+        i = i + 1
+    end
+    return page
+end
+
+function getLines(str) -- Returns a table countaining the number of lines in a string as well as the location of the end of each line.
+    local lineWidth = 0
+    local lineCount = 0
+    local length = string.len(str)
+    local placeholder = 1
+    local key = ''
+    local lineTable = {}
+    local i = 1
+    while i < 2+string.len(str) do
+        key = string.sub(str, i, i)
+        if key == '' then
+            lineCount = lineCount + 1
+            break
+        end
+        lineWidth = lineWidth + characterWidthTable[key]
+        if lineWidth > 99878 then
+            if key == '\n' then
+                lineTable[lineCount+1] = i-1
+                placeholder = i
+            else
+                lineTable[lineCount+1] = i
+                placeholder = i + 1
+            end
+            lineCount = lineCount + 1
+            lineWidth = 0
+        end
+        i = i + 1
+    end
+    lineTable['length'] = length
+    lineTable['lineCount'] = lineCount
+    return lineTable
+end
+
+function removeNewline(str, location) -- Removes all \n characters from either the beginning or end of a string until a non \n character
+    if location == 'Beginning' then
+        while string.sub(str,1,1) == '\n' do
+            str = string.sub(str,2,-1)
+        end
+        return str
+    elseif location == 'Ending' then
+        while string.sub(str,-1,-1) == '\n' do
+            str = string.sub(str,1,-2)
+        end
+        return str
+    end
+end
+
+function preserveNewline(str) -- A variant on the plainReplace function designed to prevent the destruction of user-made newlines.
+    local z = 1
+    while true do
+        local x,y = str:find('\n\n',z,true)
+        if x==nil then
+            break
+        elseif str:sub(x-1,y+2) ~= '\n \n' then
+            str = str:sub(1,x-1)..'\n \n'..str:sub(y+1)
+         end
+         z = y+1
+     end
+     return str
+end
+
+function callGetFullText(table) -- Used as an accessor for other objects to getFullText.
+    return getFullText(table[1])
+end
+
+function getFullText(color) -- Returns the full data of above, current and below on notecards as a single string.
+    local fullText = char.getTable('playerInformation')[color]['Inventory'].getDescription()
+    if invControllerHiddenTextAbove[color] ~= '' then
+        fullText = invControllerHiddenTextAbove[color]..'\n'..fullText
+    end
+    if invControllerHiddenTextBelow[color] ~= '' then
+        fullText = fullText..'\n'..invControllerHiddenTextBelow[color]
+    end
+    return fullText
+end
+
+function plainReplace(str, pattern, replacement) -- Finds an exact copy of the pattern within the string and exchanges it for the replacement
+    local x,y = str:find(pattern,1,true)
+    if x==nil then
+       return str
+    else
+       return str:sub(1,x-1)..replacement..str:sub(y+1)
+    end
+end
+
+function setDisplayColor(color) -- Sets color of highlight bar, receives color as string | setDisplayColor("Blue")
+    local tint = {}
+    tint['Red'] = {0.856,0.1,0.094}
+    tint['Orange'] = {0.956,0.392,0.113}
+    tint['Yellow'] = {0.905,0.898,0.172}
+    tint['Green'] = {0.192,0.701,0.168}
+    tint['Blue'] = {0.118,0.53,1.0}
+    tint['Purple'] = {0.627,0.125,0.941}
+    invControllerDisplay.setColorTint(tint[color])
+end
+
+function updateCounters() -- Called from the Update function to keep the health counters in sync
+    if healthController=='DM' then
+        for i=1,6 do
+            if char.getTable('CharacterSheets')[Global.getVar('colorTable')[i]] ~= nil and playerHealthCounters[i] ~= nil then
+                playerHealthCounters[i].setValue((DMHealthCounters[Global.getVar('colorTable')[i]].getValue()) or 0)
+            end
+        end
+    else
+        for i=1,6 do
+            if char.getTable('CharacterSheets')[Global.getVar('colorTable')[i]] ~= nil and DMHealthCounters[Global.getVar('colorTable')[i]] ~= nil then
+                DMHealthCounters[Global.getVar('colorTable')[i]].setValue((playerHealthCounters[i].getValue()) or 0)
+            end
+        end
+    end
+end
+
+function toggleHealthCounter(color,flag) -- Hides or reveals a DM Health Counter for when a player changes color.
+    local pos = DMHealthCounters[color].getPosition()
+    if flag == 0 then
+        pos['y'] = -5
+    else
+        pos['y'] = 1
+    end
+    DMHealthCounters[color].setPosition(pos)
+end
+
+function toggleInvControllerButton(color,flag) -- Removes or adds a button on the invController for when a player changes color.
+    if flag == 0 then
+        invControllerButton[color].clearButtons()
+    else
+        invControllerButton[color].setVar('color',color)
+        invControllerButton[color].setTable('pos',{0,-0.2,0})
+        invControllerButton[color].setTable('rot',{180,90,0})
+        Global.call('addButton', {invControllerButton[color].getGUID(),1350,600,400,color,'selectPlayer',self})
+    end
+end
+
+function updateSkillCounters(color) -- Gets the STR, DEX, etc., from the player when selectPlayer is called
+    local names = {'STR','DEX','CON','INT','WIS','CHA'}
+    for i=1,6 do
+        DMSkillCounters[i].setValue(tonumber(char.getTable('playerInformation')[color][names[i]].getValue()))
+    end
+end
+
+function updateHealthController(obj) -- Changes the direction that health counters are synced
+    if obj.getVar('Controller') == 'DM' then
+        healthController = 'DM'
+        DMIsHealthController.setColorTint({0,1,0})
+        playerIsHealthController.setColorTint({0,0,0})
+    elseif obj.getVar('Controller') == 'Player' then
+        healthController = 'Player'
+        DMIsHealthController.setColorTint({0,0,0})
+        playerIsHealthController.setColorTint({0,1,0})
+    end
+end
+
+function callRoutine() -- Accesses the Roll core to begin the initiative call and manages buttons.
+    for i=1,6 do
+        if Global.call("getZone",{Global.getVar('colorTable')[i]}) == 2 then
+            invControllerInvCard['initiative'].setDescription("")
+            invControllerInvCard['initiative'].setName("Rolling...")
+            local params = initShell.getButtons()
+            params[1]['click_function'] = 'nil'
+            params[1]['position'] = {0,-5,0}
+            params[1]['width'] = 1
+            params[1]['height'] = 1
+            params[1]['font_size'] = 1
+            initShell.editButton(params[1])
+            startLuaCoroutine(getObjectFromGUID('ROLL'),'initiativeCall')
+            return 1
+        end
+    end
+    if Player.White.seated == true then printToColor("?DA?Atleast 1 character must be loaded to roll Initiative", "White", {1,1,1}) end
+    return 1
+end
+
+function enableSecondaryInitButtons()
+    initiativeTracker = 1 - initiativeTracker
+    local params = initShell.getButtons()
+    params[1]['label'] = initiativeLabels[initiativeTracker+1]
+    params[1]['click_function'] = 'cancelInit'
+    params[1]['position'] = {1.7,0.1,-3.3}
+    params[1]['width'] = 1500
+    params[1]['height'] = 500
+    params[1]['font_size'] = 250
+    initShell.editButton(params[1])
+    params[2]['click_function'] = 'getInitiative'
+    params[2]['position'] = {-2.2,0.1,-3.3}
+    params[2]['width'] = 1500
+    params[2]['height'] = 500
+    params[2]['font_size'] = 250
+    initShell.editButton(params[2])
+end
+
+function cancelInit() -- Accesses the Roll core to end the initiative call and manages buttons.
+    getObjectFromGUID('ROLL').call('cleanupInitiative')
+    initiativeTracker = 1 - initiativeTracker
+    local params = initShell.getButtons()
+    params[1]['label'] = initiativeLabels[initiativeTracker+1]
+    params[1]['click_function'] = 'callRoutine'
+    params[1]['position'] = {-0.25,0.1,-3.3}
+    params[1]['width'] = 3250
+    initShell.editButton(params[1])
+    params[2]['click_function'] = 'nil'
+    params[2]['position'] = {0,-5,0}
+    params[2]['width'] = 1
+    params[2]['height'] = 1
+    params[2]['font_size'] = 1
+    initShell.editButton(params[2])
+end
+
+function getInitiative() -- Called when the DM continues after the players have rolled. Sets the initiative card and gathers monster initiative.
+    cancelInit()
+    invControllerInvCard['initiative'].setDescription('')
+    invControllerHiddenTextAbove['initiative'] = ''
+    invControllerHiddenTextBelow['initiative'] = ''
+    invControllerStartingText['initiative'] = ''
+    playerInitiatives = getObjectFromGUID('ROLL').getTable('initiativeReturnTable')
+    local name
+    initiatives = {}
+    for i,v in pairs (playerInitiatives) do
+        table.insert(initiatives, playerInitiatives[i])
+    end
+    local zoneObjs = activeInitiativeZone.getObjects()
+    for i,value in pairs(zoneObjs) do
+        if value.getVar('cardname') ~= nil and isFacingUp(value.getRotation()[3]) then
+            if value.getName() ~= '' then
+                name = value.getName()
+            else name = value.getVar('monsterName') end
+            table.insert(initiatives, {name, math.random(20) + (value.getVar('initiative') or 0)})
+        end
+    end
+    initiatives = table.sort(initiatives, compare)
+    if next(initiatives) ~= nil then
+        invControllerInvCard['initiative'].setName('Up Next is '..initiatives[1][1]..': '..initiatives[1][2])
+        for i,v in pairs(initiatives) do
+            if i > 1 then
+                invControllerInvCard['initiative'].setDescription(invControllerInvCard['initiative'].getDescription()..initiatives[i][1]..': '..initiatives[i][2]..'\n')
+            end
+        end
+        invControllerInvCard['initiative'].setDescription(removeNewline(invControllerInvCard['initiative'].getDescription(),'Ending'))
+    else
+        if Player.White.seated == true then printToColor("?DA?No players nor monsters are active.","White",{1,1,1}) end
+    end
+end
+
+function isFacingUp(angle)
+    if (angle > 355 and angle < 360) or (angle > 0 and angle < 5) then return true
+    else return false end
+end
+
+function compare(a,b) -- Describes the sorting mechanism for getInitiative.
+  return a[2] > b[2]
+end
+
+function nextTurn() -- Takes the next line of the initiative card and sets it as the name; takes the name and puts it on the bottom.
+    local fullText = invControllerInvCard['initiative'].getDescription()
+    if invControllerHiddenTextAbove['initiative'] ~= '' then
+        fullText = invControllerHiddenTextAbove['initiative']..'\n'..fullText
+    end
+    if invControllerHiddenTextBelow['initiative'] ~= '' then
+        fullText = fullText..'\n'..invControllerHiddenTextBelow['initiative']
+    end
+    local i = string.find(fullText,'\n',1)
+    invControllerHiddenTextAbove['initiative'] = ''
+    invControllerHiddenTextBelow['initiative'] = ''
+    invControllerStartingText['initiative'] = invControllerInvCard['initiative'].getDescription()
+    invControllerInvCard['initiative'].setDescription(string.sub(fullText,i+1)..'\n'..string.sub(invControllerInvCard['initiative'].getName(),12))
+    invControllerInvCard['initiative'].setName('Up Next is '..string.sub(fullText,1,i-1))
+    if initiativeBroadcastState == 1 then
+      printToAll('?DA?'..invControllerInvCard['initiative'].getName(),{0.1,0.7,0.1})
+    end
+end
+
+function toggleInitiativeBroadcast() -- Changes whether, on clicking next turn, the console will print the title of the card to all players.
+  local params = initShell.getButtons()
+  if initiativeBroadcastState == 1 then
+    params[4]['label'] = Global.getVar('unicodeCrossBox')
+    initShell.editButton(params[4])
+    initiativeBroadcastState = 0
+  else
+    params[4]['label'] = Global.getVar('unicodeCheckedBox')
+    initShell.editButton(params[4])
+    initiativeBroadcastState = 1
+  end
+end
+
+function forceUpdateMini(obj) -- Finds the card within the monster platform scripting zone and sends it to the core updateMini function.
+    local parent
+    local platNumber = obj.getVar('platformNumber')
+    local zoneObjs = getObjectFromGUID(monsterPlatformZoneGUID[platNumber]).getObjects()
+    for i,v in pairs(zoneObjs) do
+        if zoneObjs[i].getVar('cardname') ~= nil then
+            parent = zoneObjs[i]
+        end
+    end
+    if parent ~= nil then
+        updateMini(parent, platNumber)
+    end
+end
+
+function updateMini(parent, platNumber) -- Takes a monster card and sends its values to be concatenated into the description of its children miniatures.
+    for i=1,12 do
+        parent.setVar('value'..i, monsterPlatformValueCounters[platNumber][i].getValue())
+    end
+    parent.setVar('initiative',monsterPlatformValueCounters[platNumber][13].getValue())
+    parent.setVar('monsterName', monsterPlatformTextTool[platNumber].getValue():gsub("[%[%]]", "%%%0"))
+    parent.setVar('monsterDesc', monsterPlatformDescCard[platNumber].getDescription():gsub("[%[%]]", "%%%0"))
+
+    -- Encodes values into the card's script to be preserved across saves. Possibly a JSON rework could be better here but it works fine.
+    local tempScript = parent.getLuaScript()
+    local QRPGVars = '--*&\n--This is QRPG code designed for use with the monster platform.\n'
+    for i = 1,12 do
+        QRPGVars = QRPGVars..'value'..i..' = '..monsterPlatformValueCounters[platNumber][i].getValue()..'\n'
+    end
+
+print("init ="..monsterPlatformValueCounters[platNumber][13].Counter.getValue())
+
+    QRPGVars = QRPGVars..'initiative = '..monsterPlatformValueCounters[platNumber][13].Counter.getValue()..'\n'
+    QRPGVars = QRPGVars..'monsterName = \[\['..monsterPlatformTextTool[platNumber].getValue()..'\]\]\n'..'monsterDesc = \[\['..monsterPlatformDescCard[platNumber].getDescription()..'\]\]\n--*&'
+
+    if string.find(tempScript,'--*&') then
+        local i = string.find(tempScript,'--*&',1)
+        local j = string.find(tempScript,'--*&',i+4)
+        parent.setLuaScript(string.sub(tempScript,1,i-1)..QRPGVars..string.sub(tempScript,j+4))
+    else
+        parent.setLuaScript(QRPGVars..'\n\n'..tempScript)
+    end
+    searchForMini(activeMiniZone1.getObjects(), parent, platNumber)
+    -- Add additional zones to search here.
+end
+
+function searchForMini(objTable, parent, platNumber)  -- Searches the world and sets children miniatures with the correct descriptions based on display setting.
+    local parentGUID = parent.getGUID()
+    for i,v in pairs(objTable) do
+        if objTable[i].getVar('mcardguid') == parentGUID then
+            if self.getVar('miniDisplay') == 'Everything' or self.getVar('miniDisplay') == 'Some' then
+                objTable[i].setName(parent.getVar('monsterName'))
+                local tempDesc = parent.getVar('monsterDesc')
+                if self.getVar('miniDisplay') == 'Some' then
+                    objTable[i].setDescription(tempDesc)
+                else
+                    objTable[i].setDescription('')
+                    for j=1,6 do
+                        if monsterPlatformValueCounters[platNumber][j].getName() ~= '' then
+                            objTable[i].setDescription(objTable[i].getDescription()..monsterPlatformValueCounters[platNumber][j].getName()..': '..monsterPlatformValueCounters[platNumber][j].getValue()..'    ')
+                        end
+                    end
+                    objTable[i].setDescription(string.sub(objTable[i].getDescription(), 1, -5)..'\n'..tempDesc)
+                end
+            elseif self.getVar('miniDisplay') == 'Nothing' then
+                objTable[i].setName('')
+                objTable[i].setDescription('')
+            end
+        end
+    end
+end
+
+function updateMiniDisplay(obj) -- Sets the variable to determine what information is sent to the miniatures.
+        if obj.getVar('miniDisplay') == 'Everything' then
+            miniDisplay = 'Everything'
+            displayEverything.setColorTint({0,1,0})
+            displaySome.setColorTint({0,0,0})
+            displayNothing.setColorTint({0,0,0})
+        elseif obj.getVar('miniDisplay') == 'Some' then
+            miniDisplay = 'Some'
+            displayEverything.setColorTint({0,0,0})
+            displaySome.setColorTint({0,1,0})
+            displayNothing.setColorTint({0,0,0})
+        elseif obj.getVar('miniDisplay') == 'Nothing' then
+            miniDisplay = 'Nothing'
+            displayEverything.setColorTint({0,0,0})
+            displaySome.setColorTint({0,0,0})
+            displayNothing.setColorTint({0,1,0})
+        end
+end
+
+function onCardEnter(parent) -- Called from the Global onObjectEnterScriptingZone function to realize the card on the platform.
+    local platNumber = parent[2]
+    cardsOnMonsterPlatform[platNumber] = cardsOnMonsterPlatform[platNumber] + 1
+    if cardsOnMonsterPlatform[platNumber] ~= 1 then
+        return 0
+    end
+    parent = parent[1]
+    if parent.getVar('value1') == nil then
+        for i=1,12 do
+            parent.setVar('value'..i, 0)
+        end
+        parent.setVar('initiative', 0)
+    end
+    if parent.getVar('monsterName') == nil then
+        parent.setVar('monsterName', parent.getVar('cardname'))
+        parent.setVar('monsterDesc', parent.getVar('carddesc'))
+    end
+    if parent.getName() ~= '' then
+        parent.setVar('monsterName', parent.getName())
+    else
+        parent.setVar('monsterName', parent.getVar('cardname'))
+    end
+    for i=1,12 do
+        monsterPlatformValueCounters[platNumber][i].setValue(parent.getVar('value'..i))
+    end
+    monsterPlatformValueCounters[platNumber][13].setValue(parent.getVar('initiative'))
+    monsterPlatformTextTool[platNumber].setValue(parent.getVar('monsterName'))
+    monsterPlatformDescCard[platNumber].setDescription(parent.getVar('monsterDesc'))
+end
+
+function onCardLeave(parent) -- Called from the Global onObjectLeaveScriptingZone function to clean the platform.
+    local platNumber = parent[2]
+    cardsOnMonsterPlatform[platNumber] = cardsOnMonsterPlatform[platNumber] - 1
+        if cardsOnMonsterPlatform[platNumber] ~= 0 then
+            return 0
+        end
+    parent = parent[1]
+    updateMini(parent, platNumber)
+    for i,v in pairs(monsterPlatformValueCounters[platNumber]) do
+        monsterPlatformValueCounters[platNumber][i].setValue(0)
+    end
+    monsterPlatformTextTool[platNumber].setValue(' ')
+    monsterPlatformDescCard[platNumber].setDescription('')
+end
+
+function cloneCard(obj) -- Copies and pastes the card(s) on the platform.
+    local platNumber = obj.getVar('platformNumber')
+    local params = {}
+    local zoneObjs = getObjectFromGUID(monsterPlatformZoneGUID[platNumber]).getObjects()
+    for i,v in pairs(zoneObjs) do
+        if zoneObjs[i].getVar('cardname') ~= nil then
+            --local pos = zoneObjs[i].getPosition()
+            params.position = {-76,5.0,-24.88}
+            zoneObjs[i].clone(params)
+        end
+    end
+end
+
+function resetPlatform(obj) -- Debug button to completely reset the platform and its associated variables.
+    local platNumber = obj.getVar('platformNumber')
+    local zoneObjs = getObjectFromGUID(monsterPlatformZoneGUID[platNumber]).getObjects()
+    for i,v in pairs(zoneObjs) do
+        if zoneObjs[i].getVar('cardname') ~= nil then
+            local pos = zoneObjs[i].getPosition()
+            zoneObjs[i].clone({pos[1]-15, pos[2]+3, pos[3]})
+            zoneObjs[i].destruct()
+        end
+    end
+    for i,v in pairs(monsterPlatformValueCounters[platNumber]) do
+        monsterPlatformValueCounters[platNumber][i].setValue(0)
+    end
+    monsterPlatformTextTool[platNumber].setValue(' ')
+    monsterPlatformDescCard[platNumber].setDescription('')
+    cardsOnMonsterPlatform[platNumber] = 0
+end
+
+function toggleStatCounters(obj) -- Hides the second set of counters under the table.
+    local platNumber = obj.getVar('platformNumber')
+    local pos
+    if statCountersToggled[platNumber] == 0 then
+        for i=7,12 do
+            pos = monsterPlatformValueCounters[platNumber][i].getPosition()
+            monsterPlatformValueCounters[platNumber][i].lock()
+            monsterPlatformValueCounters[platNumber][i].setPosition({pos[1], pos[2] - 35, pos[3]})
+        end
+        statCountersToggled[platNumber] = 1
+    else
+        for i=7,12 do
+            pos = monsterPlatformValueCounters[platNumber][i].getPosition()
+            monsterPlatformValueCounters[platNumber][i].lock()
+            monsterPlatformValueCounters[platNumber][i].setPosition({pos[1], pos[2] + 35, pos[3]})
+        end
+        statCountersToggled[platNumber] = 0
+    end
+end
+
+function toggleSecondPlatform() -- Hides the second platform under the table.
+    local pos = monsterPlatform[2].getPosition()
+    if secondPlatformToggled == 0 then
+        monsterPlatform[2].lock()
+        monsterPlatform[2].setPosition({pos[1],pos[2]-35,pos[3]})
+        pos = monsterPlatformTextTool[2].getPosition()
+        monsterPlatformTextTool[2].setPosition({pos[1],pos[2]-35,pos[3]})
+        pos = monsterPlatformDescCard[2].getPosition()
+        monsterPlatformDescCard[2].lock()
+        monsterPlatformDescCard[2].setPosition({pos[1],pos[2]-35,pos[3]})
+        for i=1,13 do
+            monsterPlatformValueCounters[2][i].lock()
+            pos = monsterPlatformValueCounters[2][i].getPosition()
+            monsterPlatformValueCounters[2][i].setPosition({pos[1],pos[2]-35,pos[3]})
+        end
+        secondPlatformToggled = 1
+    else
+        monsterPlatform[2].lock()
+        monsterPlatform[2].setPosition({pos[1],pos[2]+35,pos[3]})
+        pos = monsterPlatformTextTool[2].getPosition()
+        monsterPlatformTextTool[2].setPosition({pos[1],pos[2]+35,pos[3]})
+        pos = monsterPlatformDescCard[2].getPosition()
+        monsterPlatformDescCard[2].lock()
+        monsterPlatformDescCard[2].setPosition({pos[1],pos[2]+35,pos[3]})
+        for i=1,13 do
+            monsterPlatformValueCounters[2][i].lock()
+            pos = monsterPlatformValueCounters[2][i].getPosition()
+            monsterPlatformValueCounters[2][i].setPosition({pos[1],pos[2]+35,pos[3]})
+        end
+        secondPlatformToggled = 0
+    end
+end
+
+
+function spawnAllTiles()
+  tilescriptzone=getObjectFromGUID('413e0c')
+  tilecards=tilescriptzone.getObjects()
+  for i,v in pairs(tilecards) do
+    if tilecards[i].getVar('tiletype') then callLuaFunctionInOtherScript(tilecards[i],'spawn') end
+  end
+end
+
+function addDashboard(guid,dArray) --[[ Adds a dashboard to Reversi boards ]]--
+    local object = getObjectFromGUID(guid)
+    local rot = {0,-90,0}
+    local pos = {0,0,0}
+
+    local tx = 0
+    local i = 0
+    for actual=0,#dArray-1 do
+        local vert = dArray[actual+1][2][1]
+        local horz = dArray[actual+1][2][2]
+        local vertP = tx%2
+        local horzP = (i+1)%2
+
+        pos[1] = (2*(tx%8))-7.1
+        pos[3] = (-2*(i%8))+6
+        if horzP == 1  and horz%2 == 1 then pos[3] = pos[3] - 1 end
+        if vertP == 0 and vert%2 == 0 then pos[1] = pos[1] + 1 end
+        object.setTable('pos',pos)
+        object.setTable('rot',rot)
+        Global.call('addButton',{guid,horz*900,vert*900,350,dArray[actual+1][1],dArray[actual+1][3],self})
+        for k=0,dArray[actual+1][4] do i = i + 1
+            if i%8 == 0 then tx = tx + 1 end
+        end
+    end
+end
