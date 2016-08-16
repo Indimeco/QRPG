@@ -921,7 +921,7 @@ function getInitiative() -- Called when the DM continues after the players have 
     end
     local zoneObjs = activeInitiativeZone.getObjects()
     for i,value in pairs(zoneObjs) do
-        if value.getVar('cardname') ~= nil and isFacingUp(value.getRotation()[3]) then
+        if value.getVar('cardname') ~= nil and value.getRotation()[3] == 0 then
             if value.getName() ~= '' then
                 name = value.getName()
             else name = value.getVar('monsterName') end
@@ -931,20 +931,17 @@ function getInitiative() -- Called when the DM continues after the players have 
     initiatives = table.sort(initiatives, compare)
     if next(initiatives) ~= nil then
         invControllerInvCard['initiative'].setName('Up Next is '..initiatives[1][1]..': '..initiatives[1][2])
+        local str = ''
         for i,v in pairs(initiatives) do
             if i > 1 then
-                invControllerInvCard['initiative'].setDescription(invControllerInvCard['initiative'].getDescription()..initiatives[i][1]..': '..initiatives[i][2]..'\n')
+                str = str..initiatives[i][1]..': '..initiatives[i][2]..'\n'
             end
         end
-        invControllerInvCard['initiative'].setDescription(removeNewline(invControllerInvCard['initiative'].getDescription(),'Ending'))
+        str = str..'a New Round!'..'\n'
+        invControllerInvCard['initiative'].setDescription(removeNewline(str,'Ending'))
     else
         if Player.White.seated == true then printToColor("?DA?No players nor monsters are active.","White",{1,1,1}) end
     end
-end
-
-function isFacingUp(angle)
-    if (angle > 355 and angle < 360) or (angle > 0 and angle < 5) then return true
-    else return false end
 end
 
 function compare(a,b) -- Describes the sorting mechanism for getInitiative.
@@ -960,11 +957,14 @@ function nextTurn() -- Takes the next line of the initiative card and sets it as
         fullText = fullText..'\n'..invControllerHiddenTextBelow['initiative']
     end
     local i = string.find(fullText,'\n',1)
+    if i == nil then
+        i = string.len(fullText)+1
+    end
     invControllerHiddenTextAbove['initiative'] = ''
     invControllerHiddenTextBelow['initiative'] = ''
-    invControllerStartingText['initiative'] = invControllerInvCard['initiative'].getDescription()
-    invControllerInvCard['initiative'].setDescription(string.sub(fullText,i+1)..'\n'..string.sub(invControllerInvCard['initiative'].getName(),12))
+    invControllerInvCard['initiative'].setDescription(removeNewline(string.sub(fullText,i+1)..'\n'..string.sub(invControllerInvCard['initiative'].getName(),12),'Beginning'))
     invControllerInvCard['initiative'].setName('Up Next is '..string.sub(fullText,1,i-1))
+    invControllerStartingText['initiative'] = invControllerInvCard['initiative'].getDescription()
     if initiativeBroadcastState == 1 then
       printToAll('?DA?'..invControllerInvCard['initiative'].getName(),{0.1,0.7,0.1})
     end
