@@ -1,6 +1,16 @@
 Base_Stats = {'STR','DEX','CON','INT','WIS','CHA'}
 
 objectOffsetList = { -- Objects different than 3DTexts
+--[[
+Format for each line:
+[Name] = {
+            x position of the object, z position of the object,
+            ['type'] = 'the kind of object to be spawned', ['height'] = the y position of the object,
+            ['rot'] = {x rotation, y rotation, z rotation}, ['scale'] = the size of the object,
+            ['name'] = 'the visible display name of the spawned object'
+         }
+--]]
+
     ['HP']        = { 2.161939,-4.81705,     ['type'] = 'Counter',  ['height'] = 0.4229977, ['rot'] = {-90,0,0}, ['scale'] = 1.05,  ['name'] = 'Health'},
     ['Note1']     = { -2.5398102,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rot'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Traits'},
     ['Note2']     = { -7.2604314,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rot'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Features'},
@@ -32,7 +42,7 @@ incrementalOffsetList = { -- Text Tools that will spawn modifiers to act like co
     ['Spell_Save_DC']      = { 7.052309,-3.18593, ['size'] = 40, ['gap'] = {0.52,0}, ['mod'] = {0,0.26} },
     ['Spell_Attack_Bonus'] = { 5.488634,-3.18593, ['size'] = 40, ['gap'] = {0.52,0}, ['mod'] = {0,0.26} },
     ['Max_HP']             = { 1.454685,-3.27593, ['size'] = 64, ['gap'] = {0.6,0},  ['mod'] = {0,0.5} },
-    ['Max_Hit_Dice']       = { 3.6,-3.47588,      ['size'] = 30, ['gap'] = {0,0.15}, ['mod'] = {0.47,0.27},    ['modSize'] = 150 },
+    ['Max_Hit_Dice']       = { 3.6,-3.47588,      ['size'] = 30, ['gap'] = {0,0.15}, ['mod'] = {0.47,0.27}, ['modSize'] = 150 },
     ['Current_Hit_Dice']   = { 3.488621,-3.07589, ['size'] = 72, ['gap'] = {0.6,0},  ['mod'] = {0.02,0.9} },
     ['Armor_Class']        = { 4.790911,-5.37751, ['size'] = 72, ['gap'] = {0.85,0}, ['mod'] = {0,0},       ['modSize'] = 180, ['color'] = 'Silver'},
     ['STR']                = { 14.88861,-6.01784, ['size'] = 72, ['gap'] = {0.85,0}, ['mod'] = {0,1.8},     ['modSize'] = 250, ['color'] = 'Red',    ['triggerUpdate'] = true},
@@ -73,6 +83,7 @@ checkboxOffsetList = { -- Text Tools that contain lists of individual items with
     Format for each line:
     [Name] = {
                  x position of Text Tool, z position of Text Tool, ['size'] = font size,
+                 (optional)['rotation'] = {x rotation, y rotation, z rotation} used to create horizontal checkboxes
                  ['gap'] = {the x distance between each button, the z difference between each button}, ['list_size'] = the number of checkbox buttons to be made,
                  ['mod'] = { x position of the center of the button relative to the Text Tool, z position of the center of the button relative to the Text Tool }
                  (optional)['modSize'] = size of the button -defaults to 200-, (optional)['color'] = color of the Text Tool -defaults to 'White'-,
@@ -84,7 +95,7 @@ checkboxOffsetList = { -- Text Tools that contain lists of individual items with
     ['Success_Save']                = { 9.72,-5.1,  ['rotation'] = {0,270,0}, ['size'] = 40, ['gap'] = {0,0.59}, ['mod'] = {-0.3,1.5}, ['listVariables'] = {'1','2','3'},  ['color'] = 'Black', ['modSize'] = 100},
     ['Fail_Save']                   = { 9.72,-4.65, ['rotation'] = {0,270,0}, ['size'] = 40, ['gap'] = {0,0.59}, ['mod'] = {0.3,1.5}, ['listVariables'] = {'1','2','3'},  ['color'] = 'Black', ['modSize'] = 100},
     ['Skill_Proficiencies']         = { 12.89858,-0.68993, ['size'] = 26, ['gap'] = {0,0.39}, ['mod'] = {0.3,-0.24}, ['listVariables'] = {'Acrobatics','Animal Handling','Arcana','Athletics','Deception','History','Insight','Intimidation','Investigation',
-                                                                                                                'Medicine','Nature','Perception','Performance','Persuasion','Religion','Sleight of Hand','Stealth','Survival'},  ['color'] = 'Black', ['triggerUpdate'] = true, ['modSize'] = 100},
+                                                                                                                'Medicine','Nature','Perception','Performance','Persuasion','Religion','Sleight Of Hand','Stealth','Survival'},  ['color'] = 'Black', ['triggerUpdate'] = true, ['modSize'] = 100},
     ['Saving_Throws_Proficiencies'] = { 12.89858,-3.94673, ['size'] = 26, ['gap'] = {0,0.39}, ['mod'] = {0.3,-0.24}, ['listVariables'] = {'STR','DEX','CON','INT','WIS','CHA'}, ['color'] = 'Black', ['triggerUpdate'] = true, ['modSize'] = 100}
 }
 
@@ -132,15 +143,6 @@ tabsOffsetList = { -- Tabs for QRPG - unavailable in custom
     ['Tab_2'] = { -4,-7.1,  ['text'] = "Spellbook", ['size'] = 30, ['color']='Platinum'},
     ['Tab_3'] = { -6,-7.1,  ['text'] = "Bio",       ['size'] = 30, ['color']='Platinum'},
     ['Tab_4'] = { -8,-7.1,  ['text'] = "[Notes]",   ['size'] = 30, ['color']='Copper'}
-}
-
-strings = {
-    'Character_Name','Character_Level','Race_Class','Path','Background','Alignment','Player',
-    'STR','DEX','CON','INT','WIS','CHA','Inspiration','Saving_Throws_Proficiencies',
-    'Saving_Throws_Numbers','Skill_Proficiencies','Skill_Numbers',
-    'Passive_Perception','Proficiency_Bonus','Copper','Silver','Electrum',
-    'Gold','Platinum','Vision','Speed','Initiative','Max_HP','Armor_Class','Success_Save',
-    'Fail_Save','Spell_Casting_Ability','Spell_Save_DC','Spell_Attack_Bonus','Current_Hit_Dice','Max_Hit_Dice','Max_Hit_Dice_Type'
 }
 
 zoneColor = {
@@ -649,54 +651,48 @@ function modifierCheckbox(obj,color,element) -- Called from a checkbox button
 end
 
 function readFromBook(color,journal)
-    local exceptions = {
-        'Player',
-        'STR','DEX','CON','INT','WIS','CHA',
-        'Saving_Throws_Proficiencies','Saving_Throws_Numbers',
-        'Skill_Proficiencies','Skill_Numbers',
-        'Success_Save','Fail_Save'
-    }
-
-    for _,value in pairs(strings) do
-        if not contains(exceptions,value) then
-            playerInformation[color][value].TextTool.setValue(tostring(journal.getVar(value)))
-        else
-            if value == 'Saving_Throws_Proficiencies' or value == 'Skill_Proficiencies' then
-                CharacterJournals[color].setTable(value, journal.getTable(value))
-                playerInformation[color][value].TextTool.setValue(getProficienciesString(color,value))
-            end
-            if value == 'Success_Save' or value == 'Fail_Save' then
-            --     CharacterJournals[color].setTable(value, journal.getTable(value))
-            --     playerInformation[color][value].TextTool.setValue(getSaves(color,journal.getTable(value)))
-            end
-            if value == 'STR' or value == 'DEX' or value == 'CON' or value == 'INT' or value == 'WIS' or value == 'CHA' then
-                playerInformation[color][value].TextTool.setValue(tostring(journal.getTable('Base_Stats')[value]))
-            end
-            if value == 'Player' then
-                playerInformation[color][value].TextTool.setValue(Player[color].steam_name)
-            end
+    local offsetArray = {toggleOffsetList, textOffsetList, inertOffsetList}
+    for index,offset in pairs(offsetArray) do
+        for key,value in pairs(offset) do
+            CharacterJournals[color].setVar(key,journal.getVar(key))
+            playerInformation[color][key].TextTool.setValue(tostring(journal.getVar(key)))
         end
     end
 
-    getObjectFromGUID(color.."NameDisplay").TextTool.setValue(journal.getVar('Character_Name'))
-
-    local DMCounter = getObjectFromGUID(tool.getTable('DMHealthCounterGUIDs')[keyFromValue(Global.getVar('colorTable'),color)])
-    DMCounter.setName(journal.getVar('Character_Name').."'s Health")
-    if tool.getVar('healthController') == "DM" then
-        DMCounter.Counter.setValue(journal.getVar('HP'))
-    else
-        playerInformation[color]['HP'].Counter.setValue(journal.getVar('HP'))
-    end
-
-    tool.call('setupNewInventory',{color,journal.getVar('Inventory')})
-    playerInformation[color]['Equipment'].setDescription(journal.getVar('Equipment'))
-    for i=1,5 do
-        if journal.getVar('Note'..i..'_Title') ~= nil then playerInformation[color]['Note'..i].setName(journal.getVar('Note'..i..'_Title')) end
-        if journal.getVar('Note'..i) ~= nil then playerInformation[color]['Note'..i].setDescription(journal.getVar('Note'..i)) end
+    for key,value in pairs(incrementalOffsetList) do
+        if not contains(Base_Stats,key) then
+            CharacterJournals[color].setVar(key,journal.getVar(key))
+            playerInformation[color][key].TextTool.setValue(tostring(journal.getVar(key)))
+        end
     end
 
     CharacterJournals[color].setTable('Base_Stats', journal.getTable('Base_Stats'))
-    CharacterJournals[color].setVar('Proficiency_Bonus', journal.getVar('Proficiency_Bonus'))
+    for key,value in pairs(CharacterJournals[color].getTable('Base_Stats')) do
+        playerInformation[color][key].TextTool.setValue(tostring(value))
+    end
+
+    for key,value in pairs(checkboxOffsetList) do
+        CharacterJournals[color].setTable(key, journal.getTable(key))
+        playerInformation[color][key].TextTool.setValue(getProficienciesString(color,key))
+    end
+
+    for key,value in pairs(objectOffsetList) do
+        if value['type'] ~= 'Notecard' then
+            playerInformation[color][key].setValue(journal.getVar(key))
+            playerInformation[color][key].setName(value['name'])
+        elseif value['name'] ~= 'Inventory' then
+            playerInformation[color][key].setDescription(journal.getVar(key))
+            playerInformation[color][key].setName(value['name'])
+        end
+    end
+
+    tool.call('setupNewInventory',{color,journal.getVar('Inventory')})
+
+    getObjectFromGUID(color.."NameDisplay").TextTool.setValue(journal.getVar('Character_Name')) -- Will this work in custom?
+
+    local DMCounter = getObjectFromGUID(tool.getTable('DMHealthCounterGUIDs')[keyFromValue(Global.getVar('colorTable'),color)])
+    DMCounter.setName(journal.getVar('Character_Name').."'s Health")
+    DMCounter.Counter.setValue(journal.getVar('HP'))
 
     calculateCharacterSheetValues(color)
 end
@@ -1153,13 +1149,13 @@ function editProficiencyCheck(obj)
     calculateCharacterSheetValues(obj.getVar('color'))
 end
 
-function editDeathSave(obj)
-    local tempVar = CharacterJournals[obj.getVar('color')].getVar(obj.getVar('value')) + obj.getVar('modifier')
-    if tempVar ~= 4 and tempVar ~= -1 then
-        CharacterJournals[obj.getVar('color')].setVar(obj.getVar('value'),tempVar)
-        playerInformation[obj.getVar('color')][obj.getVar('value')].TextTool.setValue(getSaves(tempVar))
-    end
-end
+-- function editDeathSave(obj)
+--     local tempVar = CharacterJournals[obj.getVar('color')].getVar(obj.getVar('value')) + obj.getVar('modifier')
+--     if tempVar ~= 4 and tempVar ~= -1 then
+--         CharacterJournals[obj.getVar('color')].setVar(obj.getVar('value'),tempVar)
+--         playerInformation[obj.getVar('color')][obj.getVar('value')].TextTool.setValue(getSaves(tempVar))
+--     end
+-- end
 
 function getProficienciesString(color, tableName) -- Reads vars from the journal and creates a string of unicode circles based on the result.
     local str = ''
