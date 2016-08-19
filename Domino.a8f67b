@@ -1,0 +1,10 @@
+function onload()
+    self.setTable('pos',{0,-0.2,0})
+    self.setTable('rot',{0,90,-180})
+    getObjectFromGUID('ROLL').setTable('customRoll',{0,2,0,0,0,0})
+    callLuaFunctionInOtherScriptWithParams(
+        Global,'addButton',
+        {self.getGUID(),1400,650,400,'2d6','pClickCustom',getObjectFromGUID('ROLL')}
+    )
+
+end
