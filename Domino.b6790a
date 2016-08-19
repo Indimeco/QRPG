@@ -1,0 +1,11 @@
+function onload()
+    self.setTable('pos',{0,-6,0})
+    self.setTable('rot',{0,-90,180})
+    Global.call('addButton',{self.getGUID(),1400,650,200,'Let\'s Go!','done',self})
+end
+
+function done()
+    getObjectFromGUID('TOOLS').call('changeLayoutTo1')
+    getObjectFromGUID('f6aac5').destruct()
+    self.destruct()
+end
