@@ -29,7 +29,7 @@ incrementalOffsetList = { -- Text Tools that will spawn modifiers to act like co
                 x position of Text Tool, z position of Text Tool, ['size'] = font size,
                 ['gap'] = { space between x axis of +/- buttons, space between z axis of +/- buttons },
                 ['mod'] = { x position of the center of +/- buttons relative to the Text Tool, z position of the center of +/- buttons relative to the Text Tool }
-                (optional)['modSize'] = size of the buttons -defaults to 200-, (optional)['color'] = color of the Text Tool -defaults to 'White'-,
+                (optional)['modSize'] = size of the buttons -defaults to 200-, (optional)['color'] = color of the Text Tool -defaults to 'Grey'-,
                 (optional)['alwaysVisible'] = false to only show buttons when in "Edit Mode" or true to always display buttons -defaults to false-,
                 (optional)['triggerUpdate'] = false to prevent the button(s) from calling calculateCharacterSheetValues() when modified or true to make the button(s) call the function when modified -defaults to false-
             }
@@ -66,7 +66,7 @@ toggleOffsetList = { -- Text Tools that will spawn buttons which change the valu
                  x position of Text Tool, z position of Text Tool, ['size'] = font size,
                  ['set'] = {the different toggle displays},
                  ['mod'] = { x position of the center of the button relative to the Text Tool, z position of the center of the button relative to the Text Tool }
-                 (optional)['modSize'] = size of the button -defaults to 200-, (optional)['color'] = color of the Text Tool -defaults to 'White'-,
+                 (optional)['modSize'] = size of the button -defaults to 200-, (optional)['color'] = color of the Text Tool -defaults to 'Grey'-,
                  (optional)['alwaysVisible'] = 0 to only show buttons when in "Edit Mode" or 1 to always display buttons -defaults to 0-,
                  (optional)['triggerUpdate'] = false to prevent the button(s) from calling calculateCharacterSheetValues() when modified or true to make the button(s) call the function when modified -defaults to false-
              }
@@ -86,7 +86,7 @@ checkboxOffsetList = { -- Text Tools that contain lists of individual items with
                  (optional)['rotation'] = {x rotation, y rotation, z rotation} used to create horizontal checkboxes
                  ['gap'] = {the x distance between each button, the z difference between each button}, ['list_size'] = the number of checkbox buttons to be made,
                  ['mod'] = { x position of the center of the button relative to the Text Tool, z position of the center of the button relative to the Text Tool }
-                 (optional)['modSize'] = size of the button -defaults to 200-, (optional)['color'] = color of the Text Tool -defaults to 'White'-,
+                 (optional)['modSize'] = size of the button -defaults to 200-, (optional)['color'] = color of the Text Tool -defaults to 'Grey'-,
                  (optional)['alwaysVisible'] = 0 to only show buttons when in "Edit Mode" or 1 to always display buttons -defaults to 0-,
                  (optional)['triggerUpdate'] = false to prevent the button(s) from calling calculateCharacterSheetValues() when modified or true to make the button(s) call the function when modified -defaults to false-
              }
@@ -115,17 +115,10 @@ inertOffsetList = { -- Text Tools that are only interacted upon by other changin
     Format for each line:
     [Name] = {
                  x position of Text Tool, z position of Text Tool, ['size'] = font size,
-                 (optional)['color'] = color of the Text Tool or true to be the player's color -defaults to 'White'-,
+                 (optional)['color'] = color of the Text Tool or true to be the player's color -defaults to 'Grey'-,
              }
     --]]
 
-    ['Path']                  = { 7.767517,-6.87593, ['size'] = 24},
-    ['Background']            = { 4.656049,-7.57593, ['size'] = 24},
-    ['Alignment']             = { 4.632616,-6.87593, ['size'] = 24},
-    ['Party']                 = { 1.564409,-6.87593, ['size'] = 24},
-    ['Race_Class']            = { 7.707871,-7.57593, ['size'] = 24},
-    ['Character_Level']       = { 10.19124,-7.30251, ['size'] = 32, ['color'] = 'Black'},
-    ['Character_Name']        = { 13.26529,-7.56156, ['size'] = 36, ['color'] = true},
     ['Player']                = { 1.564409,-7.57593, ['size'] = 24},
     ['STRMod']                = { 13.78865,-5.7159,  ['size'] = 40, ['color'] = 'Red'},
     ['DEXMod']                = { 13.78865,-3.25593, ['size'] = 40, ['color'] = 'Green'},
@@ -358,7 +351,7 @@ function initSheet(color)
     sheet.lock()
     CharacterSheets[color] = sheet
 
-    local offsetArray = {objectOffsetList,tabsOffsetList,inertOffsetList,incrementalOffsetList,toggleOffsetList,checkboxOffsetList}
+    local offsetArray = {objectOffsetList,tabsOffsetList,textOffsetList,inertOffsetList,incrementalOffsetList,toggleOffsetList,checkboxOffsetList}
     for index,offsetList in ipairs(offsetArray) do
         local position = {}
         local rotation = {}
@@ -383,9 +376,9 @@ function initSheet(color)
                 })
                 obj.setRotationSmooth(rotation)
                 obj.TextTool.setFontSize(value['size'] or 64)
-                obj.TextTool.setFontColor(returnColorTable(value['color'] or 'White'))
+                obj.TextTool.setFontColor(returnColorTable(value['color'] or 'Grey'))
                 obj.TextTool.setValue(value['text'] or ' ')
-                obj['interactable'] = false
+                obj['interactable'] = true
             end
             local switch = {
                 [1] = function () -- objects
@@ -416,21 +409,24 @@ function initSheet(color)
                     modifier.lock()
                     local offsetNames = {'incremental','toggle','checkbox'}
                     if value['alwaysVisible'] == true then
-                        playerInformation[color]['edit'][offsetNames[index-3]]['alwaysVisible'][key] = modifier
+                        playerInformation[color]['edit'][offsetNames[index-4]]['alwaysVisible'][key] = modifier
                     else
-                        playerInformation[color]['edit'][offsetNames[index-3]][key] = modifier
+                        playerInformation[color]['edit'][offsetNames[index-4]][key] = modifier
                         modifier.setScale({0,0,0})
                     end
                     keyLookup[color][obj] = modifier
                 end
             }
-        if index >= 4 and index <= 6 then -- Validate execution
-            switch[4]()
+        if index == 1 then -- Validate Execution
+            switch[1]()
             playerInformation[color][key] = obj
-        elseif index == 2 then  -- Validate execution
+        elseif index == 2 then
             switch[2]()
-        elseif switch[index] ~= nil then -- Validate execution
-            switch[index]()
+        elseif index == 3 or index == 4 then
+            switch[3]()
+            playerInformation[color][key] = obj
+        elseif index >= 5 and index <= 7 then
+            switch[4]()
             playerInformation[color][key] = obj
         else
             print('Failure to load all offset tables. Please revise your custom character sheet code.')
@@ -678,9 +674,11 @@ function readFromBook(color,journal)
 
     for key,value in pairs(objectOffsetList) do
         if value['type'] ~= 'Notecard' then
+            CharacterJournals[color].setVar(key,journal.getVar(key))
             playerInformation[color][key].setValue(journal.getVar(key))
             playerInformation[color][key].setName(value['name'])
         elseif value['name'] ~= 'Inventory' then
+            CharacterJournals[color].setVar(key,journal.getVar(key))
             playerInformation[color][key].setDescription(journal.getVar(key))
             playerInformation[color][key].setName(value['name'])
         end
@@ -693,6 +691,7 @@ function readFromBook(color,journal)
     local DMCounter = getObjectFromGUID(tool.getTable('DMHealthCounterGUIDs')[keyFromValue(Global.getVar('colorTable'),color)])
     DMCounter.setName(journal.getVar('Character_Name').."'s Health")
     DMCounter.Counter.setValue(journal.getVar('HP'))
+    playerInformation[color]['HP'].Counter.setValue(journal.getVar('HP'))
 
     calculateCharacterSheetValues(color)
 end
@@ -768,26 +767,28 @@ function destroyObjects(table)
 end
 
 function cleanText(color)
-    local exclude = {
-        'HP','Inventory','Equipment','Note1','Note2','Note3','Note4','Note5'
-    }
-    for key,value in pairs(playerInformation[color]) do
-        --print(key)
-        if not contains(exclude,key) and type(value) == 'userdata' then
-            value.TextTool.setValue(' ')
+    local offsetArray = {incrementalOffsetList,toggleOffsetList,checkboxOffsetList,textOffsetList,inertOffsetList}
+    for index,offset in pairs(offsetArray) do
+        for key,value in pairs(offset) do
+            playerInformation[color][key].TextTool.setValue(' ')
         end
     end
-    for _,value in pairs(exclude) do
-        --playerInformation[color][value].setName(' ')
-        playerInformation[color][value].setDescription(' ')
+
+    for key,value in pairs(objectOffsetList) do
+        if value['type'] ~= 'Notecard' then
+            playerInformation[color][key].setValue(0)
+            playerInformation[color][key].setName('')
+        else
+            playerInformation[color][key].setDescription('')
+            playerInformation[color][key].setName('')
+        end
     end
+
     local DMCounter = getObjectFromGUID(tool.getTable('DMHealthCounterGUIDs')[keyFromValue(Global.getVar('colorTable'),color)])
     DMCounter.setName(' ')
-    if tool.getVar('healthController') == "DM" then
-        DMCounter.Counter.setValue(0)
-    else
-        playerInformation[color]['HP'].Counter.setValue(0)
-    end
+    DMCounter.Counter.setValue(0)
+    playerInformation[color]['HP'].Counter.setValue(0)
+
     getObjectFromGUID(color.."NameDisplay").TextTool.setValue(' ')
 end
 
@@ -816,153 +817,63 @@ function onPlayerChangedColor(color)
 end
 
 function encodeBook(color)
-    local save = CharacterJournals[color]
     local script = [[-- Quality RPG CHARACTER SAVE
--- ]].. os.date("Saved %X UTC ~ %a %d, %B %Y") ..[[
+-- ]].. os.date("Saved %X UTC ~ %a %d, %B %Y")..'\nversion = '..Global.getVar('currentVersion')
 
-version = ]]..Global.getVar('currentVersion')..[=[
+script = script..'\n\n--------------------------- Character Information ---------------------------\n'
 
----------------------------[[ Basic Information ]]------------------------------
-Character_Name  = ']=].. parseSave(playerInformation[color]['Character_Name'].TextTool.getValue()) ..[['
-Gender          = ']].. parseSave(save.getVar('Gender')) ..[['
-Age             = ']].. parseSave(save.getVar('Age')) ..[['
-Height_Width    = ']].. parseSave(save.getVar('Height_Width')) ..[['
-Race_Class      = ']].. parseSave(playerInformation[color]['Race_Class'].TextTool.getValue()) ..[['
+    local offsetArray = {toggleOffsetList, textOffsetList, inertOffsetList}
+    for index,offset in pairs(offsetArray) do
+        for key,value in pairs(offset) do
+            if tonumber(CharacterJournals[color].getVar(key)) then
+                script = script..'\n'..key..' = '..CharacterJournals[color].getVar(key)
+            else
+                script = script..'\n'..key..' = \[\['..tostring(CharacterJournals[color].getVar(key))..'\]\]'
+            end
+        end
+    end
 
-Path            = ']].. parseSave(playerInformation[color]['Path'].TextTool.getValue()) ..[['
-Alignment       = ']].. parseSave(playerInformation[color]['Alignment'].TextTool.getValue()) ..[['
-Background      = ']].. parseSave(playerInformation[color]['Background'].TextTool.getValue()) ..[['
+    for key,value in pairs(incrementalOffsetList) do
+        if not contains(Base_Stats,key) then
+            script = script..'\n'..key..' = '..CharacterJournals[color].getVar(key)
+        end
+    end
 
-Party           = ']].. parseSave(playerInformation[color]['Party'].TextTool.getValue()) ..[['
+    script = script..'\nBase_Stats = {'
+    for key,value in pairs(CharacterJournals[color].getTable('Base_Stats')) do
+        if tonumber(key) then
+            script = script..'\n\t['..key..'] = '..value..','
+        else
+            script = script..'\n\t[\"'..key..'\"] = '..value..','
+        end
+    end
 
-Character_Level = ]].. playerInformation[color]['Character_Level'].getValue() ..[[
+    script = string.sub(script,1,-2)
+    script = script..'\n}\n'
 
-Experience      = ]].. save.getVar('Experience') ..[=[
+    for key,value in pairs(checkboxOffsetList) do
+        script = script..'\n'..key..' = {'
+        for i,v in pairs(CharacterJournals[color].getTable(key)) do
+            if tonumber(i) then
+                script = script..'\n\t['..i..'] = '..tostring(v)..','
+            else
+                script = script..'\n\t[\"'..i..'\"] = '..tostring(v)..','
+            end
+        end
+        script = string.sub(script,1,-2)
+        script = script..'\n}\n'
+    end
 
+    for key,value in pairs(objectOffsetList) do
+        if value['type'] ~= 'Notecard' then
+            script = script..'\n'..key..' = '..playerInformation[color][key].getValue()
+        else
+            script = script..'\n'..key..' = \[\['..playerInformation[color][key].getDescription()..'\]\]'
+        end
+    end
 
-------------------------------[[ Base Stats ]]----------------------------------
-Base_Stats = {
-    ['STR'] = ]=].. save.getTable('Base_Stats')['STR'] ..[[,
-    ['DEX'] = ]].. save.getTable('Base_Stats')['DEX'] ..[[,
-    ['CON'] = ]].. save.getTable('Base_Stats')['CON'] ..[[,
-    ['INT'] = ]].. save.getTable('Base_Stats')['INT'] ..[[,
-    ['WIS'] = ]].. save.getTable('Base_Stats')['WIS'] ..[[,
-    ['CHA'] = ]].. save.getTable('Base_Stats')['CHA'] ..[[
+    script = script..'\n\nfunction onLoad(save_state)\n\tself.setName(Character_Name)\n\tself.setDescription("QRPG Character Save")\nend'
 
-}
-
-Saving_Throws_Proficiencies = {
-    ['STR'] = ]].. tostring(save.getTable('Saving_Throws_Proficiencies')['STR']) ..[[,
-    ['DEX'] = ]].. tostring(save.getTable('Saving_Throws_Proficiencies')['DEX']) ..[[,
-    ['CON'] = ]].. tostring(save.getTable('Saving_Throws_Proficiencies')['CON']) ..[[,
-    ['INT'] = ]].. tostring(save.getTable('Saving_Throws_Proficiencies')['INT']) ..[[,
-    ['WIS'] = ]].. tostring(save.getTable('Saving_Throws_Proficiencies')['WIS']) ..[[,
-    ['CHA'] = ]].. tostring(save.getTable('Saving_Throws_Proficiencies')['CHA']) ..[[
-
-}
-
-Spell_Casting_Ability = ']].. save.getVar('Spell_Casting_Ability') ..[[' -- Changes depending on class/race
-Spell_Save_DC         = ]].. save.getVar('Spell_Save_DC') ..[[ -- 8 + proficiency_bonus + SCAMod
-Spell_Attack_Bonus    = ]].. save.getVar('Spell_Attack_Bonus') ..[[ -- proficiency_bonus + SCAMod
-
-Initiative = ]].. save.getVar('Initiative') ..[[
-
-Speed      = ]].. save.getVar('Speed') ..[[
-
-Vision     = ']].. save.getVar('Vision') ..[=['
-
---------------------------[[ Proficiencies ]]-----------------------------------
-Skill_Proficiencies = {
-    ['Acrobatics']      = ]=].. tostring(save.getTable('Skill_Proficiencies')['Acrobatics']      )..[[,
-    ['Animal Handling'] = ]].. tostring(save.getTable('Skill_Proficiencies')['Animal Handling'] )..[[,
-    ['Arcana']          = ]].. tostring(save.getTable('Skill_Proficiencies')['Arcana']          )..[[,
-    ['Athletics']       = ]].. tostring(save.getTable('Skill_Proficiencies')['Athletics']       )..[[,
-    ['Deception']       = ]].. tostring(save.getTable('Skill_Proficiencies')['Deception']       )..[[,
-    ['History']         = ]].. tostring(save.getTable('Skill_Proficiencies')['History']         )..[[,
-    ['Insight']         = ]].. tostring(save.getTable('Skill_Proficiencies')['Insight']         )..[[,
-    ['Intimidation']    = ]].. tostring(save.getTable('Skill_Proficiencies')['Intimidation']    )..[[,
-    ['Investigation']   = ]].. tostring(save.getTable('Skill_Proficiencies')['Investigation']   )..[[,
-    ['Medicine']        = ]].. tostring(save.getTable('Skill_Proficiencies')['Medicine']        )..[[,
-    ['Nature']          = ]].. tostring(save.getTable('Skill_Proficiencies')['Nature']          )..[[,
-    ['Perception']      = ]].. tostring(save.getTable('Skill_Proficiencies')['Perception']      )..[[,
-    ['Performance']     = ]].. tostring(save.getTable('Skill_Proficiencies')['Performance']     )..[[,
-    ['Persuasion']      = ]].. tostring(save.getTable('Skill_Proficiencies')['Persuasion']      )..[[,
-    ['Religion']        = ]].. tostring(save.getTable('Skill_Proficiencies')['Religion']        )..[[,
-    ['Sleight Of Hand'] = ]].. tostring(save.getTable('Skill_Proficiencies')['Sleight Of Hand'] )..[[,
-    ['Stealth']         = ]].. tostring(save.getTable('Skill_Proficiencies')['Stealth']         )..[[,
-    ['Survival']        = ]].. tostring(save.getTable('Skill_Proficiencies')['Survival']        )..[[
-
-}
-
-Inspiration           = ]].. save.getVar('Inspiration') ..[[
-
-Proficiency_Bonus     = ]].. save.getVar('Proficiency_Bonus') ..[[
-
-Passive_Perception    = ]].. save.getVar('Passive_Perception') ..[=[ -- 10 + WIS
-
-----------------------------[[ Char Status ]]-----------------------------------
-
-HP           = ]=].. playerInformation[color]['HP'].Counter.getValue() ..[[
-
-Max_HP       = ]].. save.getVar('Max_HP') ..[[
-
-Armor_Class  = ]].. save.getVar('Armor_Class') ..[[
-
-
-Success_Save = {
-    [1] = false,
-    [2] = false,
-    [3] = false
-}
-
-Fail_Save = {
-    [1] = false,
-    [2] = false,
-    [3] = false
-}
-
-
-Max_Hit_Dice      = ]].. save.getVar('Max_Hit_Dice') ..[[
-
-Current_Hit_Dice  = ]].. save.getVar('Current_Hit_Dice') ..[[
-
-Max_Hit_Dice_Type = ']].. save.getVar('Max_Hit_Dice_Type') ..[=['
-
-------------------------------[[ Currency ]]------------------------------------
-Copper   = ]=].. save.getVar('Copper') ..[[
-
-Silver   = ]].. save.getVar('Silver') ..[[
-
-Electrum = ]].. save.getVar('Electrum') ..[[
-
-Gold     = ]].. save.getVar('Gold') ..[[
-
-Platinum = ]].. save.getVar('Platinum') ..[=[
-
-----------------------------[[ Notecards ]]------------------------------------
-
-Inventory = ']=].. parseSave(tool.call("callGetFullText",{color})) ..[['
-Equipment = ']].. parseSave(playerInformation[color]['Equipment'].getDescription()) ..[['
-
-Note1_Title = ']].. parseSave(playerInformation[color]['Note1'].getName()) ..[['
-      Note1 = ']].. parseSave(playerInformation[color]['Note1'].getDescription()) ..[['
-
-Note2_Title = ']].. parseSave(playerInformation[color]['Note2'].getName()) ..[['
-      Note2 = ']].. parseSave(playerInformation[color]['Note2'].getDescription()) ..[['
-
-Note3_Title = ']].. parseSave(playerInformation[color]['Note3'].getName()) ..[['
-      Note3 = ']].. parseSave(playerInformation[color]['Note3'].getDescription()) ..[['
-
-Note4_Title = ']].. parseSave(playerInformation[color]['Note4'].getName()) ..[['
-      Note4 = ']].. parseSave(playerInformation[color]['Note4'].getDescription()) ..[['
-
-Note5_Title = ']].. parseSave(playerInformation[color]['Note5'].getName()) ..[['
-      Note5 = ']].. parseSave(playerInformation[color]['Note5'].getDescription()) ..[['
-
-function onLoad(save_state)
-    self.setName(Character_Name)
-    self.setDescription(Race_Class.." Lvl "..Character_Level)
-end]]
     return script
 end
 
@@ -1020,6 +931,7 @@ function returnColorTable(color)
         ['Blue']        = {0.118,0.53,1.0},
         ['Purple']      = {0.627,0.125,0.941},
         ['Black']       = {0,0,0},
+        ['Grey']        = {0.84,0.84,0.84},
         ['White']       = {1,1,1},
         ['Pink']        = {1.0,0.3222451,1.0},
         ['Copper']      = {0.71,0.39,0.15},
@@ -1159,9 +1071,9 @@ end
 
 function getProficienciesString(color, tableName) -- Reads vars from the journal and creates a string of unicode circles based on the result.
     local str = ''
-    local itemTable = CharacterJournals[color].getTable(tableName)-- specific journal related to color to be edited here
+    local itemTable = CharacterJournals[color].getTable(tableName) -- specific journal related to color to be edited here
     for i,v in pairs(itemTable) do
-        if itemTable[i] == true then -- specific journal related to color to be edited here
+        if itemTable[i] == true then
             str = str..circle..'\n'
         else
             str = str..'\n'
