@@ -1,0 +1,239 @@
+unicodeCircle = '?'
+unicodeReload = '?'
+unicodeNextTurn = '?'
+unicodeCheckedBox = '?'
+unicodeCrossBox = '?'
+
+-- Set Unicode Characters
+if unicodeCircle == '?' then unicodeCircle = '#' end
+if unicodeReload == '?' then unicodeReload = '@' end
+if unicodeCrossBox == '?' then unicodeCrossBox = 'X' end
+if unicodeNextTurn == '?' then unicodeNextTurn = '>' end
+if unicodeCheckedBox == '?' then unicodeCheckedBox = 'O' end
+
+
+colorTable = {'Red','Orange','Yellow','Green','Blue','Purple'}
+pActiveZoneArray = {
+    ['6e38a4'] = -1, -- Right MP
+    ['c0ccc7'] = -1, -- Left MP
+}
+
+zoneFromColor = {
+    ['Red'] = 'e2b5b5',
+    ['Orange'] = '870986',
+    ['Yellow'] = 'e17ae9',
+    ['Green'] = '1d70c7',
+    ['Blue'] = '4794d8',
+    ['Purple'] = '4201a9'
+}
+
+local uninteractable = {
+    'bf7a11', -- screen
+    '1c1c26', -- Table
+    'aad6e8','0d093a', -- Inv Controller/Highlight
+    'RedNameDisplay','OrangeNameDisplay','YellowNameDisplay','GreenNameDisplay','BlueNameDisplay','PurpleNameDisplay','MapName',
+    -- '985288','e82794','dc0278','c670af','28f736','b4f394', -- Initiative Dominos
+    'd05e4e','859337','8a0e67','ba1d15','b9fb4c','f403ae', -- Skill Coutners
+    --'591edd','1a039e','2513de','0c5edf','283218','af016f', -- Health counters
+    '5fff87','6b1448', -- Monster Platforms
+    '10dea3','0a66ae','23f579','649d04','b189da','f2b44d', -- Dominos Inv Manager
+    --'d58363','a75f3e','c1de54','e544c6','1dad3f','f9caf3','a0421e', -- Init Tracker
+    'd26e2d', -- Skill Labels
+    'a9d826','5711dc','5665d7','f6705e','b96893','a8a2fd', -- Wedged die
+    '580374','f6fa34','f336b5','070dd1','c3fdfd','926a00', -- Dice Roll Counters
+    '3e3b93','75b9f2', -- Preset Dominos
+--  'd42072', -- Dashboard
+--  'b1a666', -- Big Tablet
+    'bcc56d', -- Stone Circle
+    '94eca8', -- Rune Plane
+    'TOOLS','CHAR','ROLL',
+    '365d5e','10b541','442c36','154524', -- Floor Inventory
+    'ca9f1d','5f7739', -- Text Tools from Monster Platforms
+    'ImageChanger','9f02aa' -- Infinite Map Bag & Clear Table Button
+
+    --'CONFIG'
+}
+
+function onload(save_state)
+    currentVersion = 1.0
+
+    clearPixelPaint()
+    clearVectorPaint()
+
+    -- Cores
+    char = getObjectFromGUID('CHAR')
+    tool = getObjectFromGUID('TOOLS')
+    roll = getObjectFromGUID('ROLL')
+    config = getObjectFromGUID('CONF')
+
+    -- Brains
+    dsbrain=getObjectFromGUID('365d5e')
+    dswallinv=getObjectFromGUID(Global.getVar('dswallinvguid'))
+    dsfloorinv=getObjectFromGUID(Global.getVar('dsfloorinvguid'))
+    dsconfig=getObjectFromGUID(Global.getVar('configguid'))
+    -- Other Obj
+    mapTool = getObjectFromGUID('MapName')
+    mapTool.TextTool.setValue(" ")
+
+    -- Set interactions
+    for i,value in pairs(uninteractable) do getObjectFromGUID(value)['interactable'] = false end
+    for i=1,6 do getObjectFromGUID(colorTable[i]..'NameDisplay').setValue(' ') end
+    printToAll("?DA?Welcome Everyone. Have a good time.",{0,1,0})
+end
+
+lastTick = 0
+function update()
+    curTick = os.clock()
+    tickTime = curTick - lastTick
+    lastTick = curTick
+    tickMult = tickTime * 30
+    setNotes("FPS: "..math.floor(30/tickMult))
+end
+
+function setZone(param)
+    pActiveZoneArray[zoneFromColor[param[1]]] = param[2]
+end
+
+function getZone(param)
+    return pActiveZoneArray[zoneFromColor[param[1]]]
+end
+
+--[[ Map
+Player Zones
+0:  Inactive (Player not seated)
+1: Active and Available (Player just seated, awaiting char)
+2: Active and Not Available (Player loaded char in)
+
+DM Zones:
+-1: Monster Platform
+]]--
+function onObjectEnterScriptingZone(zone, enter_object)
+    local action = { -- Lua Switch
+        [-1] = function() -- Monster Platform
+            if enter_object.getVar('cardname') ~= nil then
+                monsterPlatformZoneGUID = tool.getTable('monsterPlatformZoneGUID')
+                if zone.getGUID() == monsterPlatformZoneGUID[1] then
+                    tool.call('onCardEnter', {enter_object, 1})
+                elseif zone.getGUID() == monsterPlatformZoneGUID[2] then
+                    tool.call('onCardEnter', {enter_object, 2})
+                end
+            end
+        end,
+        [1] = function() -- Zone is active, no character
+            if enter_object.getVar('Character_Name') ~= nil then -- Validate book
+                if enter_object.getVar('version') <= currentVersion then
+                    char.call('loadCharacter', {enter_object,zone,keyFromValue(zoneFromColor,zone.guid)})
+                    pActiveZoneArray[zone.getGUID()] = 2
+                else
+                    printToColor("Incompatible Version (Journal: "..enter_object.getVar('version').." / Table: "..currentVersion..")",keyFromValue(zoneFromColor,zone.guid),{1,1,1})
+                end
+            --else -- Not a journal
+            --    printToColor('?DA?This object is not a Character Journal', enter_object['held_by_color'], {0.7,0.1,0.1})
+            end
+        end,
+        [2] = function() -- Zona is active, character loaded
+            if enter_object.getVar('Character_Name') ~= nil and enter_object.getVar('open') ~= 1 then
+                printToColor('?DA?This sheet is being occupied by someone else', enter_object['held_by_color'], {0.7,0.1,0.1})
+            elseif enter_object.getVar('Character_Name') ~= nil and enter_object.getVar('open') == 1 then
+                printToColor('?DA?Finished loading character.',keyFromValue(zoneFromColor,zone.guid),{0.1,0.7,0.1})
+            end
+        end
+    }
+    if action[pActiveZoneArray[zone.getGUID()]] ~= nil then action[pActiveZoneArray[zone.getGUID()]]() end -- Execute action based on zone
+end
+
+function onObjectLeaveScriptingZone(zone, leave_object)
+    local action = { -- Lua Switch
+        [-1] = function() -- Monster Platform
+            if leave_object.getVar('cardname') ~= nil then
+                monsterPlatformZoneGUID = tool.getTable('monsterPlatformZoneGUID')
+                if zone.getGUID() == monsterPlatformZoneGUID[1] then
+                    tool.call('onCardLeave', {leave_object, 1})
+                elseif zone.getGUID() == monsterPlatformZoneGUID[2] then
+                    tool.call('onCardLeave', {leave_object, 2})
+                end
+            end
+        end
+    }
+    if action[pActiveZoneArray[zone.getGUID()]] ~= nil then action[pActiveZoneArray[zone.getGUID()]]() -- Execute action based on zone
+    -- else print('defualt') -- Default Case
+    end
+end
+
+function returnColorTable(table)
+    local color = table[1]
+    local tint = {
+        ['Red']         = {0.856,0.1,0.094},
+        ['Orange']      = {0.956,0.392,0.113},
+        ['Yellow']      = {0.905,0.898,0.172},
+        ['Green']       = {0.192,0.701,0.168},
+        ['Blue']        = {0.118,0.53,1.0},
+        ['Purple']      = {0.627,0.125,0.941},
+        ['Black']       = {0,0,0},
+        ['Pink']        = {1.0,0.3222451,1.0},
+        ['Copper']      = {0.71,0.39,0.15},
+        ['Silver']      = {0.75,0.75,0.75},
+        ['Electrum']    = {0.8,0.81,0.6},
+        ['Gold']        = {1.0,0.84,0.0},
+        ['Platinum']    = {0.75,0.79,0.85},
+    }
+    return {['r']=tint[color][1],['g']=tint[color][2],['b']=tint[color][3]}
+end
+
+-- Creates a button with a table of params: GUID, Width, Height, Font Size, Label, Function, Function Owner, pos?, rot?
+function addButton(paramsTable)
+    object = getObjectFromGUID(paramsTable[1])
+    position = object.getTable('pos') or paramsTable[8] or {0,0,0}
+    rotation = object.getTable('rot') or paramsTable[9] or {0,0,0}
+    object.createButton({
+        ['position'] = position,
+        ['rotation'] = rotation,
+        ['width'] = paramsTable[2],
+        ['height'] = paramsTable[3],
+        ['font_size'] = paramsTable[4],
+        ['label'] = paramsTable[5],
+        ['click_function'] = paramsTable[6],
+        ['function_owner'] = paramsTable[7]
+    })
+end
+
+function keyFromValue( t, value )
+  for k,v in pairs(t) do
+    if v==value then return k end
+    end
+  return nil
+end
+
+function print_r ( t )
+    local print_r_cache={}
+    local function sub_print_r(t,indent)
+        if (print_r_cache[tostring(t)]) then
+            print(indent.."*"..tostring(t))
+        else
+            print_r_cache[tostring(t)]=true
+            if (type(t)=="table") then
+                for pos,val in pairs(t) do
+                    if (type(val)=="table") then
+                        print(indent.."["..pos.."] => "..tostring(t).." {")
+                        sub_print_r(val,indent..string.rep(" ",string.len(pos)+8))
+                        print(indent..string.rep(" ",string.len(pos)+6).."}")
+                    elseif (type(val)=="string") then
+                        print(indent.."["..pos..'] => "'..val..'"')
+                    else
+                        print(indent.."["..pos.."] => "..tostring(val))
+                    end
+                end
+            else
+                print(indent..tostring(t))
+            end
+        end
+    end
+    if (type(t)=="table") then
+        print(tostring(t).." {")
+        sub_print_r(t,"  ")
+        print("}")
+    else
+        sub_print_r(t,"  ")
+    end
+    print()
+end
