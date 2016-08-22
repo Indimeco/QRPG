@@ -84,16 +84,17 @@ checkboxOffsetList = { -- Text Tools that contain lists of individual items with
     [Name] = {
                  x position of Text Tool, z position of Text Tool, ['size'] = font size,
                  (optional)['rotation'] = {x rotation, y rotation, z rotation} used to create horizontal checkboxes
-                 ['gap'] = {the x distance between each button, the z difference between each button}, ['list_size'] = the number of checkbox buttons to be made,
+                 ['gap'] = {the x distance between each button, the z difference between each button},
                  ['mod'] = { x position of the center of the button relative to the Text Tool, z position of the center of the button relative to the Text Tool }
+                 ['listVariables'] = { 'the names of each item the checkbox will represent','separated by commas','do not use numbers' },
                  (optional)['modSize'] = size of the button -defaults to 200-, (optional)['color'] = color of the Text Tool -defaults to 'Grey'-,
                  (optional)['alwaysVisible'] = 0 to only show buttons when in "Edit Mode" or 1 to always display buttons -defaults to 0-,
                  (optional)['triggerUpdate'] = false to prevent the button(s) from calling calculateCharacterSheetValues() when modified or true to make the button(s) call the function when modified -defaults to false-
              }
     --]]
 
-    ['Success_Save']                = { 9.72,-5.1,  ['rotation'] = {0,270,0}, ['size'] = 40, ['gap'] = {0,0.59}, ['mod'] = {-0.3,1.5}, ['listVariables'] = {'1','2','3'},  ['color'] = 'Black', ['modSize'] = 100},
-    ['Fail_Save']                   = { 9.72,-4.65, ['rotation'] = {0,270,0}, ['size'] = 40, ['gap'] = {0,0.59}, ['mod'] = {0.3,1.5}, ['listVariables'] = {'1','2','3'},  ['color'] = 'Black', ['modSize'] = 100},
+    ['Success_Save']                = { 7.94,-5.1,  ['rotation'] = {0,270,0}, ['size'] = 40, ['gap'] = {0,0.59}, ['mod'] = {-0.3,-0.3}, ['listVariables'] = {'First','Second','Third'},  ['color'] = 'Black', ['modSize'] = 100},
+    ['Fail_Save']                   = { 7.94,-4.65, ['rotation'] = {0,270,0}, ['size'] = 40, ['gap'] = {0,0.59}, ['mod'] = {0.3,-0.3}, ['listVariables'] = {'First','Second','Third'},  ['color'] = 'Black', ['modSize'] = 100},
     ['Skill_Proficiencies']         = { 12.89858,-0.68993, ['size'] = 26, ['gap'] = {0,0.39}, ['mod'] = {0.3,-0.24}, ['listVariables'] = {'Acrobatics','Animal Handling','Arcana','Athletics','Deception','History','Insight','Intimidation','Investigation',
                                                                                                                 'Medicine','Nature','Perception','Performance','Persuasion','Religion','Sleight Of Hand','Stealth','Survival'},  ['color'] = 'Black', ['triggerUpdate'] = true, ['modSize'] = 100},
     ['Saving_Throws_Proficiencies'] = { 12.89858,-3.94673, ['size'] = 26, ['gap'] = {0,0.39}, ['mod'] = {0.3,-0.24}, ['listVariables'] = {'STR','DEX','CON','INT','WIS','CHA'}, ['color'] = 'Black', ['triggerUpdate'] = true, ['modSize'] = 100}
@@ -637,13 +638,16 @@ function modifierToggle(obj,color) -- Called from a toggle button
 end
 
 function modifierCheckbox(obj,color,element) -- Called from a checkbox button
-    local checkbox = getObjectFromGUID(keyFromValue(keyLookupGUID[color],obj.guid))
-    local key = keyFromValue(playerInformation[color],checkbox)
-    local workTable = CharacterJournals[color].getTable(key)
-    workTable[element] = not workTable[element]
-    CharacterJournals[color].setTable(key,workTable)
-    checkbox.TextTool.setValue(getProficienciesString(color,key))
-    if lookupButtonData[key]['triggerUpdate'] == true then calculateCharacterSheetValues(color) end
+    if tonumber(element) then print('Invalid checkbox element, do not use numbers as strings in the set. Edit your custom sheet.')
+    else
+        local checkbox = getObjectFromGUID(keyFromValue(keyLookupGUID[color],obj.guid))
+        local key = keyFromValue(playerInformation[color],checkbox)
+        local workTable = CharacterJournals[color].getTable(key)
+        workTable[element] = not workTable[element]
+        CharacterJournals[color].setTable(key,workTable)
+        checkbox.TextTool.setValue(getProficienciesString(color,key))
+        if lookupButtonData[key]['triggerUpdate'] == true then calculateCharacterSheetValues(color) end
+    end
 end
 
 function readFromBook(color,journal)
@@ -990,88 +994,9 @@ function contains(table, element)
   return false
 end
 
-function editAbilityScore(obj) -- Calculates the new stat value as well as the modifier.
-    local workTable = CharacterJournals[obj.getVar('color')].getTable('Base_Stats')
-    workTable[obj.getVar('value')] = workTable[obj.getVar('value')] + obj.getVar('modifier')
-    CharacterJournals[obj.getVar('color')].setTable('Base_Stats',workTable)
-    playerInformation[obj.getVar('color')][obj.getVar('value')].TextTool.setValue(tostring(workTable[obj.getVar('value')]))
-    calculateCharacterSheetValues(obj.getVar('color'))
-end
-
-function editHitDice(obj)
-    local tempVar = CharacterJournals[obj.getVar('color')].getVar(obj.getVar('value')) + obj.getVar('modifier')
-    CharacterJournals[obj.getVar('color')].setVar(obj.getVar('value'),tempVar)
-    playerInformation[obj.getVar('color')][obj.getVar('value')].setValue(tostring(tempVar)..'d'..tostring(CharacterJournals[obj.getVar('color')].getVar('Type')))
-end
-
-function editHitDiceType(obj)
-    local diceTypes = {6,8,10,12}
-    if CharacterJournals[obj.getVar('color')].getVar('Type') == 6 then
-        obj.setVar('diceTypeTracker',1)
-    elseif CharacterJournals[obj.getVar('color')].getVar('Type') == 8 then
-        obj.setVar('diceTypeTracker',2)
-    elseif CharacterJournals[obj.getVar('color')].getVar('Type') == 10 then
-        obj.setVar('diceTypeTracker',3)
-    elseif CharacterJournals[obj.getVar('color')].getVar('Type') == 12 or CharacterJournals[obj.getVar('color')].getVar('Type') == nil then
-        obj.setVar('diceTypeTracker',0)
-    else
-        print('Error changing dice types. Please file a bug report.')
-    end
-    playerInformation[obj.getVar('color')]['Max_Hit_Dice'].TextTool.setValue(CharacterJournals[obj.getVar('color')].getVar('Max_Hit_Dice')..'d'..tostring(diceTypes[obj.getVar('diceTypeTracker')+1]))
-    CharacterJournals[obj.getVar('color')].setVar('Type',diceTypes[obj.getVar('diceTypeTracker')+1])
-end
-
-function editSCAType(obj)
-    local SCATypes = {'STR','DEX','CON','INT','WIS','CHA'}
-    if CharacterJournals[obj.getVar('color')].getVar('Spell_Casting_Ability') == 'STR' then
-        obj.setVar('SCATypeTracker',1)
-    elseif CharacterJournals[obj.getVar('color')].getVar('Spell_Casting_Ability') == 'DEX' then
-        obj.setVar('SCATypeTracker',2)
-    elseif CharacterJournals[obj.getVar('color')].getVar('Spell_Casting_Ability') == 'CON' then
-        obj.setVar('SCATypeTracker',3)
-    elseif CharacterJournals[obj.getVar('color')].getVar('Spell_Casting_Ability') == 'INT' then
-        obj.setVar('SCATypeTracker',4)
-    elseif CharacterJournals[obj.getVar('color')].getVar('Spell_Casting_Ability') == 'WIS' then
-        obj.setVar('SCATypeTracker',5)
-    elseif CharacterJournals[obj.getVar('color')].getVar('Spell_Casting_Ability') == 'CHA' or CharacterJournals[obj.getVar('color')].getVar('Spell_Casting_Ability') == nil then
-        obj.setVar('SCATypeTracker',0)
-    else
-        print('Error changing Spell_Casting_Ability types. Please file a bug report.')
-    end
-    CharacterJournals[obj.getVar('color')].setVar('Spell_Casting_Ability',SCATypes[obj.getVar('SCATypeTracker')+1])
-    playerInformation[obj.getVar('color')]['Spell_Casting_Ability'].TextTool.setValue(SCATypes[obj.getVar('SCATypeTracker')+1])
-end
-
-function editVisionType(obj)
-    local visionTypes = {'Blinded','Normal','Darkvision','Truesight'}
-    if obj.getVar('visionTypeTracker') == nil or obj.getVar('visionTypeTracker') == 4 then
-        obj.setVar('visionTypeTracker',1)
-    else
-        obj.setVar('visionTypeTracker',obj.getVar('visionTypeTracker')+1)
-    end
-    CharacterJournals[obj.getVar('color')].setVar('Vision',visionTypes[obj.getVar('visionTypeTracker')])
-    playerInformation[obj.getVar('color')]['Vision'].TextTool.setValue(visionTypes[obj.getVar('visionTypeTracker')])
-end
-
-function editProficiencyCheck(obj)
-    local workTable = CharacterJournals[obj.getVar('color')].getTable(obj.getVar('tableName'))
-    workTable[obj.getVar('value')] = not workTable[obj.getVar('value')]
-    CharacterJournals[obj.getVar('color')].setTable(obj.getVar('tableName'),workTable)
-    playerInformation[obj.getVar('color')][obj.getVar('tableName')].TextTool.setValue(getProficienciesString(obj.getVar('color'),obj.getVar('tableName')))
-    calculateCharacterSheetValues(obj.getVar('color'))
-end
-
--- function editDeathSave(obj)
---     local tempVar = CharacterJournals[obj.getVar('color')].getVar(obj.getVar('value')) + obj.getVar('modifier')
---     if tempVar ~= 4 and tempVar ~= -1 then
---         CharacterJournals[obj.getVar('color')].setVar(obj.getVar('value'),tempVar)
---         playerInformation[obj.getVar('color')][obj.getVar('value')].TextTool.setValue(getSaves(tempVar))
---     end
--- end
-
 function getProficienciesString(color, tableName) -- Reads vars from the journal and creates a string of unicode circles based on the result.
     local str = ''
-    local itemTable = CharacterJournals[color].getTable(tableName) -- specific journal related to color to be edited here
+    local itemTable = CharacterJournals[color].getTable(tableName)
     for i,v in pairs(itemTable) do
         if itemTable[i] == true then
             str = str..circle..'\n'
