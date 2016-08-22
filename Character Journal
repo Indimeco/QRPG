@@ -1,0 +1,105 @@
+-- Quality RPG CHARACTER SAVE
+-- Time comment will be added here
+version = 1
+
+--------------------------- Character Information ---------------------------
+
+Max_Hit_Dice_Type = [[nil]]
+Vision = [[nil]]
+Spell_Casting_Ability = [[nil]]
+Path = [[Path_Name]]
+Background = [[Background_Name]]
+Alignment = [[Alignment_Name]]
+Party = [[Party_Name]]
+Race_Class = [[Race_Class]]
+Character_Level = 1
+Character_Name = [[Character_Name]]
+Player = [[LuaGlobalPlayer]]
+STRMod = [[nil]]
+DEXMod = [[nil]]
+CONMod = [[nil]]
+INTMod = [[nil]]
+WISMod = [[nil]]
+CHAMod = [[nil]]
+Passive_Perception = 0
+Skill_Numbers = [[nil]]
+Saving_Throws_Numbers = [[nil]]
+Speed = 30
+Initiative = 0
+Inspiration = 0
+Proficiency_Bonus = 0
+Spell_Save_DC = 0
+Spell_Attack_Bonus = 0
+Max_HP = 0
+Max_Hit_Dice = 0
+Current_Hit_Dice = 0
+Armor_Class = 0
+Copper = 0
+Silver = 0
+Electrum = 0
+Gold = 0
+Platinum = 0
+Base_Stats = {
+	["STR"] = 0,
+	["DEX"] = 0,
+	["CON"] = 0,
+	["INT"] = 0,
+	["WIS"] = 0,
+	["CHA"] = 0
+}
+
+Success_Save = {
+	["First"] = false,
+	["Second"] = false,
+	["Third"] = false
+}
+
+Fail_Save = {
+	["First"] = false,
+	["Second"] = false,
+	["Third"] = false
+}
+
+Skill_Proficiencies = {
+	["Acrobatics"] = false,
+	["Animal Handling"] = false,
+	["Arcana"] = false,
+	["Athletics"] = true,
+	["Deception"] = false,
+	["History"] = false,
+	["Insight"] = false,
+	["Intimidation"] = false,
+	["Investigation"] = false,
+	["Medicine"] = false,
+	["Nature"] = false,
+	["Perception"] = false,
+	["Performance"] = false,
+	["Persuasion"] = false,
+	["Religion"] = false,
+	["Sleight Of Hand"] = false,
+	["Stealth"] = false,
+	["Survival"] = false
+}
+
+Saving_Throws_Proficiencies = {
+	["STR"] = false,
+	["DEX"] = false,
+	["CON"] = false,
+	["INT"] = false,
+	["WIS"] = false,
+	["CHA"] = false
+}
+
+HP = 0
+Note1 = [[]]
+Note2 = [[]]
+Note3 = [[]]
+Note4 = [[]]
+Note5 = [[]]
+Equipment = [[]]
+Inventory = [[]]
+
+function onLoad(save_state)
+	self.setName(Character_Name)
+	self.setDescription("QRPG Character Save")
+end
