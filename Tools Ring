@@ -855,15 +855,19 @@ end
 function callRoutine() -- Accesses the Roll core to begin the initiative call and manages buttons.
     for i=1,6 do
         if Global.call("getZone",{Global.getVar('colorTable')[i]}) == 2 then
-            invControllerInvCard['initiative'].setDescription("")
-            invControllerInvCard['initiative'].setName("Rolling...")
-            local params = initShell.getButtons()
+            local params = initShell.getButtons() -- Makes buttons invisible while initiative dice spawn
             params[1]['click_function'] = 'nil'
             params[1]['position'] = {0,-5,0}
             params[1]['width'] = 1
             params[1]['height'] = 1
             params[1]['font_size'] = 1
             initShell.editButton(params[1])
+            params[2]['click_function'] = 'nil'
+            params[2]['position'] = {0,-5,0}
+            params[2]['width'] = 1
+            params[2]['height'] = 1
+            params[2]['font_size'] = 1
+            initShell.editButton(params[2])
             startLuaCoroutine(getObjectFromGUID('ROLL'),'initiativeCall')
             return 1
         end
@@ -872,16 +876,17 @@ function callRoutine() -- Accesses the Roll core to begin the initiative call an
     return 1
 end
 
-function enableSecondaryInitButtons()
+function enableSecondaryInitButtons() -- Adds the Cancel and Continue buttons to the initiative card
     initiativeTracker = 1 - initiativeTracker
     local params = initShell.getButtons()
-    params[1]['label'] = initiativeLabels[initiativeTracker+1]
+    params[1]['label'] = 'Cancel'
     params[1]['click_function'] = 'cancelInit'
     params[1]['position'] = {1.7,0.1,-3.3}
     params[1]['width'] = 1500
     params[1]['height'] = 500
     params[1]['font_size'] = 250
     initShell.editButton(params[1])
+    params[2]['label'] = 'Continue'
     params[2]['click_function'] = 'getInitiative'
     params[2]['position'] = {-2.2,0.1,-3.3}
     params[2]['width'] = 1500
@@ -894,25 +899,25 @@ function cancelInit() -- Accesses the Roll core to end the initiative call and m
     getObjectFromGUID('ROLL').call('cleanupInitiative')
     initiativeTracker = 1 - initiativeTracker
     local params = initShell.getButtons()
-    params[1]['label'] = initiativeLabels[initiativeTracker+1]
-    params[1]['click_function'] = 'callRoutine'
-    params[1]['position'] = {-0.25,0.1,-3.3}
-    params[1]['width'] = 3250
+    params[1]['label'] = 'Clear'
+    params[1]['click_function'] = 'clearInitiative'
+    params[1]['position'] = {1.7,0.1,-3.3}
+    params[1]['width'] = 1500
+    params[1]['height'] = 500
+    params[1]['font_size'] = 250
     initShell.editButton(params[1])
-    params[2]['click_function'] = 'nil'
-    params[2]['position'] = {0,-5,0}
-    params[2]['width'] = 1
-    params[2]['height'] = 1
-    params[2]['font_size'] = 1
+    params[2]['label'] = 'New Roll'
+    params[2]['click_function'] = 'callRoutine'
+    params[1]['position'] = {1.7,0.1,-3.3}
+    params[1]['width'] = 1500
+    params[1]['height'] = 500
+    params[1]['font_size'] = 250
     initShell.editButton(params[2])
 end
 
 function getInitiative() -- Called when the DM continues after the players have rolled. Sets the initiative card and gathers monster initiative.
     cancelInit()
-    invControllerInvCard['initiative'].setDescription('')
-    invControllerHiddenTextAbove['initiative'] = ''
-    invControllerHiddenTextBelow['initiative'] = ''
-    invControllerStartingText['initiative'] = ''
+    clearInitiative()
     playerInitiatives = getObjectFromGUID('ROLL').getTable('initiativeReturnTable')
     local name
     initiatives = {}
@@ -981,6 +986,14 @@ function toggleInitiativeBroadcast() -- Changes whether, on clicking next turn, 
     initShell.editButton(params[4])
     initiativeBroadcastState = 1
   end
+end
+
+function clearInitiative()
+    invControllerInvCard['initiative'].setName('')
+    invControllerInvCard['initiative'].setDescription('')
+    invControllerHiddenTextAbove['initiative'] = ''
+    invControllerHiddenTextBelow['initiative'] = ''
+    invControllerStartingText['initiative'] = ''
 end
 
 function forceUpdateMini(obj) -- Finds the card within the monster platform scripting zone and sends it to the core updateMini function.
@@ -1199,7 +1212,6 @@ function toggleSecondPlatform() -- Hides the second platform under the table.
         secondPlatformToggled = 0
     end
 end
-
 
 function spawnAllTiles()
   tilescriptzone=getObjectFromGUID('413e0c')
