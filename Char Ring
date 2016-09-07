@@ -1,24 +1,35 @@
 Base_Stats = {'STR','DEX','CON','INT','WIS','CHA'}
 
 objectOffsetList = { -- Objects different than 3DTexts
+
 --[[
 Format for each line:
 [Name] = {
             x position of the object, z position of the object,
             ['type'] = 'the kind of object to be spawned', ['height'] = the y position of the object,
             ['rot'] = {x rotation, y rotation, z rotation}, ['scale'] = the size of the object,
-            ['name'] = 'the visible display name of the spawned object'
+            ['name'] = 'the visible display name of the spawned object',
+            (optional)['tab'] = 'the tab table in the tabOffsetList you want this item to belong to -defaults to nil-'
          }
 --]]
 
-    ['HP']        = { 2.161939,-4.81705,     ['type'] = 'Counter',  ['height'] = 0.4229977, ['rot'] = {-90,0,0}, ['scale'] = 1.05,  ['name'] = 'Health'},
-    ['Note1']     = { -2.5398102,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rot'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Traits'},
-    ['Note2']     = { -7.2604314,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rot'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Features'},
-    ['Note3']     = { -2.5398102,-1.02831,   ['type'] = 'Notecard', ['height'] = 1.04,      ['rot'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Languages'},
-    ['Note4']     = { -7.2604314,-1.02831,   ['type'] = 'Notecard', ['height'] = 1.04,      ['rot'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Bonds'},
-    ['Note5']     = { -4.9058342,5.02206,    ['type'] = 'Notecard', ['height'] = 1.014,     ['rot'] = {-90,0,0}, ['scale'] = 1.175, ['name'] = 'Other Notes'},
-    ['Equipment'] = { 6.476904,-0.0266,      ['type'] = 'Notecard', ['height'] = 1.031,     ['rot'] = {-90,0,0}, ['scale'] = 0.775, ['name'] = 'Equipment'},
-    ['Inventory'] = { 4.994779,4.361943,     ['type'] = 'Notecard', ['height'] = 1.023388,  ['rot'] = {-90,0,0}, ['scale'] = 0.925, ['name'] = 'Inventory'}
+    ['HP']        = { 2.161939,-4.81705,     ['type'] = 'Counter',  ['height'] = 0.4229977, ['rotation'] = {-90,0,0}, ['scale'] = 1.05,  ['name'] = 'Health'},
+    ['Note1']     = { -2.5398102,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Normal Attacks',   ['tab'] = 'Tab_1'},
+    ['Note2']     = { -7.2604314,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Special Attacks',  ['tab'] = 'Tab_1'},
+    ['Note3']     = { -4.9058342,5.02206,    ['type'] = 'Notecard', ['height'] = 1.014,     ['rotation'] = {-90,0,0}, ['scale'] = 1.175, ['name'] = 'Companions',       ['tab'] = 'Tab_1'},
+    ['Note4']     = { -2.5398102,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Spellbook',        ['tab'] = 'Tab_2'},
+    ['Note5']     = { -7.2604314,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Prepared Spells',  ['tab'] = 'Tab_2'},
+    ['Note6']     = { -2.5398102,-1.02831,   ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Magic Items',      ['tab'] = 'Tab_2'},
+    ['Note7']     = { -2.5398102,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Traits/Flaws',     ['tab'] = 'Tab_3'},
+    ['Note8']     = { -7.2604314,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Appearance',       ['tab'] = 'Tab_3'},
+    ['Note9']     = { -7.2604314,-1.02831,   ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Bonds',            ['tab'] = 'Tab_3'},
+    ['Note10']    = { -4.9058342,5.02206,    ['type'] = 'Notecard', ['height'] = 1.014,     ['rotation'] = {-90,0,0}, ['scale'] = 1.175, ['name'] = 'Backstory',        ['tab'] = 'Tab_3'},
+    ['Note11']    = { -2.5398102,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Race/Class Feats', ['tab'] = 'Tab_4'},
+    ['Note12']    = { -7.2604314,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Additional Feats', ['tab'] = 'Tab_4'},
+    ['Note13']    = { -2.5398102,-1.02831,   ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Languages',        ['tab'] = 'Tab_4'},
+    ['Note14']    = { -4.9058342,5.02206,    ['type'] = 'Notecard', ['height'] = 1.014,     ['rotation'] = {-90,0,0}, ['scale'] = 1.175, ['name'] = 'Personal Journal', ['tab'] = 'Tab_4'},
+    ['Equipment'] = { 6.476904,-0.0266,      ['type'] = 'Notecard', ['height'] = 1.031,     ['rotation'] = {-90,0,0}, ['scale'] = 0.775, ['name'] = 'Equipment'},
+    ['Inventory'] = { 4.994779,4.361943,     ['type'] = 'Notecard', ['height'] = 1.023388,  ['rotation'] = {-90,0,0}, ['scale'] = 0.925, ['name'] = 'Inventory'}
 }
 
 incrementalOffsetList = { -- Text Tools that will spawn modifiers to act like counters - for numbers
@@ -31,7 +42,8 @@ incrementalOffsetList = { -- Text Tools that will spawn modifiers to act like co
                 ['mod'] = { x position of the center of +/- buttons relative to the Text Tool, z position of the center of +/- buttons relative to the Text Tool }
                 (optional)['modSize'] = size of the buttons -defaults to 200-, (optional)['color'] = color of the Text Tool -defaults to 'Grey'-,
                 (optional)['alwaysVisible'] = false to only show buttons when in "Edit Mode" or true to always display buttons -defaults to false-,
-                (optional)['triggerUpdate'] = false to prevent the button(s) from calling calculateCharacterSheetValues() when modified or true to make the button(s) call the function when modified -defaults to false-
+                (optional)['triggerUpdate'] = false to prevent the button(s) from calling calculateCharacterSheetValues() when modified or true to make the button(s) call the function when modified -defaults to false-,
+                (optional)['tab'] = 'the tab table in the tabOffsetList you want this item to belong to -defaults to nil-'
             }
    --]]
 
@@ -55,7 +67,9 @@ incrementalOffsetList = { -- Text Tools that will spawn modifiers to act like co
     ['Silver']             = { 6.688649,6.974126, ['size'] = 36, ['gap'] = {0.4,0},  ['mod'] = {0,0.8}, ['color'] = 'Silver',  ['alwaysVisible'] = true},
     ['Electrum']           = { 4.868639,6.974126, ['size'] = 36, ['gap'] = {0.4,0},  ['mod'] = {0,0.8}, ['color'] = 'Electrum',['alwaysVisible'] = true},
     ['Gold']               = { 3.02866,6.97431,   ['size'] = 36, ['gap'] = {0.4,0},  ['mod'] = {0,0.8}, ['color'] = 'Gold',    ['alwaysVisible'] = true},
-    ['Platinum']           = { 1.258625,6.974126, ['size'] = 36, ['gap'] = {0.4,0},  ['mod'] = {0,0.8}, ['color'] = 'Platinum',['alwaysVisible'] = true}
+    ['Platinum']           = { 1.258625,6.974126, ['size'] = 36, ['gap'] = {0.4,0},  ['mod'] = {0,0.8}, ['color'] = 'Platinum',['alwaysVisible'] = true},
+    ['TabTest']            = { -4.905834,5.02206, ['size'] = 36, ['gap'] = {0.6,0},  ['mod'] = {0,0.3}, ['tab'] = 'Tab_2' },
+    ['TabTest2']            ={ -7.2604314,-1.02831, ['size'] = 36, ['gap'] = {0.6,0},  ['mod'] = {0,0.3}, ['alwaysVisible'] = true, ['tab'] = 'Tab_4' }
 }
 
 toggleOffsetList = { -- Text Tools that will spawn buttons which change the value of the Text Tool
@@ -69,6 +83,7 @@ toggleOffsetList = { -- Text Tools that will spawn buttons which change the valu
                  (optional)['modSize'] = size of the button -defaults to 200-, (optional)['color'] = color of the Text Tool -defaults to 'Grey'-,
                  (optional)['alwaysVisible'] = 0 to only show buttons when in "Edit Mode" or 1 to always display buttons -defaults to 0-,
                  (optional)['triggerUpdate'] = false to prevent the button(s) from calling calculateCharacterSheetValues() when modified or true to make the button(s) call the function when modified -defaults to false-
+                 (optional)['tab'] = 'the tab table in the tabOffsetList you want this item to belong to -defaults to nil-'
              }
     --]]
 
@@ -83,13 +98,14 @@ checkboxOffsetList = { -- Text Tools that contain lists of individual items with
     Format for each line:
     [Name] = {
                  x position of Text Tool, z position of Text Tool, ['size'] = font size,
-                 (optional)['rotation'] = {x rotation, y rotation, z rotation} used to create horizontal checkboxes
+                 (optional)['rotation'] = {x rotation, y rotation, z rotation} used primarily to create horizontal checkboxes
                  ['gap'] = {the x distance between each button, the z difference between each button},
                  ['mod'] = { x position of the center of the button relative to the Text Tool, z position of the center of the button relative to the Text Tool }
                  ['listVariables'] = { 'the names of each item the checkbox will represent','separated by commas','do not use numbers' },
                  (optional)['modSize'] = size of the button -defaults to 200-, (optional)['color'] = color of the Text Tool -defaults to 'Grey'-,
                  (optional)['alwaysVisible'] = 0 to only show buttons when in "Edit Mode" or 1 to always display buttons -defaults to 0-,
                  (optional)['triggerUpdate'] = false to prevent the button(s) from calling calculateCharacterSheetValues() when modified or true to make the button(s) call the function when modified -defaults to false-
+                 (optional)['tab'] = 'the tab table in the tabOffsetList you want this item to belong to -defaults to nil-'
              }
     --]]
 
@@ -101,6 +117,15 @@ checkboxOffsetList = { -- Text Tools that contain lists of individual items with
 }
 
 textOffsetList = { -- Text Tools that will be unlocked - for words
+
+    --[[
+    Format for each line:
+    [Name] = {
+                 x position of Text Tool, z position of Text Tool, ['size'] = font size,
+                 (optional)['color'] = color of the Text Tool or true to be the player's color -defaults to 'Grey'-,
+             }
+    --]]
+
     ['Path']            = { 7.767517,-6.87593, ['size'] = 24},
     ['Background']      = { 4.656049,-7.57593, ['size'] = 24},
     ['Alignment']       = { 4.632616,-6.87593, ['size'] = 24},
@@ -132,11 +157,25 @@ inertOffsetList = { -- Text Tools that are only interacted upon by other changin
     ['Saving_Throws_Numbers'] = { 12.48865,-3.94673, ['size'] = 26}
 }
 
-tabsOffsetList = { -- Tabs for QRPG - unavailable in custom
-    ['Tab_1'] = { -1.5,-7.1, ['text'] = "Combat",   ['size'] = 30, ['color']='Platinum'},
-    ['Tab_2'] = { -4,-7.1,  ['text'] = "Spellbook", ['size'] = 30, ['color']='Platinum'},
-    ['Tab_3'] = { -6,-7.1,  ['text'] = "Bio",       ['size'] = 30, ['color']='Platinum'},
-    ['Tab_4'] = { -8,-7.1,  ['text'] = "[Notes]",   ['size'] = 30, ['color']='Copper'}
+tabsOffsetList = { -- Buttons that change what text tools and objects are on the sheet
+
+    --[[
+    Format for each line:
+    [Name] = {
+                 x position of Text Tool, z position of Text Tool, ['size'] = font size,
+                 ['text'] = 'the button label'
+                 ['set'] = {the different toggle displays},
+                 ['mod'] = { x position of the center of the button relative to the Text Tool, z position of the center of the button relative to the Text Tool }
+                 (optional)['modSize'] = size of the button -defaults to 200-, (optional)['color'] = color of the Text Tool -defaults to 'Grey'-,
+                 (optional)['alwaysVisible'] = 0 to only show buttons when in "Edit Mode" or 1 to always display buttons -defaults to 0-,
+                 (optional)['triggerUpdate'] = false to prevent the button(s) from calling calculateCharacterSheetValues() when modified or true to make the button(s) call the function when modified -defaults to false-
+             }
+    --]]
+
+    ['Tab_1'] = { -1.5,-7.1, ['text'] = 'Combat',    ['size'] = 30, ['mod'] = {0,0.18},  ['modSize'] = 450, ['color']='Platinum', ['alwaysVisible'] = true},
+    ['Tab_2'] = { -4,-7.1,   ['text'] = 'Spellbook', ['size'] = 30, ['mod'] = {0,0.18},  ['modSize'] = 450, ['color']='Platinum', ['alwaysVisible'] = true},
+    ['Tab_3'] = { -6,-7.1,   ['text'] = 'Bio',       ['size'] = 30, ['mod'] = {0,0.18},  ['modSize'] = 450, ['color']='Platinum', ['alwaysVisible'] = true},
+    ['Tab_4'] = { -8,-7.1,   ['text'] = '[Notes]',   ['size'] = 30, ['mod'] = {0,0.18},  ['modSize'] = 450, ['color']='Copper',   ['alwaysVisible'] = true}
 }
 
 zoneColor = {
@@ -184,7 +223,6 @@ diffuseURL = {
     ['Purple'] = 'http://i.imgur.com/TKJSAjY.png'
 }
 
-
 function onload(save_state)
     lookupButtonData = {}
     keyLookup = {}
@@ -198,7 +236,7 @@ function onload(save_state)
     currentPlayers = getSeatedPlayersExcept({'White'})
     --createCache()
     -- Calculate Lookup
-    local offsetListArray = {incrementalOffsetList,toggleOffsetList,checkboxOffsetList}
+    local offsetListArray = {incrementalOffsetList,toggleOffsetList,checkboxOffsetList,tabsOffsetList}
     for index,offsetList in pairs(offsetListArray) do
         for key,value in pairs(offsetList) do
             local switch = {
@@ -219,6 +257,9 @@ function onload(save_state)
                         iterator = iterator + 1
                     end
                     lookupButtonData[key]['listSize'] = iterator
+                end,
+                [4] = function() -- tabsOffsetList
+                    lookupButtonData[key]['pos'] = {value['mod'][1],0,value['mod'][2]}
                 end
             }
             lookupButtonData[key] = {}
@@ -328,8 +369,15 @@ function initSheet(color)
     playerInformation[color]['edit']['toggle']['alwaysVisible'] = {}
     playerInformation[color]['edit']['checkbox'] = {}
     playerInformation[color]['edit']['checkbox']['alwaysVisible'] = {}
-
-    if not custom then playerInformation[color]['tabs'] = {} end
+    playerInformation[color]['edit']['tabs'] = {}
+    playerInformation[color]['edit']['tabs']['alwaysVisible'] = {}
+    playerInformation[color]['tabs'] = {}
+    playerInformation[color]['tabModifiers'] = {}
+    for tabName,value in pairs(tabsOffsetList) do -- Initialize tables for tabs and tab modifiers
+        playerInformation[color]['tabModifiers'][tabName] = {}
+        playerInformation[color]['tabModifiers'][tabName]['alwaysVisible'] = {}
+        playerInformation[color]['tabs'][tabName] = {}
+    end
 
     local sheet = spawnObject({
         ['type'] = 'Custom_Model',
@@ -352,7 +400,7 @@ function initSheet(color)
     sheet.lock()
     CharacterSheets[color] = sheet
 
-    local offsetArray = {objectOffsetList,tabsOffsetList,textOffsetList,inertOffsetList,incrementalOffsetList,toggleOffsetList,checkboxOffsetList}
+    local offsetArray = {objectOffsetList,textOffsetList,inertOffsetList,incrementalOffsetList,toggleOffsetList,checkboxOffsetList,tabsOffsetList}
     for index,offsetList in ipairs(offsetArray) do
         local position = {}
         local rotation = {}
@@ -371,35 +419,43 @@ function initSheet(color)
             end
 
             if index > 1 then -- Avoid spawning objects as textools
+                local tabPosition = position
+                if value['tab'] ~= nil then -- preparing to hide the object if it's supposed to part of a 'tab'
+                    tabPosition = {position[1],position[2]-5,position[3]}
+                end
                 obj = spawnObject({
                     ['type'] = '3DText',
-                    ['position'] = position
+                    ['position'] = tabPosition
                 })
                 obj.setRotationSmooth(rotation)
                 obj.TextTool.setFontSize(value['size'] or 64)
                 obj.TextTool.setFontColor(returnColorTable(value['color'] or 'Grey'))
                 obj.TextTool.setValue(value['text'] or ' ')
-                obj['interactable'] = true
+                obj['interactable'] = false
             end
             local switch = {
                 [1] = function () -- objects
+                    if value['tab'] ~= nil then
+                        position[2] = position[2] - 6.08 + value['height'] -- adjusting user set height against base text tool height
+                    else
+                        position[2] = value['height']
+                    end
                     obj = spawnObject({
                         ['type'] = value['type'],
-                        ['position'] = {position[1],value['height'],position[3]},
-                        ['rotation'] = {rotation[1]+value['rot'][1],rotation[2]+value['rot'][2],value['rot'][3]}
+                        ['position'] = position,
+                        ['rotation'] = rotation
                     })
                     obj.setName(value['name'] or '')
                     obj.setScale({value['scale'],value['scale'],value['scale']})
                     obj.lock()
-                    --obj['interactable'] = false
+                    if value['tab'] ~= nil then
+                        obj['interactable'] = false
+                    end
                 end,
-                [2] = function() -- tabs
-                    if not custom then playerInformation[color]['tabs'][key] = obj end
-                end,
-                [3] = function() -- inert
+                [2] = function() -- text, inert
                     if value['color'] == true then obj.TextTool.setFontColor(returnColorTable(color)) end
                 end,
-                [4] = function() -- incremental, toggle, checkbox
+                [3] = function() -- incremental, toggle, checkbox, tabs
                     local modifier = spawnObject({
                         ['type'] = 'Custom_Model',
                         ['position'] = position,
@@ -408,30 +464,36 @@ function initSheet(color)
                     modifier.setColorTint({0,0,0})
                     modifier.setCustomObject({['mesh'] = 'http://pastebin.com/raw/yteXiDWq'})
                     modifier.lock()
-                    local offsetNames = {'incremental','toggle','checkbox'}
+                    local offsetNames = {'incremental','toggle','checkbox','tabs'}
                     if value['alwaysVisible'] == true then
-                        playerInformation[color]['edit'][offsetNames[index-4]]['alwaysVisible'][key] = modifier
+                        playerInformation[color]['edit'][offsetNames[index-3]]['alwaysVisible'][key] = modifier
+                        if value['tab'] ~= nil then
+                            playerInformation[color]['tabModifiers'][value['tab']]['alwaysVisible'][key] = modifier
+                            modifier.setScale({0,0,0}) -- Always visible tab buttons are activated with the tab's button
+                        end
                     else
-                        playerInformation[color]['edit'][offsetNames[index-4]][key] = modifier
+                        playerInformation[color]['edit'][offsetNames[index-3]][key] = modifier
                         modifier.setScale({0,0,0})
+                        if value['tab'] ~= nil then
+                            playerInformation[color]['tabModifiers'][value['tab']][key] = modifier
+                        end
                     end
                     keyLookup[color][obj] = modifier
                 end
             }
-        if index == 1 then -- Validate Execution
-            switch[1]()
+            if index == 1 then -- Validate Execution
+                switch[1]()
+            elseif index == 2 or index == 3 then
+                switch[2]()
+            elseif index >= 4 and index <= 7 then
+                switch[3]()
+            else
+                print('Failure to load all offset tables. Please revise your custom character sheet code.')
+            end
+            if value['tab'] ~= nil then
+                playerInformation[color]['tabs'][value['tab']][key] = obj -- With this, items belonging to tabs are saved in both the main item directory, meaning playerInformation[color][key], as well as this new one. Functional, but inefficient.
+            end
             playerInformation[color][key] = obj
-        elseif index == 2 then
-            switch[2]()
-        elseif index == 3 or index == 4 then
-            switch[3]()
-            playerInformation[color][key] = obj
-        elseif index >= 5 and index <= 7 then
-            switch[4]()
-            playerInformation[color][key] = obj
-        else
-            print('Failure to load all offset tables. Please revise your custom character sheet code.')
-        end
         end
     end
     Timer.create({
@@ -529,6 +591,17 @@ function enableManager(color)
         end
     end
 
+    local function createTabsButtonsFromTable(table)
+        for key,object in pairs(table) do
+            if type(object) == 'table' then
+                createTabsButtonsFromTable(object)
+            else
+                local modSize = lookupButtonData[key]['modSize']
+                Global.call('addButton',{object.getGUID(),modSize,modSize,modSize,' ','modifierTabs',self,lookupButtonData[key]['pos']})
+            end
+        end
+    end
+
     --CharacterSheets[color].setVar('color',color)
 
     -- TODO: Decide where and how edit mode is reset
@@ -545,10 +618,7 @@ function enableManager(color)
     createIncrementButtonsFromTable(playerInformation[color]['edit']['incremental'])
     createToggleButtonsFromTable(playerInformation[color]['edit']['toggle'])
     createCheckboxButtonsFromTable(playerInformation[color]['edit']['checkbox'])
-        -- Set Edit Buttons to hidden.
-
-    --addAlwaysVisibileButtons(color)
-    --addEditModeButtons(color)
+    createTabsButtonsFromTable(playerInformation[color]['edit']['tabs'])
 end
 
 function toggleEdit(obj,color)
@@ -562,26 +632,35 @@ function toggleEdit(obj,color)
     params[7]['label'] = labels[x+1]
     --printToColor(msg[x+1],player,{0.2,0.8,0.8})
     obj.editButton(params[7])
-    local offsetNames = {'incremental','toggle','checkbox'}
+    local offsetNames = {'incremental','toggle','checkbox','tabs'}
 
     local action = {
         [0] = function() -- Edit mode OFF
-            for i=1,3 do
-                for _,object in pairs(playerInformation[color]['edit'][offsetNames[i]]) do
-                    if type(object) ~= 'table' then
-                        object.setScale({0,0,0})
+            for i=1,4 do
+                for index,modifier in pairs(playerInformation[color]['edit'][offsetNames[i]]) do
+                    if type(modifier) ~= 'table' then
+                        modifier.setScale({0,0,0})
                     end
                 end
             end
-            for key,_ in pairs(inertOffsetList) do
+            for key,_ in pairs(textOffsetList) do
                 playerInformation[color][key]['interactable'] = false
             end
         end,
         [1] = function() -- Edit mode ON
-            for i=1,3 do
+            for i=1,4 do
                 for _,object in pairs(playerInformation[color]['edit'][offsetNames[i]]) do
                     if type(object) ~= 'table' then
                         object.setScale({1,1,1})
+                    end
+                end
+            end
+            for tab,_ in pairs(tabsOffsetList) do -- disable non-currentTab tab items.
+                if obj.getVar('currentTab') ~= tab then
+                    for index,modifier in pairs(playerInformation[color]['tabModifiers'][tab]) do
+                        if type(modifier) ~= 'table' then
+                            modifier.setScale({0,0,0})
+                        end
                     end
                 end
             end
@@ -603,7 +682,8 @@ function modifierAdd(obj,color) -- Called from a + incremental button
         BSTable[key] = newValue
         CharacterJournals[color].setTable('Base_Stats',BSTable)
     else
-        newValue = CharacterJournals[color].getVar(key) + 1
+        newValue = CharacterJournals[color].getVar(key) or 0
+        newValue = newValue + 1
         CharacterJournals[color].setVar(key,newValue)
     end
     counter.TextTool.setValue(tostring(newValue))
@@ -620,7 +700,8 @@ function modifierSub(obj,color) -- Called from a - incremental button
         BSTable[key] = newValue
         CharacterJournals[color].setTable('Base_Stats',BSTable)
     else
-        newValue = CharacterJournals[color].getVar(key) - 1
+        newValue = CharacterJournals[color].getVar(key) or 0
+        newValue = newValue - 1
         CharacterJournals[color].setVar(key,newValue)
     end
     counter.TextTool.setValue(tostring(newValue))
@@ -647,6 +728,42 @@ function modifierCheckbox(obj,color,element) -- Called from a checkbox button
         CharacterJournals[color].setTable(key,workTable)
         checkbox.TextTool.setValue(getProficienciesString(color,key))
         if lookupButtonData[key]['triggerUpdate'] == true then calculateCharacterSheetValues(color) end
+    end
+end
+
+function modifierTabs(obj,color) -- Called from a tab button
+    local tab = getObjectFromGUID(keyFromValue(keyLookupGUID[color],obj.guid))
+    local key = keyFromValue(playerInformation[color],tab)
+    local currentTab = CharacterSheets[color].getVar('currentTab') or 'none'
+    if currentTab ~= key then -- reset to default position where no tab is active
+        resetTab(color)
+        for index,obj in pairs(playerInformation[color]['tabs'][key]) do
+            local pos = obj.getPosition()
+            obj.setPosition({pos[1],pos[2]+5,pos[3]}) -- it might be better to use the original positioning information for this.
+            obj['interactable'] = true
+        end
+        CharacterSheets[color].setVar('currentTab',key)
+        for index,modifier in pairs(playerInformation[color]['tabModifiers'][key]['alwaysVisible']) do
+            modifier.setScale({1,1,1}) -- Activate always visible buttons related ot the current tab
+        end
+        toggleEdit(CharacterSheets[color],color) -- Reset the state of edit mode to prevent lingering buttons
+        toggleEdit(CharacterSheets[color],color)
+    end
+    if lookupButtonData[key]['triggerUpdate'] == true then calculateCharacterSheetValues(color) end
+end
+
+function resetTab(color)
+    local currentTab = CharacterSheets[color].getVar('currentTab') or 'none'
+    if currentTab ~= 'none' then
+        for i,obj in pairs(playerInformation[color]['tabs'][currentTab]) do
+            local pos = obj.getPosition()
+            obj.setPosition({pos[1],pos[2]-5,pos[3]}) -- it might be better to use the original positioning information for this.
+            obj['interactable'] = false
+        end
+        for index,modifier in pairs(playerInformation[color]['tabModifiers'][currentTab]['alwaysVisible']) do
+            modifier.setScale({0,0,0}) -- Activate always visible buttons related ot the current tab
+        end
+        CharacterSheets[color].setVar('currentTab','none')
     end
 end
 
@@ -710,6 +827,7 @@ function saveCharacter(obj,color)
     if obj.getVar('editMode') == 1 then -- Set edit buttons back to default.
         toggleEdit(obj,color)
     end
+    resetTab(color)
     --destroyCharacterSheet(color)
     --initSheet(color)
     closeBook(color)
