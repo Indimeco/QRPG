@@ -9,26 +9,27 @@ Format for each line:
             ['type'] = 'the kind of object to be spawned', ['height'] = the y position of the object,
             ['rot'] = {x rotation, y rotation, z rotation}, ['scale'] = the size of the object,
             ['name'] = 'the visible display name of the spawned object',
-            (optional)['tab'] = 'the tab table in the tabOffsetList you want this item to belong to -defaults to nil-'
+            (optional)['tab'] = 'the tab table in the tabOffsetList you want this item to belong to -defaults to nil-',
+            (optional)['scrollbar'] = true if the object is a notecard and you would like it to have scrolling capability -defaults to false-
          }
 --]]
 
     ['HP']        = { 2.161939,-4.81705,     ['type'] = 'Counter',  ['height'] = 0.4229977, ['rotation'] = {-90,0,0}, ['scale'] = 1.05,  ['name'] = 'Health'},
-    ['Note1']     = { -2.5398102,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Normal Attacks',   ['tab'] = 'Tab_1'},
-    ['Note2']     = { -7.2604314,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Special Attacks',  ['tab'] = 'Tab_1'},
-    ['Note3']     = { -4.9058342,5.02206,    ['type'] = 'Notecard', ['height'] = 1.014,     ['rotation'] = {-90,0,0}, ['scale'] = 1.175, ['name'] = 'Companions',       ['tab'] = 'Tab_1'},
-    ['Note4']     = { -2.5398102,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Spellbook',        ['tab'] = 'Tab_2'},
-    ['Note5']     = { -7.2604314,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Prepared Spells',  ['tab'] = 'Tab_2'},
-    ['Note6']     = { -2.5398102,-1.02831,   ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Magic Items',      ['tab'] = 'Tab_2'},
-    ['Note7']     = { -2.5398102,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Traits/Flaws',     ['tab'] = 'Tab_3'},
-    ['Note8']     = { -7.2604314,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Appearance',       ['tab'] = 'Tab_3'},
-    ['Note9']     = { -7.2604314,-1.02831,   ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Bonds',            ['tab'] = 'Tab_3'},
-    ['Note10']    = { -4.9058342,5.02206,    ['type'] = 'Notecard', ['height'] = 1.014,     ['rotation'] = {-90,0,0}, ['scale'] = 1.175, ['name'] = 'Backstory',        ['tab'] = 'Tab_3'},
-    ['Note11']    = { -2.5398102,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Race/Class Feats', ['tab'] = 'Tab_4'},
-    ['Note12']    = { -7.2604314,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Additional Feats', ['tab'] = 'Tab_4'},
-    ['Note13']    = { -2.5398102,-1.02831,   ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Languages',        ['tab'] = 'Tab_4'},
-    ['Note14']    = { -4.9058342,5.02206,    ['type'] = 'Notecard', ['height'] = 1.014,     ['rotation'] = {-90,0,0}, ['scale'] = 1.175, ['name'] = 'Personal Journal', ['tab'] = 'Tab_4'},
-    ['Equipment'] = { 6.476904,-0.0266,      ['type'] = 'Notecard', ['height'] = 1.031,     ['rotation'] = {-90,0,0}, ['scale'] = 0.775, ['name'] = 'Equipment'},
+    ['Note1']     = { -2.5398102,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Normal Attacks',                         ['tab'] = 'Tab_1'},
+    ['Note2']     = { -7.2604314,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Special Attacks',                        ['tab'] = 'Tab_1'},
+    ['Note3']     = { -4.9058342,5.02206,    ['type'] = 'Notecard', ['height'] = 1.014,     ['rotation'] = {-90,0,0}, ['scale'] = 1.175, ['name'] = 'Companions',                             ['tab'] = 'Tab_1'},
+    ['Note4']     = { -2.5398102,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Spellbook',        ['scrollbar'] = true, ['tab'] = 'Tab_2'},
+    ['Note5']     = { -7.2604314,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Prepared Spells',  ['scrollbar'] = true, ['tab'] = 'Tab_2'},
+    ['Note6']     = { -2.5398102,-1.02831,   ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Magic Items',      ['scrollbar'] = true, ['tab'] = 'Tab_2'},
+    ['Note7']     = { -2.5398102,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Traits/Flaws',                           ['tab'] = 'Tab_3'},
+    ['Note8']     = { -7.2604314,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Appearance',                             ['tab'] = 'Tab_3'},
+    ['Note9']     = { -7.2604314,-1.02831,   ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Bonds',                                  ['tab'] = 'Tab_3'},
+    ['Note10']    = { -4.9058342,5.02206,    ['type'] = 'Notecard', ['height'] = 1.014,     ['rotation'] = {-90,0,0}, ['scale'] = 1.175, ['name'] = 'Backstory',        ['scrollbar'] = true, ['tab'] = 'Tab_3'},
+    ['Note11']    = { -2.5398102,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Race/Class Feats', ['scrollbar'] = true, ['tab'] = 'Tab_4'},
+    ['Note12']    = { -7.2604314,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Additional Feats', ['scrollbar'] = true, ['tab'] = 'Tab_4'},
+    ['Note13']    = { -2.5398102,-1.02831,   ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Languages',                              ['tab'] = 'Tab_4'},
+    ['Note14']    = { -4.9058342,5.02206,    ['type'] = 'Notecard', ['height'] = 1.014,     ['rotation'] = {-90,0,0}, ['scale'] = 1.175, ['name'] = 'Personal Journal', ['scrollbar'] = true, ['tab'] = 'Tab_4'},
+    ['Equipment'] = { 6.476904,-0.0266,      ['type'] = 'Notecard', ['height'] = 1.031,     ['rotation'] = {-90,0,0}, ['scale'] = 0.775, ['name'] = 'Equipment',        ['scrollbar'] = true},
     ['Inventory'] = { 4.994779,4.361943,     ['type'] = 'Notecard', ['height'] = 1.023388,  ['rotation'] = {-90,0,0}, ['scale'] = 0.925, ['name'] = 'Inventory'}
 }
 
@@ -67,9 +68,7 @@ incrementalOffsetList = { -- Text Tools that will spawn modifiers to act like co
     ['Silver']             = { 6.688649,6.974126, ['size'] = 36, ['gap'] = {0.4,0},  ['mod'] = {0,0.8}, ['color'] = 'Silver',  ['alwaysVisible'] = true},
     ['Electrum']           = { 4.868639,6.974126, ['size'] = 36, ['gap'] = {0.4,0},  ['mod'] = {0,0.8}, ['color'] = 'Electrum',['alwaysVisible'] = true},
     ['Gold']               = { 3.02866,6.97431,   ['size'] = 36, ['gap'] = {0.4,0},  ['mod'] = {0,0.8}, ['color'] = 'Gold',    ['alwaysVisible'] = true},
-    ['Platinum']           = { 1.258625,6.974126, ['size'] = 36, ['gap'] = {0.4,0},  ['mod'] = {0,0.8}, ['color'] = 'Platinum',['alwaysVisible'] = true},
-    ['TabTest']            = { -4.905834,5.02206, ['size'] = 36, ['gap'] = {0.6,0},  ['mod'] = {0,0.3}, ['tab'] = 'Tab_2' },
-    ['TabTest2']            ={ -7.2604314,-1.02831, ['size'] = 36, ['gap'] = {0.6,0},  ['mod'] = {0,0.3}, ['alwaysVisible'] = true, ['tab'] = 'Tab_4' }
+    ['Platinum']           = { 1.258625,6.974126, ['size'] = 36, ['gap'] = {0.4,0},  ['mod'] = {0,0.8}, ['color'] = 'Platinum',['alwaysVisible'] = true}
 }
 
 toggleOffsetList = { -- Text Tools that will spawn buttons which change the value of the Text Tool
@@ -280,6 +279,8 @@ function onload(save_state)
             for key,guid in pairs(e) do
                 if type(guid) == "table" then
                     result[key] = getObjectFromGUIDTable(guid)
+                elseif type(guid) == "string" and getObjectFromGUID(guid) == nil then -- For scrollbar above&below information
+                    result[key] = guid
                 else
                     result[key] = getObjectFromGUID(guid)
                 end
@@ -343,6 +344,8 @@ function onSave()
         for key,object in pairs(e) do
             if type(object) == "table" then
                 result[key] = getGUIDFromObjectTable(object)
+            elseif type(object) == "string" and object.tag == nil then -- For scrollbar above&below information
+                result[key] = object
             else
                 result[key] = object.getGUID()
             end
@@ -371,6 +374,7 @@ function initSheet(color)
     playerInformation[color]['edit']['checkbox']['alwaysVisible'] = {}
     playerInformation[color]['edit']['tabs'] = {}
     playerInformation[color]['edit']['tabs']['alwaysVisible'] = {}
+    playerInformation[color]['scrollbars'] = {}
     playerInformation[color]['tabs'] = {}
     playerInformation[color]['tabModifiers'] = {}
     for tabName,value in pairs(tabsOffsetList) do -- Initialize tables for tabs and tab modifiers
@@ -553,6 +557,17 @@ function enableManager(color)
     -- 1) A character has finished loading, after open Book.
     -- 2) A rewind/reload was made and sheet needs buttons.
 
+    local function createScrollbarButtonsFromTable(table)
+        for key,object in pairs(table) do
+            if object['type'] == 'Notecard' and object['scrollbar'] == true then
+                Global.call('addButton',{playerInformation[color][key].getGUID(), 1,1,1,'','scrollUp',self,{-0.38,0,0.35},{0,-90,0}})
+                Global.call('addButton',{playerInformation[color][key].getGUID(), 0,0,70,'<','placeHolder',self,{-0.46,5,0.45},{0,-90,0}})
+                Global.call('addButton',{playerInformation[color][key].getGUID(), 1,1,1,'','scrollDown',self,{-0.38,0,-0.35},{0,90,0}})
+                Global.call('addButton',{playerInformation[color][key].getGUID(), 0,0,70,'<','placeHolder',self,{-0.46,5,-0.45},{0,90,0}})
+            end
+        end
+    end
+
     local function createIncrementButtonsFromTable(table)
         for key,object in pairs(table) do
             if type(object) == 'table' then
@@ -619,6 +634,7 @@ function enableManager(color)
     createToggleButtonsFromTable(playerInformation[color]['edit']['toggle'])
     createCheckboxButtonsFromTable(playerInformation[color]['edit']['checkbox'])
     createTabsButtonsFromTable(playerInformation[color]['edit']['tabs'])
+    createScrollbarButtonsFromTable(objectOffsetList)
 end
 
 function toggleEdit(obj,color)
@@ -800,8 +816,18 @@ function readFromBook(color,journal)
             playerInformation[color][key].setName(value['name'])
         elseif value['name'] ~= 'Inventory' then
             CharacterJournals[color].setVar(key,journal.getVar(key))
-            playerInformation[color][key].setDescription(journal.getVar(key))
             playerInformation[color][key].setName(value['name'])
+            if value['scrollbar'] == true then -- setup the above and below variables
+                local text = journal.getVar(key) or ''
+                local newPage = tool.call('getPageAccessor',{text})
+                playerInformation[color][key].setDescription(newPage)
+                playerInformation[color]['scrollbars'][key] = {}
+                playerInformation[color]['scrollbars'][key]['above'] = ''
+                playerInformation[color]['scrollbars'][key]['below'] = tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{tool.call('plainReplaceAccessor',{text,newPage,''}),'Beginning'}),'Ending'})
+                playerInformation[color]['scrollbars'][key]['starting'] = playerInformation[color][key].getDescription()
+            else
+                playerInformation[color][key].setDescription(journal.getVar(key))
+            end
         end
     end
 
@@ -990,7 +1016,11 @@ script = script..'\n\n--------------------------- Character Information --------
         if value['type'] ~= 'Notecard' then
             script = script..'\n'..key..' = '..playerInformation[color][key].getValue()
         else
-            script = script..'\n'..key..' = \[\['..playerInformation[color][key].getDescription()..'\]\]'
+            if value['scrollbar'] == true then
+                script = script..'\n'..key..' = \[\['..getFullText(color,key)..'\]\]'
+            else
+                script = script..'\n'..key..' = \[\['..playerInformation[color][key].getDescription()..'\]\]'
+            end
         end
     end
 
@@ -1086,23 +1116,6 @@ function keyFromValue( t, value )
   return nil
 end
 
-function getSaves(table)
-    local number = 0
-    for i,v in pairs(table) do
-        if v == true then number = number + 1 end
-    end
-
-    local str = ' '
-    if number == 1 then
-        str = circle..'       '
-    elseif number == 2 then
-        str = circle..' '..circle..'   '
-    elseif number == 3 then
-        str = circle..' '..circle..' '..circle
-    end
-    return str
-end
-
 function contains(table, element)
   for _, value in pairs(table) do
     if value == element then
@@ -1170,6 +1183,75 @@ function calculateCharacterSheetValues(color)
     playerInformation[color]['Passive_Perception'].TextTool.setValue(tostring(10+abilityMod['WIS']))
 end
 
+function scrollUp(obj,color)
+    local key = keyFromValue(playerInformation[color],obj)
+    if playerInformation[color]['scrollbars'][key]['above'] ~= '' then
+        local newPage = string.reverse(tool.call('getPageAccessor',{string.reverse(playerInformation[color]['scrollbars'][key]['above'])}))
+        if obj.getDescription() ~= '' then
+            local i = string.len(newPage)
+            local tempPage = tool.call('getPageAccessor',{tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{newPage..'\n'..tool.call('preserveNewlineAccessor',{obj.getDescription()}),'Ending'}),'Beginning'})})
+            local j = string.len(tempPage)
+            if i < j then
+                newPage = tempPage
+                playerInformation[color]['scrollbars'][key]['above'] = tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{tool.call('plainReplaceAccessor',{playerInformation[color]['scrollbars'][key]['above'],string.sub(newPage,1,i),''}),'Ending'}),'Beginning'})
+                playerInformation[color]['scrollbars'][key]['below'] = tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{tool.call('plainReplaceAccessor',{tool.call('preserveNewlineAccessor',{obj.getDescription()}),tool.call('removeNewlineAccessor',{string.sub(newPage,i+1,j),'Beginning'}),''})..'\n'..playerInformation[color]['scrollbars'][key]['below'],'Beginning'}),'Ending'})
+            else
+                playerInformation[color]['scrollbars'][key]['above'] = tool.call('removeNewlineAccessor',{tool.call('plainReplaceAccessor',{playerInformation[color]['scrollbars'][key]['above'],tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{newPage,'Ending'}),'Beginning'}),''}),'Ending'})
+                playerInformation[color]['scrollbars'][key]['below'] = tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{tool.call('preserveNewlineAccessor',{obj.getDescription()})..'\n'..playerInformation[color]['scrollbars'][key]['below'],'Ending'}),'Beginning'})
+            end
+        else
+            playerInformation[color]['scrollbars'][key]['above'] = tool.call('removeNewlineAccessor',{tool.call('plainReplaceAccessor',{playerInformation[color]['scrollbars'][key]['above'],tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{newPage,'Ending'}),'Beginning'}),''}),'Ending'})
+        end
+        obj.setDescription(tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{newPage,'Ending'}),'Beginning'}))
+        playerInformation[color]['scrollbars'][key]['starting'] = obj.getDescription()
+    end
+end
+
+function scrollDown(obj,color)
+    local key = keyFromValue(playerInformation[color],obj)
+    if obj.getDescription() ~= '' or playerInformation[color]['scrollbars'][key]['below'] ~= '' then
+        local newPage = tool.call('getPageAccessor',{tool.call('preserveNewlineAccessor',{obj.getDescription()})})
+        playerInformation[color]['scrollbars'][key]['above'] = tool.call('removeNewlineAccessor',{playerInformation[color]['scrollbars'][key]['above']..'\n'..newPage,'Beginning'})
+        local tempPage = string.sub(tool.call('preserveNewlineAccessor',{obj.getDescription()}),string.len(newPage)+1,-1)
+        if tempPage ~= '' then
+            newPage = tool.call('getPageAccessor',{tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{tempPage..'\n'..playerInformation[color]['scrollbars'][key]['below'],'Ending'}),'Beginning'})})
+            if string.len(newPage) > string.len(tempPage) then
+                tempPage = ''
+            end
+        else
+            tempPage = ''
+            newPage = tool.call('getPageAccessor',{tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{playerInformation[color]['scrollbars'][key]['below'],'Ending'}),'Beginning'})})
+        end
+        local extraLength1 = tool.call('getLinesAccessor',{tool.call('preserveNewlineAccessor',{obj.getDescription()})})
+        local tempStartingText = tool.call('getLinesAccessor',{playerInformation[color]['scrollbars'][key]['starting']})
+        local extraLength2 = extraLength1['lineCount'] - tempStartingText['lineCount']
+        local extraLength3 = tool.call('getLinesAccessor',{playerInformation[color]['scrollbars'][key]['below']})
+        local extraLength4 = tempStartingText['lineCount'] - extraLength2
+        local extraLength5 = extraLength3[extraLength4]
+        obj.setDescription(tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{newPage,'Beginning'}),'Ending'}))
+        playerInformation[color]['scrollbars'][key]['starting'] = obj.getDescription()
+        if extraLength2 > 0 and extraLength4 <= extraLength3['lineCount'] and extraLength4 > 0 and extraLength5 ~= nil then
+            playerInformation[color]['scrollbars'][key]['below'] = tool.call('removeNewlineAccessor',{string.sub(tempPage..playerInformation[color]['scrollbars'][key]['below'],extraLength5+1),'Beginning'})
+        else
+            if string.len(obj.getDescription()) ~= string.len(playerInformation[color]['scrollbars'][key]['below']) then
+                playerInformation[color]['scrollbars'][key]['below'] = tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{string.sub(tempPage..playerInformation[color]['scrollbars'][key]['below'],string.len(obj.getDescription())+2),'Ending'}),'Beginning'})
+            else
+                playerInformation[color]['scrollbars'][key]['below'] = ''
+            end
+        end
+    end
+end
+
+function getFullText(color,key) -- returns the complete string of data for a card.
+    local fullText = playerInformation[color][key].getDescription()
+    if playerInformation[color]['scrollbars'][key]['above'] ~= '' then
+        fullText = playerInformation[color]['scrollbars'][key]['above']..'\n'..fullText
+    end
+    if playerInformation[color]['scrollbars'][key]['below'] ~= '' then
+        fullText = fullText..'\n'..playerInformation[color]['scrollbars'][key]['below']
+    end
+    return fullText
+end
 
 
 function print_r ( t )
