@@ -239,7 +239,7 @@ function onload(save_state)
     Global.call('addButton',{invControllerInvCard['Master'].getGUID(), 0,0,70,'<','placeHolder',self,{-0.46,5,0.45},{0,-90,0}})
     Global.call('addButton',{invControllerInvCard['Master'].getGUID(), 1,1,1,'','scrollDown',self,{-0.38,0,-0.35},{0,90,0}})
     Global.call('addButton',{invControllerInvCard['Master'].getGUID(), 0,0,70,'<','placeHolder',self,{-0.46,5,-0.45},{0,90,0}})
-    -- Temporarily disabling the toggle stat counters button because it's just clutter
+    -- Disabling the toggle stat counters button because it's just clutter
     -- monsterPlatform[1].setTable('pos',{-0.1,0.1,0})
     -- monsterPlatform[1].setTable('rot',{0,-90,0})
     -- Global.call('addButton', {monsterPlatform[1].getGUID(),1900,900,300,'Stat Counters','toggleStatCounters',self})
@@ -664,6 +664,10 @@ function scrollDown(obj) -- Concatenates the first 9 lines of the main inventory
     end
 end
 
+function getPageAccessor(table) -- Used as an accessor for calling getPage from other objects
+    return getPage(table[1])
+end
+
 function getPage(invStr) -- Iterates through the str and sums the estimated line length based on characterWidthTable for each character in a max 100000 system. Margin for error is 200.
     local lineWidth = 0
     local lineCount = 0
@@ -692,6 +696,10 @@ function getPage(invStr) -- Iterates through the str and sums the estimated line
         i = i + 1
     end
     return page
+end
+
+function getLinesAccessor(table)  -- Used as an accessor for calling getLines from other objects
+    return getLines(table[1])
 end
 
 function getLines(str) -- Returns a table countaining the number of lines in a string as well as the location of the end of each line.
@@ -727,7 +735,11 @@ function getLines(str) -- Returns a table countaining the number of lines in a s
     return lineTable
 end
 
-function removeNewline(str, location) -- Removes all \n characters from either the beginning or end of a string until a non \n character
+function removeNewlineAccessor(table)  -- Used as an accessor for calling removeNewline from other objects
+    return removeNewline(table[1],table[2])
+end
+
+function removeNewline(str,location) -- Removes all \n characters from either the beginning or end of a string until a non \n character
     if location == 'Beginning' then
         while string.sub(str,1,1) == '\n' do
             str = string.sub(str,2,-1)
@@ -739,6 +751,10 @@ function removeNewline(str, location) -- Removes all \n characters from either t
         end
         return str
     end
+end
+
+function preserveNewlineAccessor(table) -- Used as an accessor for calling preserveNewline from other objects
+    return preserveNewline(table[1])
 end
 
 function preserveNewline(str) -- A variant on the plainReplace function designed to prevent the destruction of user-made newlines.
@@ -755,7 +771,7 @@ function preserveNewline(str) -- A variant on the plainReplace function designed
      return str
 end
 
-function callGetFullText(table) -- Used as an accessor for other objects to getFullText.
+function callGetFullText(table) -- Used as an accessor for other objects to call getFullText.
     return getFullText(table[1])
 end
 
@@ -774,6 +790,10 @@ function getFullText(color) -- Returns the full data of above, current and below
         fullText = fullText..'\n'..invControllerHiddenTextBelow[color]
     end
     return fullText
+end
+
+function plainReplaceAccessor(table) -- Used as an accessor for calling plainReplace from other objects
+    return plainReplace(table[1],table[2],table[3])
 end
 
 function plainReplace(str, pattern, replacement) -- Finds an exact copy of the pattern within the string and exchanges it for the replacement
