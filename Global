@@ -55,8 +55,6 @@ local uninteractable = {
 }
 
 function onload(save_state)
-    currentVersion = 1.0
-
     clearPixelPaint()
     clearVectorPaint()
 
@@ -120,12 +118,12 @@ function onObjectEnterScriptingZone(zone, enter_object)
             end
         end,
         [1] = function() -- Zone is active, no character
-            if enter_object.getVar('Character_Name') ~= nil then -- Validate book
-                if enter_object.getVar('version') <= currentVersion then
+            if enter_object.getVar('Character_Name') ~= nil and char.getVar('characterSheetSource') ~= nil then -- Validate book
+                if enter_object.getVar('uniqueID') == char.getVar('characterSheetSource').getVar('uniqueID') then
                     char.call('loadCharacter', {enter_object,zone,keyFromValue(zoneFromColor,zone.guid)})
                     pActiveZoneArray[zone.getGUID()] = 2
                 else
-                    printToColor("Incompatible Version (Journal: "..enter_object.getVar('version').." / Table: "..currentVersion..")",keyFromValue(zoneFromColor,zone.guid),{1,1,1})
+                    printToColor("Incompatible Version (Journal: "..enter_object.getVar('uniqueID').." / Table: "..char.getVar('characterSheetSource').getVar('uniqueID')..")",keyFromValue(zoneFromColor,zone.guid),{1,1,1})
                 end
             --else -- Not a journal
             --    printToColor('?DA?This object is not a Character Journal', enter_object['held_by_color'], {0.7,0.1,0.1})
