@@ -1,182 +1,3 @@
-Base_Stats = {'STR','DEX','CON','INT','WIS','CHA'}
-
-objectOffsetList = { -- Objects different than 3DTexts
-
---[[
-Format for each line:
-[Name] = {
-            x position of the object, z position of the object,
-            ['type'] = 'the kind of object to be spawned', ['height'] = the y position of the object,
-            ['rot'] = {x rotation, y rotation, z rotation}, ['scale'] = the size of the object,
-            ['name'] = 'the visible display name of the spawned object',
-            (optional)['tab'] = 'the tab table in the tabOffsetList you want this item to belong to -defaults to nil-',
-            (optional)['scrollbar'] = true if the object is a notecard and you would like it to have scrolling capability -defaults to false-
-         }
---]]
-
-    ['HP']        = { 2.161939,-4.81705,     ['type'] = 'Counter',  ['height'] = 0.4229977, ['rotation'] = {-90,0,0}, ['scale'] = 1.05,  ['name'] = 'Health'},
-    ['Note1']     = { -2.5398102,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Normal Attacks',                         ['tab'] = 'Tab_1'},
-    ['Note2']     = { -7.2604314,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Special Attacks',                        ['tab'] = 'Tab_1'},
-    ['Note3']     = { -4.9058342,5.02206,    ['type'] = 'Notecard', ['height'] = 1.014,     ['rotation'] = {-90,0,0}, ['scale'] = 1.175, ['name'] = 'Companions',                             ['tab'] = 'Tab_1'},
-    ['Note4']     = { -2.5398102,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Spellbook',        ['scrollbar'] = true, ['tab'] = 'Tab_2'},
-    ['Note5']     = { -7.2604314,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Prepared Spells',  ['scrollbar'] = true, ['tab'] = 'Tab_2'},
-    ['Note6']     = { -2.5398102,-1.02831,   ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Magic Items',      ['scrollbar'] = true, ['tab'] = 'Tab_2'},
-    ['Note7']     = { -2.5398102,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Traits/Flaws',                           ['tab'] = 'Tab_3'},
-    ['Note8']     = { -7.2604314,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Appearance',                             ['tab'] = 'Tab_3'},
-    ['Note9']     = { -7.2604314,-1.02831,   ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Bonds',                                  ['tab'] = 'Tab_3'},
-    ['Note10']    = { -4.9058342,5.02206,    ['type'] = 'Notecard', ['height'] = 1.014,     ['rotation'] = {-90,0,0}, ['scale'] = 1.175, ['name'] = 'Backstory',        ['scrollbar'] = true, ['tab'] = 'Tab_3'},
-    ['Note11']    = { -2.5398102,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Race/Class Feats', ['scrollbar'] = true, ['tab'] = 'Tab_4'},
-    ['Note12']    = { -7.2604314,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Additional Feats', ['scrollbar'] = true, ['tab'] = 'Tab_4'},
-    ['Note13']    = { -2.5398102,-1.02831,   ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Languages',                              ['tab'] = 'Tab_4'},
-    ['Note14']    = { -4.9058342,5.02206,    ['type'] = 'Notecard', ['height'] = 1.014,     ['rotation'] = {-90,0,0}, ['scale'] = 1.175, ['name'] = 'Personal Journal', ['scrollbar'] = true, ['tab'] = 'Tab_4'},
-    ['Equipment'] = { 6.476904,-0.0266,      ['type'] = 'Notecard', ['height'] = 1.031,     ['rotation'] = {-90,0,0}, ['scale'] = 0.775, ['name'] = 'Equipment',        ['scrollbar'] = true},
-    ['Inventory'] = { 4.994779,4.361943,     ['type'] = 'Notecard', ['height'] = 1.023388,  ['rotation'] = {-90,0,0}, ['scale'] = 0.925, ['name'] = 'Inventory'}
-}
-
-incrementalOffsetList = { -- Text Tools that will spawn modifiers to act like counters - for numbers
-
-   --[[
-   Format for each line:
-   [Name] = {
-                x position of Text Tool, z position of Text Tool, ['size'] = font size,
-                ['gap'] = { space between x axis of +/- buttons, space between z axis of +/- buttons },
-                ['mod'] = { x position of the center of +/- buttons relative to the Text Tool, z position of the center of +/- buttons relative to the Text Tool }
-                (optional)['modSize'] = size of the buttons -defaults to 200-, (optional)['color'] = color of the Text Tool -defaults to 'Grey'-,
-                (optional)['alwaysVisible'] = false to only show buttons when in "Edit Mode" or true to always display buttons -defaults to false-,
-                (optional)['triggerUpdate'] = false to prevent the button(s) from calling calculateCharacterSheetValues() when modified or true to make the button(s) call the function when modified -defaults to false-,
-                (optional)['tab'] = 'the tab table in the tabOffsetList you want this item to belong to -defaults to nil-'
-            }
-   --]]
-
-    ['Speed']              = { 2.074633,-0.23846, ['size'] = 36, ['gap'] = {0.6,0},  ['mod'] = {0,0.3} },
-    ['Initiative']         = { 2.074633,-1.3,     ['size'] = 40, ['gap'] = {0.6,0},  ['mod'] = {0,0.3} },
-    ['Inspiration']        = { 12.78864,-5.92592, ['size'] = 40, ['gap'] = {0,0.15}, ['mod'] = {-3.06,0.3}, ['modSize']=150 },
-    ['Proficiency_Bonus']  = { 12.71865,-4.97593, ['size'] = 40, ['gap'] = {0,0.15}, ['mod'] = {-3,0.3},    ['modSize']=150, ['triggerUpdate'] = true},
-    ['Spell_Save_DC']      = { 7.052309,-3.18593, ['size'] = 40, ['gap'] = {0.52,0}, ['mod'] = {0,0.26} },
-    ['Spell_Attack_Bonus'] = { 5.488634,-3.18593, ['size'] = 40, ['gap'] = {0.52,0}, ['mod'] = {0,0.26} },
-    ['Max_HP']             = { 1.454685,-3.27593, ['size'] = 64, ['gap'] = {0.6,0},  ['mod'] = {0,0.5} },
-    ['Max_Hit_Dice']       = { 3.6,-3.47588,      ['size'] = 30, ['gap'] = {0,0.15}, ['mod'] = {0.47,0.27}, ['modSize'] = 150 },
-    ['Current_Hit_Dice']   = { 3.488621,-3.07589, ['size'] = 72, ['gap'] = {0.6,0},  ['mod'] = {0.02,0.9} },
-    ['Armor_Class']        = { 4.790911,-5.37751, ['size'] = 72, ['gap'] = {0.85,0}, ['mod'] = {0,0},       ['modSize'] = 180, ['color'] = 'Silver'},
-    ['STR']                = { 14.88861,-6.01784, ['size'] = 72, ['gap'] = {0.85,0}, ['mod'] = {0,1.8},     ['modSize'] = 250, ['color'] = 'Red',    ['triggerUpdate'] = true},
-    ['DEX']                = { 14.88863,-3.52217, ['size'] = 72, ['gap'] = {0.85,0}, ['mod'] = {0,1.8},     ['modSize'] = 250, ['color'] = 'Green',  ['triggerUpdate'] = true},
-    ['CON']                = { 14.88863,-1.04589, ['size'] = 72, ['gap'] = {0.85,0}, ['mod'] = {0,1.8},     ['modSize'] = 250, ['color'] = 'Black',  ['triggerUpdate'] = true},
-    ['INT']                = { 14.88863,1.44407,  ['size'] = 72, ['gap'] = {0.85,0}, ['mod'] = {0,1.8},     ['modSize'] = 250, ['color'] = 'Blue',   ['triggerUpdate'] = true},
-    ['WIS']                = { 14.88863,3.934117, ['size'] = 72, ['gap'] = {0.85,0}, ['mod'] = {0,1.8},     ['modSize'] = 250, ['color'] = 'Pink',   ['triggerUpdate'] = true},
-    ['CHA']                = { 14.88863,6.424077, ['size'] = 72, ['gap'] = {0.85,0}, ['mod'] = {0,1.8},     ['modSize'] = 250, ['color'] = 'Yellow', ['triggerUpdate'] = true},
-    ['Copper']             = { 8.488632,6.974126, ['size'] = 36, ['gap'] = {0.4,0},  ['mod'] = {0,0.8}, ['color'] = 'Copper',  ['alwaysVisible'] = true},
-    ['Silver']             = { 6.688649,6.974126, ['size'] = 36, ['gap'] = {0.4,0},  ['mod'] = {0,0.8}, ['color'] = 'Silver',  ['alwaysVisible'] = true},
-    ['Electrum']           = { 4.868639,6.974126, ['size'] = 36, ['gap'] = {0.4,0},  ['mod'] = {0,0.8}, ['color'] = 'Electrum',['alwaysVisible'] = true},
-    ['Gold']               = { 3.02866,6.97431,   ['size'] = 36, ['gap'] = {0.4,0},  ['mod'] = {0,0.8}, ['color'] = 'Gold',    ['alwaysVisible'] = true},
-    ['Platinum']           = { 1.258625,6.974126, ['size'] = 36, ['gap'] = {0.4,0},  ['mod'] = {0,0.8}, ['color'] = 'Platinum',['alwaysVisible'] = true}
-}
-
-toggleOffsetList = { -- Text Tools that will spawn buttons which change the value of the Text Tool
-
-    --[[
-    Format for each line:
-    [Name] = {
-                 x position of Text Tool, z position of Text Tool, ['size'] = font size,
-                 ['set'] = {the different toggle displays},
-                 ['mod'] = { x position of the center of the button relative to the Text Tool, z position of the center of the button relative to the Text Tool }
-                 (optional)['modSize'] = size of the button -defaults to 200-, (optional)['color'] = color of the Text Tool -defaults to 'Grey'-,
-                 (optional)['alwaysVisible'] = 0 to only show buttons when in "Edit Mode" or 1 to always display buttons -defaults to 0-,
-                 (optional)['triggerUpdate'] = false to prevent the button(s) from calling calculateCharacterSheetValues() when modified or true to make the button(s) call the function when modified -defaults to false-
-                 (optional)['tab'] = 'the tab table in the tabOffsetList you want this item to belong to -defaults to nil-'
-             }
-    --]]
-
-    ['Max_Hit_Dice_Type']     = { 3,-3.47588,        ['size'] = 30, ['set'] = {'d4','d6','d8','d12'},                        ['mod'] = {0,0.22}, ['modSize'] = 300},
-    ['Vision']                = { 2.074633,0.97407,  ['size'] = 24, ['set'] = {'Blinded','Normal','Darkvision','Truesight'}, ['mod'] = {0,0.22}, ['modSize'] = 400},
-    ['Spell_Casting_Ability'] = { 8.558649,-3.18593, ['size'] = 40, ['set'] = {'STR','DEX','CON','INT','WIS','CHA'},         ['mod'] = {0,0.25}, ['modSize'] = 400}
-}
-
-checkboxOffsetList = { -- Text Tools that contain lists of individual items with checkboxes
-
-    --[[
-    Format for each line:
-    [Name] = {
-                 x position of Text Tool, z position of Text Tool, ['size'] = font size,
-                 (optional)['rotation'] = {x rotation, y rotation, z rotation} used primarily to create horizontal checkboxes
-                 ['gap'] = {the x distance between each button, the z difference between each button},
-                 ['mod'] = { x position of the center of the button relative to the Text Tool, z position of the center of the button relative to the Text Tool }
-                 ['listVariables'] = { 'the names of each item the checkbox will represent','separated by commas','do not use numbers' },
-                 (optional)['modSize'] = size of the button -defaults to 200-, (optional)['color'] = color of the Text Tool -defaults to 'Grey'-,
-                 (optional)['alwaysVisible'] = 0 to only show buttons when in "Edit Mode" or 1 to always display buttons -defaults to 0-,
-                 (optional)['triggerUpdate'] = false to prevent the button(s) from calling calculateCharacterSheetValues() when modified or true to make the button(s) call the function when modified -defaults to false-
-                 (optional)['tab'] = 'the tab table in the tabOffsetList you want this item to belong to -defaults to nil-'
-             }
-    --]]
-
-    ['Success_Save']                = { 7.94,-5.1,  ['rotation'] = {0,270,0}, ['size'] = 40, ['gap'] = {0,0.59}, ['mod'] = {-0.3,-0.3}, ['listVariables'] = {'First','Second','Third'},  ['color'] = 'Black', ['modSize'] = 100},
-    ['Fail_Save']                   = { 7.94,-4.65, ['rotation'] = {0,270,0}, ['size'] = 40, ['gap'] = {0,0.59}, ['mod'] = {0.3,-0.3}, ['listVariables'] = {'First','Second','Third'},  ['color'] = 'Black', ['modSize'] = 100},
-    ['Skill_Proficiencies']         = { 12.89858,-0.68993, ['size'] = 26, ['gap'] = {0,0.39}, ['mod'] = {0.3,-0.24}, ['listVariables'] = {'Acrobatics','Animal Handling','Arcana','Athletics','Deception','History','Insight','Intimidation','Investigation',
-                                                                                                                'Medicine','Nature','Perception','Performance','Persuasion','Religion','Sleight Of Hand','Stealth','Survival'},  ['color'] = 'Black', ['triggerUpdate'] = true, ['modSize'] = 100},
-    ['Saving_Throws_Proficiencies'] = { 12.89858,-3.94673, ['size'] = 26, ['gap'] = {0,0.39}, ['mod'] = {0.3,-0.24}, ['listVariables'] = {'STR','DEX','CON','INT','WIS','CHA'}, ['color'] = 'Black', ['triggerUpdate'] = true, ['modSize'] = 100}
-}
-
-textOffsetList = { -- Text Tools that will be unlocked - for words
-
-    --[[
-    Format for each line:
-    [Name] = {
-                 x position of Text Tool, z position of Text Tool, ['size'] = font size,
-                 (optional)['color'] = color of the Text Tool or true to be the player's color -defaults to 'Grey'-,
-             }
-    --]]
-
-    ['Path']            = { 7.767517,-6.87593, ['size'] = 24},
-    ['Background']      = { 4.656049,-7.57593, ['size'] = 24},
-    ['Alignment']       = { 4.632616,-6.87593, ['size'] = 24},
-    ['Party']           = { 1.564409,-6.87593, ['size'] = 24},
-    ['Race_Class']      = { 7.707871,-7.57593, ['size'] = 24},
-    ['Character_Level'] = { 10.19124,-7.30251, ['size'] = 32, ['color'] = 'Black'},
-    ['Character_Name']  = { 13.26529,-7.56156, ['size'] = 36, ['color'] = true}
-}
-
-inertOffsetList = { -- Text Tools that are only interacted upon by other changing other Text Tools or conditions.
-
-    --[[
-    Format for each line:
-    [Name] = {
-                 x position of Text Tool, z position of Text Tool, ['size'] = font size,
-                 (optional)['color'] = color of the Text Tool or true to be the player's color -defaults to 'Grey'-,
-             }
-    --]]
-
-    ['Player']                = { 1.564409,-7.57593, ['size'] = 24},
-    ['STRMod']                = { 13.78865,-5.7159,  ['size'] = 40, ['color'] = 'Red'},
-    ['DEXMod']                = { 13.78865,-3.25593, ['size'] = 40, ['color'] = 'Green'},
-    ['CONMod']                = { 13.78865,-0.76592, ['size'] = 40, ['color'] = 'Black'},
-    ['INTMod']                = { 13.78865,1.72407,  ['size'] = 40, ['color'] = 'Blue'},
-    ['WISMod']                = { 13.78865,4.254094, ['size'] = 40, ['color'] = 'Pink'},
-    ['CHAMod']                = { 13.78865,6.74407,  ['size'] = 40, ['color'] = 'Yellow'},
-    ['Passive_Perception']    = { 12.71865,7.22407,  ['size'] = 40},
-    ['Skill_Numbers']         = { 12.49865,-0.69991, ['size'] = 26},
-    ['Saving_Throws_Numbers'] = { 12.48865,-3.94673, ['size'] = 26}
-}
-
-tabsOffsetList = { -- Buttons that change what text tools and objects are on the sheet
-
-    --[[
-    Format for each line:
-    [Name] = {
-                 x position of Text Tool, z position of Text Tool, ['size'] = font size,
-                 ['text'] = 'the button label'
-                 ['set'] = {the different toggle displays},
-                 ['mod'] = { x position of the center of the button relative to the Text Tool, z position of the center of the button relative to the Text Tool }
-                 (optional)['modSize'] = size of the button -defaults to 200-, (optional)['color'] = color of the Text Tool -defaults to 'Grey'-,
-                 (optional)['alwaysVisible'] = 0 to only show buttons when in "Edit Mode" or 1 to always display buttons -defaults to 0-,
-                 (optional)['triggerUpdate'] = false to prevent the button(s) from calling calculateCharacterSheetValues() when modified or true to make the button(s) call the function when modified -defaults to false-
-             }
-    --]]
-
-    ['Tab_1'] = { -1.5,-7.1, ['text'] = 'Combat',    ['size'] = 30, ['mod'] = {0,0.18},  ['modSize'] = 450, ['color']='Platinum', ['alwaysVisible'] = true},
-    ['Tab_2'] = { -4,-7.1,   ['text'] = 'Spellbook', ['size'] = 30, ['mod'] = {0,0.18},  ['modSize'] = 450, ['color']='Platinum', ['alwaysVisible'] = true},
-    ['Tab_3'] = { -6,-7.1,   ['text'] = 'Bio',       ['size'] = 30, ['mod'] = {0,0.18},  ['modSize'] = 450, ['color']='Platinum', ['alwaysVisible'] = true},
-    ['Tab_4'] = { -8,-7.1,   ['text'] = '[Notes]',   ['size'] = 30, ['mod'] = {0,0.18},  ['modSize'] = 450, ['color']='Copper',   ['alwaysVisible'] = true}
-}
-
 zoneColor = {
     ['4201a1'] = 'Red',
     ['4201a2'] = 'Orange',
@@ -213,19 +34,21 @@ playerInformation = {
     ['Purple'] = {}
 }
 
-diffuseURL = {
-    ['Red'] = 'http://i.imgur.com/Cjxl27X.png',
-    ['Orange'] = 'http://i.imgur.com/BgykAHw.png',
-    ['Yellow'] = 'http://i.imgur.com/PyOqEio.png',
-    ['Green'] = 'http://i.imgur.com/apMwPRx.png',
-    ['Blue'] = 'http://i.imgur.com/cDR9t6o.png',
-    ['Purple'] = 'http://i.imgur.com/TKJSAjY.png'
-}
-
 function onload(save_state)
-    lookupButtonData = {}
+    characterSheetSourceZone = getObjectFromGUID('9ba365')
+    characterSheetSourcePlatform = getObjectFromGUID('b7d76a')
+    characterSheetSource = selectCharacterSheetSource(characterSheetSourceZone)
+
+    if characterSheetSource ~= nil then
+        setupNewCharacterSheetSource(characterSheetSource)
+        Global.call('addButton',{characterSheetSourcePlatform.getGUID(), 900,150,80,'UnLoad Character Sheet','unloadCharacterSheetSource',self,{0,0.15,0.75},{0,0,0}})
+        Global.call('addButton',{characterSheetSourcePlatform.getGUID(), 900,150,80,'New Journal','createBlankJournal',self,{0,0.15,-0.75},{0,0,0}})
+    else
+        printToAll('Please load a character sheet. Try to have one loaded at all times.', {0,1,0})
+        Global.call('addButton',{characterSheetSourcePlatform.getGUID(), 900,150,80,'Load Character Sheet','loadCharacterSheetSource',self,{0,0.15,0.75},{0,0,0}})
+    end
+
     keyLookup = {}
-    customSheet = false
     circle = Global.getVar('unicodeCircle')
 
     config = Global.getVar('config')
@@ -233,8 +56,93 @@ function onload(save_state)
     roll = Global.getVar('roll')
 
     currentPlayers = getSeatedPlayersExcept({'White'})
-    --createCache()
-    -- Calculate Lookup
+
+    if save_state == "[]" or save_state == "" then
+        CharacterSheets = {}
+        CharacterJournals = {}
+        keyLookupGUID = {}
+    else
+        local function getObjectFromGUIDTable(e)
+            local result = {}
+            for key,guid in pairs(e) do
+                if type(guid) == "table" then
+                    result[key] = getObjectFromGUIDTable(guid)
+                elseif type(guid) == "string" and getObjectFromGUID(guid) == nil then -- For scrollbar above&below information
+                    result[key] = guid
+                else
+                    result[key] = getObjectFromGUID(guid)
+                end
+            end
+            return result
+        end
+        local savedVars = JSON.decode(save_state)
+        CharacterSheets   = getObjectFromGUIDTable(savedVars['CharacterSheets'])
+        playerInformation = getObjectFromGUIDTable(savedVars['playerInformation'])
+        CharacterJournals = getObjectFromGUIDTable(savedVars['CharacterJournals'])
+        keyLookupGUID = savedVars['keyLookupGUID']
+        -- Saving Safe
+       for key,color in pairs(Global.getTable('colorTable')) do
+           if next(playerInformation[color]) ~= nil then
+               if not Player[color].seated then -- if theres info and is not seated, delete
+                   if CharacterJournals[color] ~= nil then closeBook(color) end
+                   destroyCharacterSheet(color)
+               else -- there's info and someones seated - reassociate
+                   tool.call('loadPlayer',{color})
+                   local function deepInteractable(e)
+                       for key,object in pairs(e) do
+                           if type(object) == "table" then
+                               deepInteractable(object)
+                           elseif string.sub(tostring(object),1,-30) ~= "Notecard" then
+                               object.interactable = false
+                           end
+                       end
+                   end
+                   --deepInteractable(playerInformation[color])
+                   CharacterSheets[color]['interactable'] = false
+                   Global.call('setZone',{color,1})
+               end
+               if CharacterJournals[color] ~= nil then
+                   enableManager(color)
+                   Global.call('setZone',{color,2})
+               end
+           else
+               if Player[color].seated and characterSheetSource ~= nil then -- if theres no info but someone is seated, spawn
+                   initSheet(color)
+               end
+           end
+       end -- for
+    end
+end
+
+x = 0
+function onSave()
+    local savedVars = {}
+    local function getGUIDFromObjectTable(e)
+        local result = {}
+        for key,object in pairs(e) do
+            if type(object) == "table" then
+                result[key] = getGUIDFromObjectTable(object)
+            elseif type(object) == "string" and object.tag == nil then -- For scrollbar above&below information
+                result[key] = object
+            else
+                result[key] = object.getGUID()
+            end
+        end
+        return result
+    end
+
+    savedVars['CharacterSheets'] = getGUIDFromObjectTable(CharacterSheets)
+    savedVars['CharacterJournals'] = getGUIDFromObjectTable(CharacterJournals)
+    savedVars['playerInformation'] = getGUIDFromObjectTable(playerInformation)
+    savedVars['keyLookupGUID'] = keyLookupGUID
+
+
+    --if x==0 then print_r(savedVars) x=1 end
+    return JSON.encode_pretty(savedVars)
+end
+
+function calculateLookup()
+    lookupButtonData = {}
     local offsetListArray = {incrementalOffsetList,toggleOffsetList,checkboxOffsetList,tabsOffsetList}
     for index,offsetList in pairs(offsetListArray) do
         for key,value in pairs(offsetList) do
@@ -267,100 +175,82 @@ function onload(save_state)
             switch[index]()
         end
     end
+end
 
-    if save_state == "[]" or save_state == "" then
-        CharacterSheets = {}
-        CharacterJournals = {}
-        keyLookupGUID = {}
-    else
-        --print(save_state)
-        local function getObjectFromGUIDTable(e)
-            local result = {}
-            for key,guid in pairs(e) do
-                if type(guid) == "table" then
-                    result[key] = getObjectFromGUIDTable(guid)
-                elseif type(guid) == "string" and getObjectFromGUID(guid) == nil then -- For scrollbar above&below information
-                    result[key] = guid
-                else
-                    result[key] = getObjectFromGUID(guid)
-                end
-            end
-            return result
+function selectCharacterSheetSource(zone)
+    for index,source in pairs(zone.getObjects()) do
+        if source.getTable('Base_Stats') ~= nil then
+            source['interactable'] = false
+            return source
         end
-        local savedVars = JSON.decode(save_state)
-        CharacterSheets   = getObjectFromGUIDTable(savedVars['CharacterSheets'])
-        playerInformation = getObjectFromGUIDTable(savedVars['playerInformation'])
-        CharacterJournals = getObjectFromGUIDTable(savedVars['CharacterJournals'])
-        keyLookupGUID = savedVars['keyLookupGUID']
-        -- Saving Safe
-        for key,color in pairs(Global.getTable('colorTable')) do
-            if next(playerInformation[color]) ~= nil then
-                if not Player[color].seated then -- if theres info and is not seated, delete
-                    if CharacterJournals[color] ~= nil then closeBook(color) end
-                    destroyCharacterSheet(color)
-                else -- there's info and someones seated - reassociate
-                    tool.call('loadPlayer',{color})
-                    local function deepInteractable(e)
-                        for key,object in pairs(e) do
-                            if type(object) == "table" then
-                                deepInteractable(object)
-                            elseif string.sub(tostring(object),1,-30) ~= "Notecard" then
-                                object.interactable = false
-                            end
-                        end
-                    end
-                    --deepInteractable(playerInformation[color])
-                    CharacterSheets[color]['interactable'] = false
-                    Global.call('setZone',{color,1})
-                end
-                if CharacterJournals[color] ~= nil then
-                    enableManager(color)
-                    Global.call('setZone',{color,2})
-                end
-            else
-                if Player[color].seated then -- if theres no info but someone is seated, spawn
+    end
+    print('No character sheet source found! Please select a character sheet!')
+    return nil
+end
+
+function setupNewCharacterSheetSource(source)
+    customSheetData = source.getTable('customSheetData') or {}
+    Base_Stats = source.getTable('Base_Stats') or {}
+    objectOffsetList = source.getTable('objectOffsetList') or {}
+    incrementalOffsetList = source.getTable('incrementalOffsetList') or {}
+    toggleOffsetList = source.getTable('toggleOffsetList') or {}
+    checkboxOffsetList = source.getTable('checkboxOffsetList') or {}
+    textOffsetList = source.getTable('textOffsetList') or {}
+    inertOffsetList = source.getTable('inertOffsetList') or {}
+    tabsOffsetList = source.getTable('tabsOffsetList') or {}
+    calculateLookup()
+end
+
+function loadCharacterSheetSource()
+    if characterSheetSource == nil then
+        characterSheetSource = selectCharacterSheetSource(characterSheetSourceZone)
+        if characterSheetSource ~= nil then
+            setupNewCharacterSheetSource(characterSheetSource) -- load custom sheet info
+            -- Iterate through players and initialize their sheets
+            for key,color in pairs(Global.getTable('colorTable')) do
+                if Player[color].seated then
                     initSheet(color)
                 end
             end
-        end -- for
-    end
+            printToAll(characterSheetSource.getName()..' is now active!', {0,1,0})
 
---[[
-    -- This spawns new sheets for all players
-    currentPlayers = getSeatedPlayersExcept({'White'})
-    for i=1,#currentPlayers do
-        if currentPlayers[i] ~= 'Grey' and currentPlayers[i] ~= 'Black' and currentPlayers[i] ~= 'White' then
-            initSheet(currentPlayers[i])
+            local params = {
+                ['index'] = 0,
+                ['click_function'] = 'unloadCharacterSheetSource',
+                ['label'] = 'Unload Character Sheet'
+            }
+            characterSheetSourcePlatform.editButton(params)
+            Global.call('addButton',{characterSheetSourcePlatform.getGUID(), 900,150,80,'New Journal','createBlankJournal',self,{0,0.15,-0.75},{0,0,0}})
         end
+    else
+        print('No character sheet source found.')
     end
-]]
 end
 
-x = 0
-function onSave()
-    local savedVars = {}
-    local function getGUIDFromObjectTable(e)
-        local result = {}
-        for key,object in pairs(e) do
-            if type(object) == "table" then
-                result[key] = getGUIDFromObjectTable(object)
-            elseif type(object) == "string" and object.tag == nil then -- For scrollbar above&below information
-                result[key] = object
-            else
-                result[key] = object.getGUID()
+function unloadCharacterSheetSource()
+    if characterSheetSource ~= nil then
+        -- Iterate through players and destroy their sheets
+        for key,color in pairs(Global.getTable('colorTable')) do
+            if next(playerInformation[color]) ~= nil then
+                if Player[color].seated then
+                    destroyCharacterSheet(color)
+                end
             end
         end
-        return result
+        characterSheetSource['interactable'] = true
+        characterSheetSource.translate({4,0,0})
+        characterSheetSource = nil
+
+        printToAll('Character sheet unloaded. Please load a new one.', {0,1,0})
+
+        local params = {
+            ['index'] = 0,
+            ['click_function'] = 'loadCharacterSheetSource',
+            ['label'] = 'Load Character Sheet'
+        }
+        characterSheetSourcePlatform.editButton(params)
+        characterSheetSourcePlatform.removeButton(1)
     end
-
-    savedVars['CharacterSheets'] = getGUIDFromObjectTable(CharacterSheets)
-    savedVars['CharacterJournals'] = getGUIDFromObjectTable(CharacterJournals)
-    savedVars['playerInformation'] = getGUIDFromObjectTable(playerInformation)
-    savedVars['keyLookupGUID'] = keyLookupGUID
-
-
-    --if x==0 then print_r(savedVars) x=1 end
-    return JSON.encode_pretty(savedVars)
 end
 
 function initSheet(color)
@@ -389,16 +279,7 @@ function initSheet(color)
         ['rotation'] = sheetRot[color]
     })
 
-    sheet.setCustomObject({
-        ['mesh'] = 'http://pastebin.com/raw/WM95FWL5',
-        ['diffuse'] = diffuseURL[color],
-        ['type'] = 4, -- Board
-        ['material'] = 3, -- Cardboard
-        ['specular_intensity'] = 0.1,
-        ['specular_sharpness'] = 7.25,
-        ['fresnel_strength'] = 0.60,
-        ['cast_shadows'] = false
-    })
+    sheet.setCustomObject(customSheetData) -- Taking the spawning information from the character sheet source.
     sheet['interactable'] = false
     sheet.setName(color.."CS")
     sheet.lock()
@@ -703,7 +584,7 @@ function modifierAdd(obj,color) -- Called from a + incremental button
         CharacterJournals[color].setVar(key,newValue)
     end
     counter.TextTool.setValue(tostring(newValue))
-    if lookupButtonData[key]['triggerUpdate'] == true then calculateCharacterSheetValues(color) end
+    if lookupButtonData[key]['triggerUpdate'] == true then characterSheetSource.call('calculateCharacterSheetValues',{color}) end
 end
 
 function modifierSub(obj,color) -- Called from a - incremental button
@@ -721,7 +602,7 @@ function modifierSub(obj,color) -- Called from a - incremental button
         CharacterJournals[color].setVar(key,newValue)
     end
     counter.TextTool.setValue(tostring(newValue))
-    if lookupButtonData[key]['triggerUpdate'] == true then calculateCharacterSheetValues(color) end
+    if lookupButtonData[key]['triggerUpdate'] == true then characterSheetSource.call('calculateCharacterSheetValues',{color}) end
 end
 
 function modifierToggle(obj,color) -- Called from a toggle button
@@ -731,7 +612,7 @@ function modifierToggle(obj,color) -- Called from a toggle button
     local newValue = lookupButtonData[key]['set'][next(lookupButtonData[key]['set'],index)] or lookupButtonData[key]['set'][1]
     CharacterJournals[color].setVar(key,newValue)
     toggle.TextTool.setValue(newValue)
-    if lookupButtonData[key]['triggerUpdate'] == true then calculateCharacterSheetValues(color) end
+    if lookupButtonData[key]['triggerUpdate'] == true then characterSheetSource.call('calculateCharacterSheetValues',{color}) end
 end
 
 function modifierCheckbox(obj,color,element) -- Called from a checkbox button
@@ -743,7 +624,7 @@ function modifierCheckbox(obj,color,element) -- Called from a checkbox button
         workTable[element] = not workTable[element]
         CharacterJournals[color].setTable(key,workTable)
         checkbox.TextTool.setValue(getProficienciesString(color,key))
-        if lookupButtonData[key]['triggerUpdate'] == true then calculateCharacterSheetValues(color) end
+        if lookupButtonData[key]['triggerUpdate'] == true then characterSheetSource.call('calculateCharacterSheetValues',{color}) end
     end
 end
 
@@ -765,7 +646,7 @@ function modifierTabs(obj,color) -- Called from a tab button
         toggleEdit(CharacterSheets[color],color) -- Reset the state of edit mode to prevent lingering buttons
         toggleEdit(CharacterSheets[color],color)
     end
-    if lookupButtonData[key]['triggerUpdate'] == true then calculateCharacterSheetValues(color) end
+    if lookupButtonData[key]['triggerUpdate'] == true then characterSheetSource.call('calculateCharacterSheetValues',{color}) end
 end
 
 function resetTab(color)
@@ -791,7 +672,6 @@ function readFromBook(color,journal)
             playerInformation[color][key].TextTool.setValue(tostring(journal.getVar(key)))
         end
     end
-
     for key,value in pairs(incrementalOffsetList) do
         if not contains(Base_Stats,key) then
             CharacterJournals[color].setVar(key,journal.getVar(key))
@@ -840,7 +720,7 @@ function readFromBook(color,journal)
     DMCounter.Counter.setValue(journal.getVar('HP'))
     playerInformation[color]['HP'].Counter.setValue(journal.getVar('HP'))
 
-    calculateCharacterSheetValues(color)
+    characterSheetSource.call('calculateCharacterSheetValues',{color})
 end
 
 function saveCharacter(obj,color)
@@ -854,8 +734,6 @@ function saveCharacter(obj,color)
         toggleEdit(obj,color)
     end
     resetTab(color)
-    --destroyCharacterSheet(color)
-    --initSheet(color)
     closeBook(color)
     cleanText(color)
     Global.call('setZone',{color,1})
@@ -945,12 +823,12 @@ function onPlayerChangedColor(color)
     local holdPlayers = getSeatedPlayersExcept({'White',color})
     oldColor = array_sub(holdPlayers,currentPlayers)
     if color == 'Grey' then
-        if oldColor[1] != 'White' and oldColor[1] ~= nil then
+        if oldColor[1] ~= 'White' and oldColor[1] ~= nil then
             destroyCharacterSheet(oldColor[1])
         end
     else
-        if color != 'Black' then
-            if color != 'White'then
+        if color ~= 'Black' then
+            if color ~= 'White' and characterSheetSource ~= nil then
                 initSheet(color)
             end
         else
@@ -966,24 +844,19 @@ end
 
 function encodeBook(color)
     local script = [[-- Quality RPG CHARACTER SAVE
--- ]].. os.date("Saved %X UTC ~ %a %d, %B %Y")..'\nversion = '..Global.getVar('currentVersion')
+-- ]].. os.date("Saved %X UTC ~ %a %d, %B %Y")..'\nuniqueID = \''..characterSheetSource.getVar('uniqueID')..'\''
 
 script = script..'\n\n--------------------------- Character Information ---------------------------\n'
 
-    local offsetArray = {toggleOffsetList, textOffsetList, inertOffsetList}
-    for index,offset in pairs(offsetArray) do
-        for key,value in pairs(offset) do
-            if tonumber(CharacterJournals[color].getVar(key)) then
-                script = script..'\n'..key..' = '..CharacterJournals[color].getVar(key)
+    for key,value in pairs(objectOffsetList) do
+        if value['type'] ~= 'Notecard' then
+            script = script..'\n'..key..' = '..playerInformation[color][key].getValue()
+        else
+            if value['scrollbar'] == true then
+                script = script..'\n'..key..' = \[\['..getFullText(color,key)..'\]\]'
             else
-                script = script..'\n'..key..' = \[\['..tostring(CharacterJournals[color].getVar(key))..'\]\]'
+                script = script..'\n'..key..' = \[\['..playerInformation[color][key].getDescription()..'\]\]'
             end
-        end
-    end
-
-    for key,value in pairs(incrementalOffsetList) do
-        if not contains(Base_Stats,key) then
-            script = script..'\n'..key..' = '..CharacterJournals[color].getVar(key)
         end
     end
 
@@ -995,9 +868,22 @@ script = script..'\n\n--------------------------- Character Information --------
             script = script..'\n\t[\"'..key..'\"] = '..value..','
         end
     end
-
     script = string.sub(script,1,-2)
     script = script..'\n}\n'
+
+    for key,value in pairs(incrementalOffsetList) do
+        if not contains(Base_Stats,key) then
+            script = script..'\n'..key..' = '..CharacterJournals[color].getVar(key)
+        end
+    end
+
+    for key,value in pairs(toggleOffsetList) do
+        if tonumber(CharacterJournals[color].getVar(key)) then
+            script = script..'\n'..key..' = '..CharacterJournals[color].getVar(key)
+        else
+            script = script..'\n'..key..' = \[\['..tostring(CharacterJournals[color].getVar(key))..'\]\]'
+        end
+    end
 
     for key,value in pairs(checkboxOffsetList) do
         script = script..'\n'..key..' = {'
@@ -1012,15 +898,10 @@ script = script..'\n\n--------------------------- Character Information --------
         script = script..'\n}\n'
     end
 
-    for key,value in pairs(objectOffsetList) do
-        if value['type'] ~= 'Notecard' then
-            script = script..'\n'..key..' = '..playerInformation[color][key].getValue()
-        else
-            if value['scrollbar'] == true then
-                script = script..'\n'..key..' = \[\['..getFullText(color,key)..'\]\]'
-            else
-                script = script..'\n'..key..' = \[\['..playerInformation[color][key].getDescription()..'\]\]'
-            end
+    local offsetArray = {textOffsetList, inertOffsetList}
+    for i,v in pairs(offsetArray) do
+        for key,value in pairs(v) do
+            script = script..'\n'..key..' = \[\['..tostring(playerInformation[color][key].getValue())..'\]\]'
         end
     end
 
@@ -1029,42 +910,84 @@ script = script..'\n\n--------------------------- Character Information --------
     return script
 end
 
-function createCache()
-    for _,v in pairs(diffuseURL) do
-        local sheet = spawnObject({
+function createBlankJournal()
+    if characterSheetSource ~= nil then
+        local pos = characterSheetSourcePlatform.getPosition()
+        local obj_param = {
             ['type'] = 'Custom_Model',
-            ['position'] = {0,-25,0}
-        })
-        sheet.setCustomObject({
-        ['mesh'] = 'http://pastebin.com/raw/WM95FWL5',
-        ['diffuse'] = v,
-        })
-        --sheet.setScale{0.001,0.001,0.001}
-        sheet.lock()
-        --sheet['interactable'] = false
+            ['position'] = {pos[1]+5,pos[2]+1,pos[3]},
+            ['rotation'] = {0,90,0}
+        }
+        local obj = spawnObject(obj_param)
+
+        local custom_param = {
+            ['mesh'] = 'http://pastebin.com/raw/y4hs8Riy',
+            ['diffuse'] = 'http://i.imgur.com/eT6yiIu.png',
+            ['material'] = 3,
+            ['specular_intensity'] = 0,
+            ['specular_sharpness'] = 2,
+            ['fresnel_strength'] = 0
+        }
+        obj.setCustomObject(custom_param)
+
+        local script = [[-- Quality RPG CHARACTER SAVE
+    -- ]].. os.date("Saved %X UTC ~ %a %d, %B %Y")..'\nuniqueID = \''..characterSheetSource.getVar('uniqueID')..'\''
+
+    script = script..'\n\n--------------------------- Character Information ---------------------------\n'
+
+        for key,value in pairs(objectOffsetList) do
+            if value['type'] ~= 'Notecard' then
+                script = script..'\n'..key..' = '..0
+            else
+                script = script..'\n'..key..' = \[\[\]\]'
+            end
+        end
+
+        script = script..'\nBase_Stats = {'
+        for key,value in pairs(Base_Stats) do
+            if tonumber(value) then
+                script = script..'\n\t['..value..'] = 0,'
+            else
+                script = script..'\n\t[\"'..value..'\"] = 0,'
+            end
+        end
+        script = string.sub(script,1,-2)
+        script = script..'\n}\n'
+
+        for key,value in pairs(incrementalOffsetList) do
+            if not contains(Base_Stats,key) then
+                script = script..'\n'..key..' = 0'
+            end
+        end
+
+        for key,value in pairs(toggleOffsetList) do
+            script = script..'\n'..key..' = \[\[Blank\]\]'
+        end
+
+        for key,value in pairs(checkboxOffsetList) do
+            script = script..'\n'..key..' = {'
+            for i,v in pairs(value['listVariables']) do
+                if tonumber(v) then
+                    script = script..'\n\t['..v..'] = '..'false'..','
+                else
+                    script = script..'\n\t[\"'..v..'\"] = '..'false'..','
+                end
+            end
+            script = string.sub(script,1,-2)
+            script = script..'\n}\n'
+        end
+
+        local offsetArray = {textOffsetList, inertOffsetList}
+        for i,v in pairs(offsetArray) do
+            for key,value in pairs(v) do
+                script = script..'\n'..key..' = \[\[Blank\]\]'
+            end
+        end
+
+        script = script..'\n\nfunction onLoad(save_state)\n\tself.setName("New Journal")\n\tself.setDescription(\''..characterSheetSource.getVar('uniqueID')..'\')\nend'
+
+        obj.setLuaScript(script)
     end
-    local openBook = spawnObject({
-        ['type'] = 'Custom_Model',
-        ['position'] = {0,-25,0}
-    })
-    openBook.setCustomObject({
-        ['mesh'] = 'http://pastebin.com/raw/YTsHZRfG',
-        ['diffuse'] = 'http://i.imgur.com/XgSo3GV.png',
-    })
-    --openBook.setScale{0,0,0}
-    openBook.lock()
-    --openBook['interactable'] = false
-    local closedBook = spawnObject({
-        ['type'] = 'Custom_Model',
-        ['position'] = {0,-25,0}
-    })
-    closedBook.setCustomObject({
-        ['mesh'] = 'http://pastebin.com/raw/y4hs8Riy',
-        ['diffuse'] = 'http://i.imgur.com/eT6yiIu.png',
-    })
-    --closedBook.setScale{0,0,0}
-    closedBook.lock()
-    --closedBook['interactable'] = false
 end
 
 function parseSave(content)
@@ -1138,51 +1061,6 @@ function getProficienciesString(color, tableName) -- Reads vars from the journal
     return str
 end
 
-function calculateCharacterSheetValues(color)
-    local str = ''
-
-    -- Calculate Ability Modifiers.
-    local abilityMod = {}
-    local statTable = CharacterJournals[color].getTable('Base_Stats')
-    for key,value in pairs(statTable) do
-        abilityMod[key] = math.floor((value-10)/2)
-        if abilityMod[key] > 0 then
-            playerInformation[color][key..'Mod'].setValue('+'..tostring(abilityMod[key]))
-        else
-            playerInformation[color][key..'Mod'].setValue(tostring(abilityMod[key]))
-        end
-    end
-
-    -- Calculate Saving Throws.
-    statTable = CharacterJournals[color].getTable('Saving_Throws_Proficiencies')
-    for key,value in pairs(statTable) do
-        if value == true then
-            str = str..tostring(abilityMod[key] + CharacterJournals[color].getVar('Proficiency_Bonus'))..'\n'
-        else
-            str = str..tostring(abilityMod[key])..'\n'
-        end
-    end
-    playerInformation[color]['Saving_Throws_Numbers'].TextTool.setValue(str)
-
-    -- Calculate Skill Scores
-    str = ''
-    statTable = CharacterJournals[color].getTable('Skill_Proficiencies')
-    abilityModUseOrder = {'DEX','WIS','INT','STR','CHA','INT','WIS','CHA','INT','WIS','INT','WIS','CHA','CHA','INT','DEX','DEX','WIS'} -- The order of the skills in terms of their parent ability.
-    local i = 1
-    for key,value in pairs(statTable) do
-        if value == true then
-            str = str..tostring(abilityMod[abilityModUseOrder[i]] + CharacterJournals[color].getVar('Proficiency_Bonus'))..'\n'
-        else
-            str = str..tostring(abilityMod[abilityModUseOrder[i]])..'\n'
-        end
-        i = i+1
-    end
-    playerInformation[color]['Skill_Numbers'].TextTool.setValue(str)
-
-    -- Calculate Passive Perception
-    playerInformation[color]['Passive_Perception'].TextTool.setValue(tostring(10+abilityMod['WIS']))
-end
-
 function scrollUp(obj,color)
     local key = keyFromValue(playerInformation[color],obj)
     if playerInformation[color]['scrollbars'][key]['above'] ~= '' then
@@ -1252,6 +1130,12 @@ function getFullText(color,key) -- returns the complete string of data for a car
     end
     return fullText
 end
+
+-- getPage is in tools
+-- getLines is in tools
+-- removeNewline is in tools
+-- preserveNewline is in tools
+-- plainReplace is in tools
 
 
 function print_r ( t )
