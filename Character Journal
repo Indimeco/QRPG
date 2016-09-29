@@ -1,30 +1,37 @@
 -- Quality RPG CHARACTER SAVE
--- Time comment will be added here
-version = 1
+    -- Saved 4:57:45 AM UTC ~ Fri 23, September 2016
+uniqueID = 'D&D5e by Indimeco and rolandostar'
 
 --------------------------- Character Information ---------------------------
 
-Max_Hit_Dice_Type = [[nil]]
-Vision = [[nil]]
-Spell_Casting_Ability = [[nil]]
-Path = [[Path_Name]]
-Background = [[Background_Name]]
-Alignment = [[Alignment_Name]]
-Party = [[Party_Name]]
-Race_Class = [[Race_Class]]
-Character_Level = 1
-Character_Name = [[Character_Name]]
-Player = [[LuaGlobalPlayer]]
-STRMod = [[nil]]
-DEXMod = [[nil]]
-CONMod = [[nil]]
-INTMod = [[nil]]
-WISMod = [[nil]]
-CHAMod = [[nil]]
-Passive_Perception = 0
-Skill_Numbers = [[nil]]
-Saving_Throws_Numbers = [[nil]]
-Speed = 30
+HP = 0
+Note1 = [[]]
+Note2 = [[]]
+Note3 = [[]]
+Note4 = [[]]
+Note5 = [[]]
+Note6 = [[]]
+Note7 = [[]]
+Note8 = [[]]
+Note9 = [[]]
+Note10 = [[]]
+Note11 = [[]]
+Note12 = [[]]
+Note13 = [[]]
+Note14 = [[]]
+Note15 = [[]]
+Equipment = [[]]
+Inventory = [[]]
+Base_Stats = {
+	["STR"] = 0,
+	["DEX"] = 0,
+	["CON"] = 0,
+	["INT"] = 0,
+	["WIS"] = 0,
+	["CHA"] = 0
+}
+
+Speed = 0
 Initiative = 0
 Inspiration = 0
 Proficiency_Bonus = 0
@@ -39,15 +46,9 @@ Silver = 0
 Electrum = 0
 Gold = 0
 Platinum = 0
-Base_Stats = {
-	["STR"] = 0,
-	["DEX"] = 0,
-	["CON"] = 0,
-	["INT"] = 0,
-	["WIS"] = 0,
-	["CHA"] = 0
-}
-
+Max_Hit_Dice_Type = [[Blank]]
+Vision = [[Blank]]
+Spell_Casting_Ability = [[Blank]]
 Success_Save = {
 	["First"] = false,
 	["Second"] = false,
@@ -64,7 +65,7 @@ Skill_Proficiencies = {
 	["Acrobatics"] = false,
 	["Animal Handling"] = false,
 	["Arcana"] = false,
-	["Athletics"] = true,
+	["Athletics"] = false,
 	["Deception"] = false,
 	["History"] = false,
 	["Insight"] = false,
@@ -90,16 +91,25 @@ Saving_Throws_Proficiencies = {
 	["CHA"] = false
 }
 
-HP = 0
-Note1 = [[]]
-Note2 = [[]]
-Note3 = [[]]
-Note4 = [[]]
-Note5 = [[]]
-Equipment = [[]]
-Inventory = [[]]
+Path = [[Blank]]
+Background = [[Blank]]
+Alignment = [[Blank]]
+Party = [[Blank]]
+Race_Class = [[Blank]]
+Character_Level = [[Blank]]
+Character_Name = [[Blank]]
+Player = [[Blank]]
+STRMod = [[Blank]]
+DEXMod = [[Blank]]
+CONMod = [[Blank]]
+INTMod = [[Blank]]
+WISMod = [[Blank]]
+CHAMod = [[Blank]]
+Passive_Perception = [[Blank]]
+Skill_Numbers = [[Blank]]
+Saving_Throws_Numbers = [[Blank]]
 
 function onLoad(save_state)
-	self.setName(Character_Name)
-	self.setDescription("QRPG Character Save")
+	self.setName("New Journal")
+	self.setDescription('D&D5e by Indimeco and rolandostar')
 end
