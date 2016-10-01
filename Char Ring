@@ -34,6 +34,15 @@ playerInformation = {
     ['Purple'] = {}
 }
 
+tabsYPos = {
+    ['Red'] = {},
+    ['Orange'] = {},
+    ['Yellow'] = {},
+    ['Green'] = {},
+    ['Blue'] = {},
+    ['Purple'] = {}
+}
+
 function onload(save_state)
     characterSheetSourceZone = getObjectFromGUID('9ba365')
     characterSheetSourcePlatform = getObjectFromGUID('b7d76a')
@@ -75,11 +84,29 @@ function onload(save_state)
             end
             return result
         end
+
+        local function convertIndexFromGUIDToObj(e)
+            local result = {}
+            if e ~= nil then
+                for key,object in pairs(e) do
+                    if type(object) == "table" then
+                        result[key] = convertIndexFromGUIDToObj(object)
+                    elseif type(key) == "string" then
+                        result[getObjectFromGUID(key)] = object
+                    end
+                end
+                return result
+            else
+                return nil
+            end
+        end
+
         local savedVars = JSON.decode(save_state)
         CharacterSheets   = getObjectFromGUIDTable(savedVars['CharacterSheets'])
         playerInformation = getObjectFromGUIDTable(savedVars['playerInformation'])
         CharacterJournals = getObjectFromGUIDTable(savedVars['CharacterJournals'])
         keyLookupGUID = savedVars['keyLookupGUID']
+        tabsYPos = convertIndexFromGUIDToObj(savedVars['tabsYPos']) or tabsYPos
         -- Saving Safe
        for key,color in pairs(Global.getTable('colorTable')) do
            if next(playerInformation[color]) ~= nil then
@@ -100,6 +127,10 @@ function onload(save_state)
                    --deepInteractable(playerInformation[color])
                    CharacterSheets[color]['interactable'] = false
                    Global.call('setZone',{color,1})
+                   for index,value in pairs(playerInformation[color]['tabs']) do -- Iterate through Tabs and reset them to hidden positions.
+                       CharacterSheets[color].setVar('currentTab',index)
+                       resetTab(color)
+                   end
                end
                if CharacterJournals[color] ~= nil then
                    enableManager(color)
@@ -131,9 +162,22 @@ function onSave()
         return result
     end
 
+    local function convertIndexFromObjToGUID(e)
+        local result = {}
+        for key,object in pairs(e) do
+            if type(object) == "table" then
+                result[key] = convertIndexFromObjToGUID(object)
+            elseif type(key) == "userdata" then
+                result[key.getGUID()] = object
+            end
+        end
+        return result
+    end
+
     savedVars['CharacterSheets'] = getGUIDFromObjectTable(CharacterSheets)
     savedVars['CharacterJournals'] = getGUIDFromObjectTable(CharacterJournals)
     savedVars['playerInformation'] = getGUIDFromObjectTable(playerInformation)
+    savedVars['tabsYPos'] = convertIndexFromObjToGUID(tabsYPos)
     savedVars['keyLookupGUID'] = keyLookupGUID
 
 
@@ -272,6 +316,7 @@ function initSheet(color)
         playerInformation[color]['tabModifiers'][tabName]['alwaysVisible'] = {}
         playerInformation[color]['tabs'][tabName] = {}
     end
+    tabsYPos[color] = {}
 
     local sheet = spawnObject({
         ['type'] = 'Custom_Model',
@@ -377,6 +422,11 @@ function initSheet(color)
             end
             if value['tab'] ~= nil then
                 playerInformation[color]['tabs'][value['tab']][key] = obj -- With this, items belonging to tabs are saved in both the main item directory, meaning playerInformation[color][key], as well as this new one. Functional, but inefficient.
+                if index == 1 then
+                    tabsYPos[color][obj] = position[2] -- Create an object based table to store the original Y positions of tab objects
+                else
+                    tabsYPos[color][obj] = -3.92 -- Create an object based table to store the original Y positions of tab objects
+                end
             end
             playerInformation[color][key] = obj
         end
@@ -636,7 +686,7 @@ function modifierTabs(obj,color) -- Called from a tab button
         resetTab(color)
         for index,obj in pairs(playerInformation[color]['tabs'][key]) do
             local pos = obj.getPosition()
-            obj.setPosition({pos[1],pos[2]+5,pos[3]}) -- it might be better to use the original positioning information for this.
+            obj.setPosition({pos[1],tabsYPos[color][obj]+5,pos[3]})
             obj['interactable'] = true
         end
         CharacterSheets[color].setVar('currentTab',key)
@@ -654,7 +704,7 @@ function resetTab(color)
     if currentTab ~= 'none' then
         for i,obj in pairs(playerInformation[color]['tabs'][currentTab]) do
             local pos = obj.getPosition()
-            obj.setPosition({pos[1],pos[2]-5,pos[3]}) -- it might be better to use the original positioning information for this.
+            obj.setPosition({pos[1],tabsYPos[color][obj],pos[3]})
             obj['interactable'] = false
         end
         for index,modifier in pairs(playerInformation[color]['tabModifiers'][currentTab]['alwaysVisible']) do
