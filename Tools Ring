@@ -108,7 +108,7 @@ function onload(save_state)
     displaySome              = getObjectFromGUID('4fb7c1')
     invController            = getObjectFromGUID('aad6e8')
     displayNothing           = getObjectFromGUID('4bc9ee')
-    activeMiniZone1          = getObjectFromGUID('413e0c') -- The zone in which minis will be updated
+    activeMiniZone1          = getObjectFromGUID('56a729') -- The zone in which minis will be updated
     clearTableButton         = getObjectFromGUID('9f02aa')
     displayEverything        = getObjectFromGUID('ebea77') -- The following three are settings for the monster platform
     DMIsHealthController     = getObjectFromGUID('e4fb05')
