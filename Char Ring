@@ -826,6 +826,7 @@ function destroyCharacterSheet(color)
     destroyObjects(playerInformation[color])
     for k in pairs(keyLookupGUID[color]) do keyLookupGUID[color][k] = nil end
     keyLookupGUID[color] = nil
+    tabsYPos[color] = nil
     Global.call('setZone',{color,0})
     getObjectFromGUID("TOOLS").call('removePlayerButton',{color})
 end
