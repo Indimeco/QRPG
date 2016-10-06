@@ -199,8 +199,10 @@ function onload(save_state)
     -- Setup to be done every load, Resets and such.
     invControllerInvCard['Master'].setName('Inventory Manager')
     invControllerInvCard['Master'].setDescription("Select a player below and their inventory will be pulled to this card. Any changes you may have made will be sent when clicking \"Update\"\nSelecting a player will tint the highlight bar above with the respective color and the player's skills be updated in the counters above that.")
-    invControllerInvCard['initiative'].setDescription("This card will keep track of player\n and monster initiatives.\n\nA monster's initiative will be calculated if\ninside the monster area and face up.")
     invControllerInvCard['initiative'].setName("Initiative Tracker")
+    if invControllerInvCard['initiative'].getDescription() == '' then
+        invControllerInvCard['initiative'].setDescription("This card will keep track of player\nand monster initiatives.\n\nA monster's initiative will be calculated if\nthe card is inside the monster area and face up.\n\nThe bottom left x/o button toggles initiative broadcast through chat.")
+    end
     invControllerStartingText['Master'] = invControllerInvCard['Master'].getDescription()
     invControllerStartingText['initiative'] = invControllerInvCard['initiative'].getDescription()
     invControllerDisplay.setColorTint({1,1,1}) -- Set highlight bar to White
@@ -946,7 +948,7 @@ function getInitiative() -- Called when the DM continues after the players have 
     end
     local zoneObjs = activeInitiativeZone.getObjects()
     for i,value in pairs(zoneObjs) do
-        if value.getVar('cardname') ~= nil and value.getRotation()[3] == 0 then
+        if value.getVar('cardname') ~= nil and isFacingUp(value.getRotation()[3]) then
             if value.getName() ~= '' then
                 name = value.getName()
             else name = value.getVar('monsterName') end
@@ -966,6 +968,14 @@ function getInitiative() -- Called when the DM continues after the players have 
         invControllerInvCard['initiative'].setDescription(removeNewline(str,'Ending'))
     else
         if Player.White.seated == true then printToColor("?DA?No players nor monsters are active.","White",{1,1,1}) end
+    end
+end
+
+function isFacingUp(rot) -- validates if a monster card is facing up in the active initiative zone
+    if rot > 270 or rot < 90 then
+        return true
+    else
+        return false
     end
 end
 
