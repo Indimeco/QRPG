@@ -620,83 +620,108 @@ function toggleEdit(obj,color)
 end
 
 function modifierAdd(obj,color) -- Called from a + incremental button
-    local counter = getObjectFromGUID(keyFromValue(keyLookupGUID[color],obj.guid))
-    local key = keyFromValue(playerInformation[color],counter)
-    local newValue
-    if contains(Base_Stats,key) then
-        local BSTable = CharacterJournals[color].getTable('Base_Stats')
-        newValue = BSTable[key] + 1
-        BSTable[key] = newValue
-        CharacterJournals[color].setTable('Base_Stats',BSTable)
+    local targetGUID = keyFromValue(keyLookupGUID[color],obj.guid)
+    if targetGUID ~= nil then
+        local counter = getObjectFromGUID(targetGUID)
+        local key = keyFromValue(playerInformation[color],counter)
+        local newValue
+        if contains(Base_Stats,key) then
+            local BSTable = CharacterJournals[color].getTable('Base_Stats')
+            newValue = BSTable[key] + 1
+            BSTable[key] = newValue
+            CharacterJournals[color].setTable('Base_Stats',BSTable)
+        else
+            newValue = CharacterJournals[color].getVar(key) or 0
+            newValue = newValue + 1
+            CharacterJournals[color].setVar(key,newValue)
+        end
+        counter.TextTool.setValue(tostring(newValue))
+        if lookupButtonData[key]['triggerUpdate'] == true then characterSheetSource.call('calculateCharacterSheetValues',{color}) end
     else
-        newValue = CharacterJournals[color].getVar(key) or 0
-        newValue = newValue + 1
-        CharacterJournals[color].setVar(key,newValue)
+        printToColor('Either the object does not exist or you do not own this sheet! Try reloading the sheet.',color,{0.3,0,0})
     end
-    counter.TextTool.setValue(tostring(newValue))
-    if lookupButtonData[key]['triggerUpdate'] == true then characterSheetSource.call('calculateCharacterSheetValues',{color}) end
 end
 
 function modifierSub(obj,color) -- Called from a - incremental button
-    local counter = getObjectFromGUID(keyFromValue(keyLookupGUID[color],obj.guid))
-    local key = keyFromValue(playerInformation[color],counter)
-    local newValue
-    if contains(Base_Stats,key) then
-        local BSTable = CharacterJournals[color].getTable('Base_Stats')
-        newValue = BSTable[key] - 1
-        BSTable[key] = newValue
-        CharacterJournals[color].setTable('Base_Stats',BSTable)
+    local targetGUID = keyFromValue(keyLookupGUID[color],obj.guid)
+    if targetGUID ~= nil then
+        local counter = getObjectFromGUID(targetGUID)
+        local key = keyFromValue(playerInformation[color],counter)
+        local newValue
+        if contains(Base_Stats,key) then
+            local BSTable = CharacterJournals[color].getTable('Base_Stats')
+            newValue = BSTable[key] - 1
+            BSTable[key] = newValue
+            CharacterJournals[color].setTable('Base_Stats',BSTable)
+        else
+            newValue = CharacterJournals[color].getVar(key) or 0
+            newValue = newValue - 1
+            CharacterJournals[color].setVar(key,newValue)
+        end
+        counter.TextTool.setValue(tostring(newValue))
+        if lookupButtonData[key]['triggerUpdate'] == true then characterSheetSource.call('calculateCharacterSheetValues',{color}) end
     else
-        newValue = CharacterJournals[color].getVar(key) or 0
-        newValue = newValue - 1
-        CharacterJournals[color].setVar(key,newValue)
+        printToColor('Either the object does not exist or you do not own this sheet! Try reloading the sheet.',color,{0.3,0,0})
     end
-    counter.TextTool.setValue(tostring(newValue))
-    if lookupButtonData[key]['triggerUpdate'] == true then characterSheetSource.call('calculateCharacterSheetValues',{color}) end
 end
 
 function modifierToggle(obj,color) -- Called from a toggle button
-    local toggle = getObjectFromGUID(keyFromValue(keyLookupGUID[color],obj.guid))
-    local key = keyFromValue(playerInformation[color],toggle)
-    local index = keyFromValue(lookupButtonData[key]['set'],CharacterJournals[color].getVar(key))
-    local newValue = lookupButtonData[key]['set'][next(lookupButtonData[key]['set'],index)] or lookupButtonData[key]['set'][1]
-    CharacterJournals[color].setVar(key,newValue)
-    toggle.TextTool.setValue(newValue)
-    if lookupButtonData[key]['triggerUpdate'] == true then characterSheetSource.call('calculateCharacterSheetValues',{color}) end
+    local targetGUID = keyFromValue(keyLookupGUID[color],obj.guid)
+    if targetGUID ~= nil then
+        local toggle = getObjectFromGUID(targetGUID)
+        local key = keyFromValue(playerInformation[color],toggle)
+        local index = keyFromValue(lookupButtonData[key]['set'],CharacterJournals[color].getVar(key))
+        local newValue = lookupButtonData[key]['set'][next(lookupButtonData[key]['set'],index)] or lookupButtonData[key]['set'][1]
+        CharacterJournals[color].setVar(key,newValue)
+        toggle.TextTool.setValue(newValue)
+        if lookupButtonData[key]['triggerUpdate'] == true then characterSheetSource.call('calculateCharacterSheetValues',{color}) end
+    else
+        printToColor('Either the object does not exist or you do not own this sheet! Try reloading the sheet.',color,{0.3,0,0})
+    end
 end
 
 function modifierCheckbox(obj,color,element) -- Called from a checkbox button
     if tonumber(element) then print('Invalid checkbox element, do not use numbers as strings in the set. Edit your custom sheet.')
     else
-        local checkbox = getObjectFromGUID(keyFromValue(keyLookupGUID[color],obj.guid))
-        local key = keyFromValue(playerInformation[color],checkbox)
-        local workTable = CharacterJournals[color].getTable(key)
-        workTable[element] = not workTable[element]
-        CharacterJournals[color].setTable(key,workTable)
-        checkbox.TextTool.setValue(getProficienciesString(color,key))
-        if lookupButtonData[key]['triggerUpdate'] == true then characterSheetSource.call('calculateCharacterSheetValues',{color}) end
+        local targetGUID = keyFromValue(keyLookupGUID[color],obj.guid)
+        if targetGUID ~= nil then
+            local checkbox = getObjectFromGUID(targetGUID)
+            local key = keyFromValue(playerInformation[color],checkbox)
+            local workTable = CharacterJournals[color].getTable(key)
+            workTable[element] = not workTable[element]
+            CharacterJournals[color].setTable(key,workTable)
+            checkbox.TextTool.setValue(getProficienciesString(color,key))
+            if lookupButtonData[key]['triggerUpdate'] == true then characterSheetSource.call('calculateCharacterSheetValues',{color}) end
+        else
+            printToColor('Either the object does not exist or you do not own this sheet! Try reloading the sheet.',color,{0.3,0,0})
+        end
     end
 end
 
 function modifierTabs(obj,color) -- Called from a tab button
-    local tab = getObjectFromGUID(keyFromValue(keyLookupGUID[color],obj.guid))
-    local key = keyFromValue(playerInformation[color],tab)
-    local currentTab = CharacterSheets[color].getVar('currentTab') or 'none'
-    if currentTab ~= key then -- reset to default position where no tab is active
-        resetTab(color)
-        for index,obj in pairs(playerInformation[color]['tabs'][key]) do
-            local pos = obj.getPosition()
-            obj.setPosition({pos[1],tabsYPos[color][obj]+5,pos[3]})
-            obj['interactable'] = true
+    local targetGUID = keyFromValue(keyLookupGUID[color],obj.guid)
+    if targetGUID ~= nil then
+        local tab = getObjectFromGUID(targetGUID)
+        local key = keyFromValue(playerInformation[color],tab)
+        local currentTab = CharacterSheets[color].getVar('currentTab') or 'none'
+        if currentTab ~= key then -- reset to default position where no tab is active
+            resetTab(color)
+            for index,obj in pairs(playerInformation[color]['tabs'][key]) do
+                local pos = obj.getPosition()
+                obj.setPosition({pos[1],tabsYPos[color][obj]+5,pos[3]})
+                obj['interactable'] = true
+            end
+            CharacterSheets[color].setVar('currentTab',key)
+            for index,modifier in pairs(playerInformation[color]['tabModifiers'][key]['alwaysVisible']) do
+                modifier.setScale({1,1,1}) -- Activate always visible buttons related ot the current tab
+            end
+            toggleEdit(CharacterSheets[color],color) -- Reset the state of edit mode to prevent lingering buttons
+            toggleEdit(CharacterSheets[color],color)
         end
-        CharacterSheets[color].setVar('currentTab',key)
-        for index,modifier in pairs(playerInformation[color]['tabModifiers'][key]['alwaysVisible']) do
-            modifier.setScale({1,1,1}) -- Activate always visible buttons related ot the current tab
-        end
-        toggleEdit(CharacterSheets[color],color) -- Reset the state of edit mode to prevent lingering buttons
-        toggleEdit(CharacterSheets[color],color)
+        if lookupButtonData[key]['triggerUpdate'] == true then characterSheetSource.call('calculateCharacterSheetValues',{color}) end
+    else
+        printToColor('Either the object does not exist or you do not own this sheet! Try reloading the sheet.',color,{0.3,0,0})
     end
-    if lookupButtonData[key]['triggerUpdate'] == true then characterSheetSource.call('calculateCharacterSheetValues',{color}) end
 end
 
 function resetTab(color)
