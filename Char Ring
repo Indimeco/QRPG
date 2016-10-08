@@ -45,16 +45,16 @@ tabsYPos = {
 
 function onload(save_state)
     characterSheetSourceZone = getObjectFromGUID('9ba365')
-    characterSheetSourcePlatform = getObjectFromGUID('b7d76a')
+    characterSheetSourcePlatform = getObjectFromGUID('f99d56')
     characterSheetSource = selectCharacterSheetSource(characterSheetSourceZone)
 
     if characterSheetSource ~= nil then
         setupNewCharacterSheetSource(characterSheetSource)
-        Global.call('addButton',{characterSheetSourcePlatform.getGUID(), 900,150,80,'UnLoad Character Sheet','unloadCharacterSheetSource',self,{0,0.15,0.75},{0,0,0}})
-        Global.call('addButton',{characterSheetSourcePlatform.getGUID(), 900,150,80,'New Journal','createBlankJournal',self,{0,0.15,-0.75},{0,0,0}})
+        Global.call('addButton',{characterSheetSourcePlatform.getGUID(), 900,150,80,'UnLoad Character Sheet','unloadCharacterSheetSource',self,{3.5,0.15,-1.8},{-30,0,0}})
+        Global.call('addButton',{characterSheetSourcePlatform.getGUID(), 900,150,80,'New Journal','createBlankJournal',self,{3.5,0.15,-1.3},{-30,0,0}})
     else
         printToAll('Please load a character sheet. Try to have one loaded at all times.', {0,1,0})
-        Global.call('addButton',{characterSheetSourcePlatform.getGUID(), 900,150,80,'Load Character Sheet','loadCharacterSheetSource',self,{0,0.15,0.75},{0,0,0}})
+        Global.call('addButton',{characterSheetSourcePlatform.getGUID(), 900,150,80,'Load Character Sheet','loadCharacterSheetSource',self,{3.5,0.15,-1.8},{-30,0,0}})
     end
 
     keyLookup = {}
@@ -264,7 +264,7 @@ function loadCharacterSheetSource()
                 ['label'] = 'Unload Character Sheet'
             }
             characterSheetSourcePlatform.editButton(params)
-            Global.call('addButton',{characterSheetSourcePlatform.getGUID(), 900,150,80,'New Journal','createBlankJournal',self,{0,0.15,-0.75},{0,0,0}})
+            Global.call('addButton',{characterSheetSourcePlatform.getGUID(), 900,150,80,'New Journal','createBlankJournal',self,{3.5,0.15,-1.3},{-30,0,0}})
         end
     else
         print('No character sheet source found.')
@@ -991,7 +991,7 @@ function createBlankJournal()
         local pos = characterSheetSourcePlatform.getPosition()
         local obj_param = {
             ['type'] = 'Custom_Model',
-            ['position'] = {pos[1]+5,pos[2]+1,pos[3]},
+            ['position'] = {pos[1]-3,pos[2]+1,pos[3]+2},
             ['rotation'] = {0,90,0}
         }
         local obj = spawnObject(obj_param)
