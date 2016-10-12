@@ -491,10 +491,8 @@ function enableManager(color)
     local function createScrollbarButtonsFromTable(table)
         for key,object in pairs(table) do
             if object['type'] == 'Notecard' and object['scrollbar'] == true then
-                Global.call('addButton',{playerInformation[color][key].getGUID(), 1,1,1,'','scrollUp',self,{-0.38,0,0.35},{0,-90,0}})
-                Global.call('addButton',{playerInformation[color][key].getGUID(), 0,0,70,'<','placeHolder',self,{-0.46,5,0.45},{0,-90,0}})
-                Global.call('addButton',{playerInformation[color][key].getGUID(), 1,1,1,'','scrollDown',self,{-0.38,0,-0.35},{0,90,0}})
-                Global.call('addButton',{playerInformation[color][key].getGUID(), 0,0,70,'<','placeHolder',self,{-0.46,5,-0.45},{0,90,0}})
+                Global.call('addButton',{playerInformation[color][key].getGUID(), 40,40,70,'<','scrollUp',self,{-0.46,5,0.45},{0,-90,0}})
+                Global.call('addButton',{playerInformation[color][key].getGUID(), 40,40,70,'<','scrollDown',self,{-0.46,5,-0.45},{0,90,0}})
             end
         end
     end
