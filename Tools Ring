@@ -237,21 +237,12 @@ function onload(save_state)
     Global.call('addButton',{clearTableButton.getGUID(),1400,650,200,'Clear Table','confirmClearTable',self,{0,-0.2,0},{0,-90,180}})
     Global.call('addButton', {DMIsHealthController.getGUID(),2550,500,300,'The DM','updateHealthController',self,{0,0.05,-3.3},{0,270,0}})
     Global.call('addButton', {playerIsHealthController.getGUID(),2550,500,300,'The Player','updateHealthController',self,{0,0.05,-3.3},{0,270,0}})
-    Global.call('addButton',{invControllerInvCard['Master'].getGUID(), 1,1,1,'','scrollUp',self,{-0.38,0,0.35},{0,-90,0}})
-    Global.call('addButton',{invControllerInvCard['Master'].getGUID(), 0,0,70,'<','placeHolder',self,{-0.46,5,0.45},{0,-90,0}})
-    Global.call('addButton',{invControllerInvCard['Master'].getGUID(), 1,1,1,'','scrollDown',self,{-0.38,0,-0.35},{0,90,0}})
-    Global.call('addButton',{invControllerInvCard['Master'].getGUID(), 0,0,70,'<','placeHolder',self,{-0.46,5,-0.45},{0,90,0}})
-    -- Disabling the toggle stat counters button because it's just clutter
-    -- monsterPlatform[1].setTable('pos',{-0.1,0.1,0})
-    -- monsterPlatform[1].setTable('rot',{0,-90,0})
-    -- Global.call('addButton', {monsterPlatform[1].getGUID(),1900,900,300,'Stat Counters','toggleStatCounters',self})
+    Global.call('addButton',{invControllerInvCard['Master'].getGUID(), 40,40,70,'<','scrollUp',self,{-0.46,5,0.45},{0,-90,0}})
+    Global.call('addButton',{invControllerInvCard['Master'].getGUID(), 40,40,70,'<','scrollDown',self,{-0.46,5,-0.45},{0,90,0}})
+
     Global.call('addButton', {monsterPlatform[2].getGUID(),950,380,190,'Copy Card','cloneCard',self,{-1.6,0.22,0.1},{0,180,0}})
     Global.call('addButton', {monsterPlatform[2].getGUID(),950,380,190,'Reset','resetPlatform',self,{1.6,0.22,0.1},{0,180,0}})
-    --Global.call('addButton', {monsterPlatform[1].getGUID(),1900,900,300,'2nd Platform','toggleSecondPlatform',self{-2.15,0.1,0},{0,-90,0}})
     Global.call('addButton', {monsterPlatform[2].getGUID(),2100,380,190,'Update Figurine','forceUpdateMini',self,{0,0.22,-3.2},{0,180,0}})
-    -- monsterPlatform[2].setTable('pos',{-2.15,0.1,0})
-    -- monsterPlatform[2].setTable('rot',{0,-90,0})
-    -- Global.call('addButton', {monsterPlatform[2].getGUID(),1900,900,300,'Stat Counters','toggleStatCounters',self})
 
     Global.call('addButton', {monsterPlatform[1].getGUID(),950,380,190,'Copy Card','cloneCard',self,{-1.6,0.22,0.1},{0,180,0}})
     Global.call('addButton', {monsterPlatform[1].getGUID(),950,380,190,'Reset','resetPlatform',self,{1.6,0.22,0.1},{0,180,0}})
@@ -269,10 +260,8 @@ function onload(save_state)
     else
         Global.call('addButton',{initShell.getGUID(), 400,500,150,Global.getVar('unicodeCrossBox'),'toggleInitiativeBroadcast',self,{3.95,0.1,-3.3},{0,180,0}})
     end
-    Global.call('addButton',{invControllerInvCard['initiative'].getGUID(), 1,1,1,'','scrollUp',self,{-0.38,0,0.35},{0,-90,0}})
-    Global.call('addButton',{invControllerInvCard['initiative'].getGUID(), 0,0,70,'<','placeHolder',self,{-0.46,5,0.45},{0,-90,0}})
-    Global.call('addButton',{invControllerInvCard['initiative'].getGUID(), 1,1,1,'','scrollDown',self,{-0.38,0,-0.35},{0,90,0}})
-    Global.call('addButton',{invControllerInvCard['initiative'].getGUID(), 0,0,70,'<','placeHolder',self,{-0.46,5,-0.45},{0,90,0}})
+    Global.call('addButton',{invControllerInvCard['initiative'].getGUID(), 40,40,70,'<','scrollUp',self,{-0.46,5,0.45},{0,-90,0}})
+    Global.call('addButton',{invControllerInvCard['initiative'].getGUID(), 40,40,70,'<','scrollDown',self,{-0.46,5,-0.45},{0,90,0}})
 end
 
 function toggleScreen() --[[Shrinks and displaces the screen or resets it]]--
@@ -378,10 +367,8 @@ function loadPlayer(param)
     invControllerButton[color].setVar('color',color)
     Global.call('addButton', {invControllerButton[color].guid,1350,600,400,color,'selectPlayer',self,{0,-0.2,0},{180,90,0}})
     invControllerInvCard[color].setVar('color', color)
-    Global.call('addButton',{invControllerInvCard[color].guid, 1,1,1,'','scrollUp',self,{-0.38,0,0.35},{0,-90,0}})
-    Global.call('addButton',{invControllerInvCard[color].guid, 0,0,70,'<','placeHolder',self,{-0.46,5,0.45},{0,-90,0}})
-    Global.call('addButton',{invControllerInvCard[color].guid, 1,1,1,'','scrollDown',self,{-0.38,0,-0.35},{0,90,0}})
-    Global.call('addButton',{invControllerInvCard[color].guid, 0,0,70,'<','placeHolder',self,{-0.46,5,-0.45},{0,90,0}})
+    Global.call('addButton',{invControllerInvCard[color].guid, 40,40,70,'<','scrollUp',self,{-0.46,5,0.45},{0,-90,0}})
+    Global.call('addButton',{invControllerInvCard[color].guid, 40,40,70,'<','scrollDown',self,{-0.46,5,-0.45},{0,90,0}})
     playerHealthCounters[keyFromValue(Global.getVar('colorTable'),color)] = char.getTable('playerInformation')[color]['HP']
 end
 
