@@ -551,12 +551,12 @@ function enableManager(color)
     -- TODO: Decide where and how edit mode is reset
     --CharacterSheets[color].setVar('edit',1)
     --shrinkEditModeButtons(color)
-    Global.call('addButton', {CharacterSheets[color].getGUID(),3000,500,350,'Spawn Figurine','nil',self,{13.2,0.01,-2.3}})
-    Global.call('addButton', {CharacterSheets[color].getGUID(),3000,500,350,'Add XP/Level Up','nil',self,{13.2,0.01,-1.0}})
-    Global.call('addButton', {CharacterSheets[color].getGUID(),3000,500,350,'Something','nil',self,{13.2,0.01,0.3}})
-    Global.call('addButton', {CharacterSheets[color].getGUID(),3000,500,350,'DEBUG: NOTECARDS','DEBUGPrintNotecardPos',self,{13.2,0.01,1.6}})
-    Global.call('addButton', {CharacterSheets[color].getGUID(),3000,500,350,'DEBUG: JOURNAL','DEBUGprintJournal',self,{13.2,0.01,2.9}})
-    Global.call('addButton', {CharacterSheets[color].getGUID(),3000,500,350,'DEBUG: INFO','DEBUGprintPlayerInfo',self,{13.2,0.01,4.2}})
+    Global.call('addButton', {CharacterSheets[color].getGUID(),3000,500,350,'Spawn Figurine','spawnFigurine',self,{13.2,0.01,-2.3}})
+    Global.call('addButton', {CharacterSheets[color].getGUID(),3000,500,350,'Link Figurine','linkFigurine',self,{13.2,0.01,-1.0}})
+    Global.call('addButton', {CharacterSheets[color].getGUID(),3000,500,350,'Reserved','reservedButton',self,{13.2,0.01,0.3}})
+    Global.call('addButton', {CharacterSheets[color].getGUID(),3000,500,350,'Reserved','reservedButton',self,{13.2,0.01,1.6}})
+    Global.call('addButton', {CharacterSheets[color].getGUID(),3000,500,350,'Reserved','reservedButton',self,{13.2,0.01,2.9}})
+    Global.call('addButton', {CharacterSheets[color].getGUID(),3000,500,350,'Reserved','reservedButton',self,{13.2,0.01,4.2}})
     Global.call('addButton', {CharacterSheets[color].getGUID(),3000,500,350,'Edit Sheet','toggleEdit',self,{13.2,0.01,5.5}})
     Global.call('addButton', {CharacterSheets[color].getGUID(),3000,600,350,'Save & Close','saveCharacter',self,{13.2,0.01,7.2}})
     createIncrementButtonsFromTable(playerInformation[color]['edit']['incremental'])
@@ -615,6 +615,18 @@ function toggleEdit(obj,color)
         end
     }
     action[x]()
+end
+
+function spawnFigurine(obj,color)
+    printToColor('This feature is not available yet, but we are working on it!',color,{0,1,0})
+end
+
+function linkFigurine(obj,color)
+    printToColor('This feature is not available yet, but we are working on it!',color,{0,1,0})
+end
+
+function reservedButton(obj,color)
+    printToColor('This button doesn\'t have a purpose yet. Have ideas? Let us know on the workshop or on Discord!',color,{0,1,0})
 end
 
 function modifierAdd(obj,color) -- Called from a + incremental button
