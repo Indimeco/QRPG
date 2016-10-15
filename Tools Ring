@@ -86,7 +86,7 @@ function onload(save_state)
         { 'From 1',{2,2},'getfrom1',1},
         {'From 2',{2,2},'getfrom2',1},
         {'From 3',{2,2},'getfrom3',1},
-        {'Action 12',{2,2},'function3',17},
+        {'Reserved',{2,2},'reservedButton',17},
         {'?',{1,1},'showHelp',1},
         {'RPG\nDesk',{1,2},'changeLayoutTo1',1},
         {'Props\nDesk',{1,2},'changeLayoutTo2',1},
@@ -105,6 +105,8 @@ function onload(save_state)
     initShell                = getObjectFromGUID('a0421e')
     shadowGrid               = getObjectFromGUID('42a648')
     smallTablet              = getObjectFromGUID('a81134')
+    largeTablet              = getObjectFromGUID('b1a666')
+    helpCard                 = getObjectFromGUID('6958e1')
     displaySome              = getObjectFromGUID('4fb7c1')
     invController            = getObjectFromGUID('aad6e8')
     displayNothing           = getObjectFromGUID('4bc9ee')
@@ -538,20 +540,22 @@ function setupNewInventory(params) -- Called by the char core to setup an invent
 end
 
 function showHelp()
-    print("AIUDA")
-    getObjectFromGUID('6958e1').setPositionSmooth({-71,13,0})
+    if helpCard.getPosition()[2] > 100 then
+        helpCard.setPositionSmooth({-71,13,0})
+        largeTablet.setValue('https://www.youtube.com/watch?v=nAwzJHX3KKI')
+    else
+        helpCard.setPositionSmooth({81.5,136.6,-7.7})
+    end
     Timer.create({
         ['identifier'] = 'timer',
         ['function_name'] = 'lockHelp',
         ['function_owner'] = self,
         ['delay'] = 1.7
     })
-    getObjectFromGUID('b1a666').setValue('https://www.youtube.com/watch?v=nAwzJHX3KKI')
-    getObjectFromGUID('d42072').removeButton(12)
 end
 
 function lockHelp()
-    getObjectFromGUID('6958e1').lock()
+    helpCard.lock()
 end
 
 function createCounters(table) -- Receives a table of GUIDs, returns a table of objects.
@@ -1236,6 +1240,10 @@ function spawnAllTiles()
   for i,v in pairs(tilecards) do
     if tilecards[i].getVar('tiletype') then callLuaFunctionInOtherScript(tilecards[i],'spawn') end
   end
+end
+
+function reservedButton(obj,color)
+    printToColor('This button doesn\'t have a purpose yet. Have ideas? Let us know on the workshop or on Discord!',color,{0,1,0})
 end
 
 function addDashboard(guid,dArray) --[[ Adds a dashboard to Reversi boards ]]--
