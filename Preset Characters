@@ -23,8 +23,8 @@ button_parameters.font_size = 1000
 self.createButton(button_parameters)
 
 function currentSceneGet()
-  tableguid='413e0c'
-  activesceneobjects=getObjectFromGUID(tableguid).getObjects()
+  tableScriptingZone = getObjectFromGUID('TOOLS').getVar('activeMiniZone1')
+  activesceneobjects = tableScriptingZone.getObjects()
   for i,v in pairs(activesceneobjects) do
     if activesceneobjects[i].name~='Board' and activesceneobjects[i].guid~='1c1c26' and not activesceneobjects[i].getVar('shrink') then
       scaletbl=activesceneobjects[i].getScale()
