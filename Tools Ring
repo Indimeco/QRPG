@@ -586,64 +586,73 @@ function push() -- Updates the selected player's inventory to a copy of the invC
     end
 end
 
-function scrollUp(obj) -- Concatenates the last 9 lines of the auxiliary inventory to the beginning of the main inventory.
+function scrollUp(obj,player) -- Concatenates the last 9 lines of the auxiliary inventory to the beginning of the main inventory.
 -- This function is called from a button - ergo obj is the button that made the call.
     local color = obj.getVar('color')
     if invControllerHiddenTextAbove[color] ~= '' then
-        local newPage = string.reverse(getPage(string.reverse(invControllerHiddenTextAbove[color])))
-        if obj.getDescription() ~= '' then
-            local i = string.len(newPage)
-            tempPage = getPage(removeNewline(removeNewline(newPage..'\n'..preserveNewline(obj.getDescription()),'Ending'),'Beginning'))
-            local j = string.len(tempPage)
-            if i < j then
-                newPage = tempPage
-                invControllerHiddenTextAbove[color] = removeNewline(removeNewline(plainReplace(invControllerHiddenTextAbove[color],string.sub(newPage,1,i),''),'Ending'),'Beginning')
-                invControllerHiddenTextBelow[color] = removeNewline(removeNewline(plainReplace(preserveNewline(obj.getDescription()),removeNewline(string.sub(newPage,i+1,j),'Beginning'),'')..'\n'..invControllerHiddenTextBelow[color],'Beginning'),'Ending')
+        local verifyCharacters = getPage(obj.getDescription())
+        if type(verifyCharacters) == 'table' then -- getPage() returns a table when it encounters a character that doesn't exist within the characterWidthTable.
+            printToColor('Unrecognized character: "'..verifyCharacters[1]..'" in scrollbar notecard "'..obj.getName()..'"\nPlease delete it.',player,{1,0.2,0.2})
+        else
+            local newPage = string.reverse(getPage(string.reverse(invControllerHiddenTextAbove[color])))
+            if obj.getDescription() ~= '' then
+                local i = string.len(newPage)
+                tempPage = getPage(removeNewline(removeNewline(newPage..'\n'..preserveNewline(obj.getDescription()),'Ending'),'Beginning'))
+                local j = string.len(tempPage)
+                if i < j then
+                    newPage = tempPage
+                    invControllerHiddenTextAbove[color] = removeNewline(removeNewline(plainReplace(invControllerHiddenTextAbove[color],string.sub(newPage,1,i),''),'Ending'),'Beginning')
+                    invControllerHiddenTextBelow[color] = removeNewline(removeNewline(plainReplace(preserveNewline(obj.getDescription()),removeNewline(string.sub(newPage,i+1,j),'Beginning'),'')..'\n'..invControllerHiddenTextBelow[color],'Beginning'),'Ending')
+                else
+                    invControllerHiddenTextAbove[color] = removeNewline(plainReplace(invControllerHiddenTextAbove[color],removeNewline(removeNewline(newPage,'Ending'),'Beginning'),''),'Ending')
+                    invControllerHiddenTextBelow[color] = removeNewline(removeNewline(preserveNewline(obj.getDescription())..'\n'..invControllerHiddenTextBelow[color],'Ending'),'Beginning')
+                end
             else
                 invControllerHiddenTextAbove[color] = removeNewline(plainReplace(invControllerHiddenTextAbove[color],removeNewline(removeNewline(newPage,'Ending'),'Beginning'),''),'Ending')
-                invControllerHiddenTextBelow[color] = removeNewline(removeNewline(preserveNewline(obj.getDescription())..'\n'..invControllerHiddenTextBelow[color],'Ending'),'Beginning')
             end
-        else
-            invControllerHiddenTextAbove[color] = removeNewline(plainReplace(invControllerHiddenTextAbove[color],removeNewline(removeNewline(newPage,'Ending'),'Beginning'),''),'Ending')
+            obj.setDescription(removeNewline(removeNewline(newPage,'Ending'),'Beginning'))
+            invControllerStartingText[color] = obj.getDescription()
         end
-        obj.setDescription(removeNewline(removeNewline(newPage,'Ending'),'Beginning'))
-        invControllerStartingText[color] = obj.getDescription()
     end
 end
 
-function scrollDown(obj) -- Concatenates the first 9 lines of the main inventory to the end of the auxiliary inventory.
+function scrollDown(obj,player) -- Concatenates the first 9 lines of the main inventory to the end of the auxiliary inventory.
 -- This function is called from a button - ergo obj is the button that made the call.
     local color = obj.getVar('color')
     if obj.getDescription() ~= '' or invControllerHiddenTextBelow[color] ~= '' then
         local newPage = getPage(preserveNewline(obj.getDescription()))
-        invControllerHiddenTextAbove[color] = removeNewline(invControllerHiddenTextAbove[color]..'\n'..newPage,'Beginning')
-        local tempPage = string.sub(preserveNewline(obj.getDescription()),string.len(newPage)+1,-1)
-        if tempPage ~= '' then
-            newPage = getPage(removeNewline(removeNewline(tempPage..'\n'..invControllerHiddenTextBelow[color],'Ending'),'Beginning'))
-            if string.len(newPage) > string.len(tempPage) then
-                tempPage = ''
-            end
+        if type(newPage) == 'table' then -- getPage() returns a table when it encounters a character that doesn't exist within the characterWidthTable.
+           printToColor('Unrecognized character: "'..newPage[1]..'" in scrollbar notecard "'..obj.getName()..'"\nPlease delete it.',player,{1,0.2,0.2})
         else
-            tempPage = ''
-            newPage = getPage(removeNewline(removeNewline(invControllerHiddenTextBelow[color],'Ending'),'Beginning'))
-        end
-
-        local extraLength1 = getLines(preserveNewline(obj.getDescription()))
-        local tempStartingText = getLines(invControllerStartingText[color])
-        local extraLength2 = extraLength1['lineCount'] - tempStartingText['lineCount']
-        local extraLength3 = getLines(invControllerHiddenTextBelow[color])
-        local extraLength4 = tempStartingText['lineCount'] - extraLength2
-        local extraLength5 = extraLength3[extraLength4]
-        obj.setDescription(removeNewline(removeNewline(newPage,'Beginning'),'Ending'))
-        invControllerStartingText[color] = obj.getDescription()
-
-        if extraLength2 > 0 and extraLength4 <= extraLength3['lineCount'] and extraLength4 > 0 and extraLength5 ~= nil then
-            invControllerHiddenTextBelow[color] = removeNewline(string.sub(tempPage..invControllerHiddenTextBelow[color],extraLength5+1),'Beginning')
-        else
-            if string.len(obj.getDescription()) ~= string.len(invControllerHiddenTextBelow[color]) then
-                invControllerHiddenTextBelow[color] = removeNewline(removeNewline(string.sub(tempPage..invControllerHiddenTextBelow[color],string.len(obj.getDescription())+2),'Ending'),'Beginning')
+            invControllerHiddenTextAbove[color] = removeNewline(invControllerHiddenTextAbove[color]..'\n'..newPage,'Beginning')
+            local tempPage = string.sub(preserveNewline(obj.getDescription()),string.len(newPage)+1,-1)
+            if tempPage ~= '' then
+                newPage = getPage(removeNewline(removeNewline(tempPage..'\n'..invControllerHiddenTextBelow[color],'Ending'),'Beginning'))
+                if string.len(newPage) > string.len(tempPage) then
+                    tempPage = ''
+                end
             else
-                invControllerHiddenTextBelow[color] = ''
+                tempPage = ''
+                newPage = getPage(removeNewline(removeNewline(invControllerHiddenTextBelow[color],'Ending'),'Beginning'))
+            end
+
+            local extraLength1 = getLines(preserveNewline(obj.getDescription()))
+            local tempStartingText = getLines(invControllerStartingText[color])
+            local extraLength2 = extraLength1['lineCount'] - tempStartingText['lineCount']
+            local extraLength3 = getLines(invControllerHiddenTextBelow[color])
+            local extraLength4 = tempStartingText['lineCount'] - extraLength2
+            local extraLength5 = extraLength3[extraLength4]
+            obj.setDescription(removeNewline(removeNewline(newPage,'Beginning'),'Ending'))
+            invControllerStartingText[color] = obj.getDescription()
+
+            if extraLength2 > 0 and extraLength4 <= extraLength3['lineCount'] and extraLength4 > 0 and extraLength5 ~= nil then
+                invControllerHiddenTextBelow[color] = removeNewline(string.sub(tempPage..invControllerHiddenTextBelow[color],extraLength5+1),'Beginning')
+            else
+                if string.len(obj.getDescription()) ~= string.len(invControllerHiddenTextBelow[color]) then
+                    invControllerHiddenTextBelow[color] = removeNewline(removeNewline(string.sub(tempPage..invControllerHiddenTextBelow[color],string.len(obj.getDescription())+2),'Ending'),'Beginning')
+                else
+                    invControllerHiddenTextBelow[color] = ''
+                end
             end
         end
     end
@@ -665,6 +674,9 @@ function getPage(invStr) -- Iterates through the str and sums the estimated line
         if key == '' then
             page = page..string.sub(invStr,placeholder,i)
             break
+        end
+        if characterWidthTable[key] == nil then
+            return {key}
         end
         lineWidth = lineWidth + characterWidthTable[key]
         if lineWidth > 99878 then
@@ -701,7 +713,11 @@ function getLines(str) -- Returns a table countaining the number of lines in a s
             lineCount = lineCount + 1
             break
         end
-        lineWidth = lineWidth + characterWidthTable[key]
+        if characterWidthTable[key] == nil then
+            print("Unrecognized character found in a scrollbar notecard: "..key..'\nPlease do not use that character.')
+        else
+            lineWidth = lineWidth + characterWidthTable[key]
+        end
         if lineWidth > 99878 then
             if key == '\n' then
                 lineTable[lineCount+1] = i-1
