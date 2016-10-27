@@ -31,7 +31,7 @@ local uninteractable = {
     'bf7a11', -- screen
     '1c1c26', -- Table
     'aad6e8','0d093a', -- Inv Controller/Highlight
-    'RedNameDisplay','OrangeNameDisplay','YellowNameDisplay','GreenNameDisplay','BlueNameDisplay','PurpleNameDisplay','MapName',
+    'RedNameDisplay','OrangeNameDisplay','YellowNameDisplay','GreenNameDisplay','BlueNameDisplay','PurpleNameDisplay',
     -- '985288','e82794','dc0278','c670af','28f736','b4f394', -- Initiative Dominos
     'd05e4e','859337','8a0e67','ba1d15','b9fb4c','f403ae', -- Skill Coutners
     --'591edd','1a039e','2513de','0c5edf','283218','af016f', -- Health counters
@@ -49,7 +49,6 @@ local uninteractable = {
     'TOOLS','CHAR','ROLL',
     '365d5e','10b541','442c36','154524', -- Floor Inventory
     'ca9f1d','5f7739', -- Text Tools from Monster Platforms
-    'ImageChanger','9f02aa' -- Infinite Map Bag & Clear Table Button
 
     --'CONFIG'
 }
@@ -69,9 +68,6 @@ function onload(save_state)
     dswallinv=getObjectFromGUID(Global.getVar('dswallinvguid'))
     dsfloorinv=getObjectFromGUID(Global.getVar('dsfloorinvguid'))
     dsconfig=getObjectFromGUID(Global.getVar('configguid'))
-    -- Other Obj
-    mapTool = getObjectFromGUID('MapName')
-    mapTool.TextTool.setValue(" ")
 
     -- Set interactions
     for i,value in pairs(uninteractable) do getObjectFromGUID(value)['interactable'] = false end
