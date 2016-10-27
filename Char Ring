@@ -1150,24 +1150,29 @@ end
 function scrollUp(obj,color)
     local key = keyFromValue(playerInformation[color],obj)
     if playerInformation[color]['scrollbars'][key]['above'] ~= '' then
-        local newPage = string.reverse(tool.call('getPageAccessor',{string.reverse(playerInformation[color]['scrollbars'][key]['above'])}))
-        if obj.getDescription() ~= '' then
-            local i = string.len(newPage)
-            local tempPage = tool.call('getPageAccessor',{tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{newPage..'\n'..tool.call('preserveNewlineAccessor',{obj.getDescription()}),'Ending'}),'Beginning'})})
-            local j = string.len(tempPage)
-            if i < j then
-                newPage = tempPage
-                playerInformation[color]['scrollbars'][key]['above'] = tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{tool.call('plainReplaceAccessor',{playerInformation[color]['scrollbars'][key]['above'],string.sub(newPage,1,i),''}),'Ending'}),'Beginning'})
-                playerInformation[color]['scrollbars'][key]['below'] = tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{tool.call('plainReplaceAccessor',{tool.call('preserveNewlineAccessor',{obj.getDescription()}),tool.call('removeNewlineAccessor',{string.sub(newPage,i+1,j),'Beginning'}),''})..'\n'..playerInformation[color]['scrollbars'][key]['below'],'Beginning'}),'Ending'})
+        local verifyCharacters = tool.call('getPageAccessor',{obj.getDescription()})
+        if type(verifyCharacters) == 'table' then -- getPage() returns a table when it encounters a character that doesn't exist within the characterWidthTable.
+            printToColor('Unrecognized character: "'..verifyCharacters[1]..'" in scrollbar notecard "'..obj.getName()..'"\nPlease delete it.',color,{1,0.2,0.2})
+        else
+            local newPage = string.reverse(tool.call('getPageAccessor',{string.reverse(playerInformation[color]['scrollbars'][key]['above'])}))
+            if obj.getDescription() ~= '' then
+                local i = string.len(newPage)
+                local tempPage = tool.call('getPageAccessor',{tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{newPage..'\n'..tool.call('preserveNewlineAccessor',{obj.getDescription()}),'Ending'}),'Beginning'})})
+                local j = string.len(tempPage)
+                if i < j then
+                    newPage = tempPage
+                    playerInformation[color]['scrollbars'][key]['above'] = tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{tool.call('plainReplaceAccessor',{playerInformation[color]['scrollbars'][key]['above'],string.sub(newPage,1,i),''}),'Ending'}),'Beginning'})
+                    playerInformation[color]['scrollbars'][key]['below'] = tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{tool.call('plainReplaceAccessor',{tool.call('preserveNewlineAccessor',{obj.getDescription()}),tool.call('removeNewlineAccessor',{string.sub(newPage,i+1,j),'Beginning'}),''})..'\n'..playerInformation[color]['scrollbars'][key]['below'],'Beginning'}),'Ending'})
+                else
+                    playerInformation[color]['scrollbars'][key]['above'] = tool.call('removeNewlineAccessor',{tool.call('plainReplaceAccessor',{playerInformation[color]['scrollbars'][key]['above'],tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{newPage,'Ending'}),'Beginning'}),''}),'Ending'})
+                    playerInformation[color]['scrollbars'][key]['below'] = tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{tool.call('preserveNewlineAccessor',{obj.getDescription()})..'\n'..playerInformation[color]['scrollbars'][key]['below'],'Ending'}),'Beginning'})
+                end
             else
                 playerInformation[color]['scrollbars'][key]['above'] = tool.call('removeNewlineAccessor',{tool.call('plainReplaceAccessor',{playerInformation[color]['scrollbars'][key]['above'],tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{newPage,'Ending'}),'Beginning'}),''}),'Ending'})
-                playerInformation[color]['scrollbars'][key]['below'] = tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{tool.call('preserveNewlineAccessor',{obj.getDescription()})..'\n'..playerInformation[color]['scrollbars'][key]['below'],'Ending'}),'Beginning'})
             end
-        else
-            playerInformation[color]['scrollbars'][key]['above'] = tool.call('removeNewlineAccessor',{tool.call('plainReplaceAccessor',{playerInformation[color]['scrollbars'][key]['above'],tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{newPage,'Ending'}),'Beginning'}),''}),'Ending'})
+            obj.setDescription(tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{newPage,'Ending'}),'Beginning'}))
+            playerInformation[color]['scrollbars'][key]['starting'] = obj.getDescription()
         end
-        obj.setDescription(tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{newPage,'Ending'}),'Beginning'}))
-        playerInformation[color]['scrollbars'][key]['starting'] = obj.getDescription()
     end
 end
 
@@ -1175,32 +1180,36 @@ function scrollDown(obj,color)
     local key = keyFromValue(playerInformation[color],obj)
     if obj.getDescription() ~= '' or playerInformation[color]['scrollbars'][key]['below'] ~= '' then
         local newPage = tool.call('getPageAccessor',{tool.call('preserveNewlineAccessor',{obj.getDescription()})})
-        playerInformation[color]['scrollbars'][key]['above'] = tool.call('removeNewlineAccessor',{playerInformation[color]['scrollbars'][key]['above']..'\n'..newPage,'Beginning'})
-        local tempPage = string.sub(tool.call('preserveNewlineAccessor',{obj.getDescription()}),string.len(newPage)+1,-1)
-        if tempPage ~= '' then
-            newPage = tool.call('getPageAccessor',{tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{tempPage..'\n'..playerInformation[color]['scrollbars'][key]['below'],'Ending'}),'Beginning'})})
-            if string.len(newPage) > string.len(tempPage) then
-                tempPage = ''
-            end
+        if type(newPage) == 'table' then -- getPage() returns a table when it encounters a character that doesn't exist within the characterWidthTable.
+            printToColor('Unrecognized character: "'..newPage[1]..'" in scrollbar notecard "'..obj.getName()..'"\nPlease delete it.',color,{1,0.2,0.2})
         else
-            tempPage = ''
-            newPage = tool.call('getPageAccessor',{tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{playerInformation[color]['scrollbars'][key]['below'],'Ending'}),'Beginning'})})
-        end
-        local extraLength1 = tool.call('getLinesAccessor',{tool.call('preserveNewlineAccessor',{obj.getDescription()})})
-        local tempStartingText = tool.call('getLinesAccessor',{playerInformation[color]['scrollbars'][key]['starting']})
-        local extraLength2 = extraLength1['lineCount'] - tempStartingText['lineCount']
-        local extraLength3 = tool.call('getLinesAccessor',{playerInformation[color]['scrollbars'][key]['below']})
-        local extraLength4 = tempStartingText['lineCount'] - extraLength2
-        local extraLength5 = extraLength3[extraLength4]
-        obj.setDescription(tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{newPage,'Beginning'}),'Ending'}))
-        playerInformation[color]['scrollbars'][key]['starting'] = obj.getDescription()
-        if extraLength2 > 0 and extraLength4 <= extraLength3['lineCount'] and extraLength4 > 0 and extraLength5 ~= nil then
-            playerInformation[color]['scrollbars'][key]['below'] = tool.call('removeNewlineAccessor',{string.sub(tempPage..playerInformation[color]['scrollbars'][key]['below'],extraLength5+1),'Beginning'})
-        else
-            if string.len(obj.getDescription()) ~= string.len(playerInformation[color]['scrollbars'][key]['below']) then
-                playerInformation[color]['scrollbars'][key]['below'] = tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{string.sub(tempPage..playerInformation[color]['scrollbars'][key]['below'],string.len(obj.getDescription())+2),'Ending'}),'Beginning'})
+            playerInformation[color]['scrollbars'][key]['above'] = tool.call('removeNewlineAccessor',{playerInformation[color]['scrollbars'][key]['above']..'\n'..newPage,'Beginning'})
+            local tempPage = string.sub(tool.call('preserveNewlineAccessor',{obj.getDescription()}),string.len(newPage)+1,-1)
+            if tempPage ~= '' then
+                newPage = tool.call('getPageAccessor',{tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{tempPage..'\n'..playerInformation[color]['scrollbars'][key]['below'],'Ending'}),'Beginning'})})
+                if string.len(newPage) > string.len(tempPage) then
+                    tempPage = ''
+                end
             else
-                playerInformation[color]['scrollbars'][key]['below'] = ''
+                tempPage = ''
+                newPage = tool.call('getPageAccessor',{tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{playerInformation[color]['scrollbars'][key]['below'],'Ending'}),'Beginning'})})
+            end
+            local extraLength1 = tool.call('getLinesAccessor',{tool.call('preserveNewlineAccessor',{obj.getDescription()})})
+            local tempStartingText = tool.call('getLinesAccessor',{playerInformation[color]['scrollbars'][key]['starting']})
+            local extraLength2 = extraLength1['lineCount'] - tempStartingText['lineCount']
+            local extraLength3 = tool.call('getLinesAccessor',{playerInformation[color]['scrollbars'][key]['below']})
+            local extraLength4 = tempStartingText['lineCount'] - extraLength2
+            local extraLength5 = extraLength3[extraLength4]
+            obj.setDescription(tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{newPage,'Beginning'}),'Ending'}))
+            playerInformation[color]['scrollbars'][key]['starting'] = obj.getDescription()
+            if extraLength2 > 0 and extraLength4 <= extraLength3['lineCount'] and extraLength4 > 0 and extraLength5 ~= nil then
+                playerInformation[color]['scrollbars'][key]['below'] = tool.call('removeNewlineAccessor',{string.sub(tempPage..playerInformation[color]['scrollbars'][key]['below'],extraLength5+1),'Beginning'})
+            else
+                if string.len(obj.getDescription()) ~= string.len(playerInformation[color]['scrollbars'][key]['below']) then
+                    playerInformation[color]['scrollbars'][key]['below'] = tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{string.sub(tempPage..playerInformation[color]['scrollbars'][key]['below'],string.len(obj.getDescription())+2),'Ending'}),'Beginning'})
+                else
+                    playerInformation[color]['scrollbars'][key]['below'] = ''
+                end
             end
         end
     end
