@@ -76,16 +76,16 @@ characterWidthTable = {
 function onload(save_state)
     addDashboard('d42072',{
         { 'Toggle\nScreen',{2,2},'toggleScreen',1},
-        { 'Toggle\nReferences',{2,2},'function2',1},
+        { 'Toggle\nShade Grid',{2,2},'toggleShadowGrid',1},
         { 'Show\nTablet',{2,2},'toggleTablet',1},
         { 'Spawn All\nDungeon\nTiles',{2,2},'spawnAllTiles',9},
-        { 'To 1',{2,2},'sendto1',1},
-        { 'To 2',{2,2},'sendto2',1},
-        { 'To 3',{2,2},'sendto3',1},
-        { 'Toggle\nShade Grid',{2,2},'toggleShadowGrid',9},
-        { 'From 1',{2,2},'getfrom1',1},
-        {'From 2',{2,2},'getfrom2',1},
-        {'From 3',{2,2},'getfrom3',1},
+        { 'Reserved',{2,2},'reservedButton',1},
+        { 'Reserved',{2,2},'reservedButton',1},
+        { 'Reserved',{2,2},'reservedButton',1},
+        { 'Reserved',{2,2},'reservedButton',9},
+        { 'Reserved',{2,2},'reservedButton',1},
+        {'Reserved',{2,2},'reservedButton',1},
+        {'Reserved',{2,2},'reservedButton',1},
         {'Reserved',{2,2},'reservedButton',17},
         {'?',{1,1},'showHelp',1},
         {'RPG\nDesk',{1,2},'changeLayoutTo1',1},
@@ -110,8 +110,7 @@ function onload(save_state)
     displaySome              = getObjectFromGUID('4fb7c1')
     invController            = getObjectFromGUID('aad6e8')
     displayNothing           = getObjectFromGUID('4bc9ee')
-    activeMiniZone1          = getObjectFromGUID('56a729') -- The zone in which minis will be updated
-    clearTableButton         = getObjectFromGUID('9f02aa')
+    activeMiniZone1          = getObjectFromGUID('4d45e6') -- The zone in which minis will be updated
     displayEverything        = getObjectFromGUID('ebea77') -- The following three are settings for the monster platform
     DMIsHealthController     = getObjectFromGUID('e4fb05')
     activeInitiativeZone     = getObjectFromGUID('b6053a')
@@ -236,7 +235,6 @@ function onload(save_state)
 
     -- User Interfaces
     Global.call('addButton', {invController.getGUID(),7100,1000,500,'Update','push',self,{0,1.289,10.2},{0,0,0}})
-    Global.call('addButton',{clearTableButton.getGUID(),1400,650,200,'Clear Table','confirmClearTable',self,{0,-0.2,0},{0,-90,180}})
     Global.call('addButton', {DMIsHealthController.getGUID(),2550,500,300,'The DM','updateHealthController',self,{0,0.05,-3.3},{0,270,0}})
     Global.call('addButton', {playerIsHealthController.getGUID(),2550,500,300,'The Player','updateHealthController',self,{0,0.05,-3.3},{0,270,0}})
     Global.call('addButton',{invControllerInvCard['Master'].getGUID(), 40,40,70,'<','scrollUp',self,{-0.46,5,0.45},{0,-90,0}})
@@ -384,12 +382,6 @@ function keyFromValue( t, value )
     if v==value then return k end
     end
   return nil
-end
-
-function confirmClearTable()
-    local buttons = clearTableButton.getButtons()
-    Global.call('print_r',{buttons})
-    buttons[1]['label'] = 'Confirm'
 end
 
 function changeLayoutTo1() changeLayoutTo(1) end
@@ -1235,8 +1227,7 @@ function toggleSecondPlatform() -- Hides the second platform under the table.
 end
 
 function spawnAllTiles()
-  tilescriptzone=getObjectFromGUID('413e0c')
-  tilecards=tilescriptzone.getObjects()
+  tilecards=activeMiniZone1.getObjects()
   for i,v in pairs(tilecards) do
     if tilecards[i].getVar('tiletype') then callLuaFunctionInOtherScript(tilecards[i],'spawn') end
   end
