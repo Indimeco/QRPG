@@ -396,12 +396,12 @@ end
 --[[ Toggles var:editPresets and relabels button accordingly ]]--
 function toggleEditPreset(obj,player)
     local labels = {'Save','Cancel'}
-    local msg = {"?DA?Canceling... Preset buttons will now load their preset when clicked.","?DA?Select preset slot to Save to or press Cancel."}
+    local msg = {"?DA?Finished! Preset buttons will now load their preset when clicked.","?DA?Select preset slot to Save to or press Cancel."}
     local x = 1 - self.getVar('editPresets')
     self.setVar('editPresets', x)
     params = obj.getButtons()
     params[1]['label'] = labels[x+1]
-    printToColor(msg[x+1],player['color'],{0.2,0.8,0.8})
+    printToColor(msg[x+1],player,{0.2,0.8,0.8})
     obj.editButton(params[1])
 end
 
@@ -445,8 +445,6 @@ function initiativeCall()
     }
     -- Spawn Dice
     local params = {}
-    local i = 1
-
     params.type = 'Die_20'
     for i=1,6 do
         if char.getTable('CharacterSheets')[orderedPlayerColors[i]] ~= nil and Global.call("getZone",{orderedPlayerColors[i]}) == 2 then
