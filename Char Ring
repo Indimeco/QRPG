@@ -785,15 +785,49 @@ function readFromBook(color,journal)
             if value['scrollbar'] == true then -- setup the above and below variables
                 local text = journal.getVar(key) or ''
                 local newPage = tool.call('getPageAccessor',{text})
-                playerInformation[color][key].setDescription(newPage)
-                playerInformation[color]['scrollbars'][key] = {}
-                playerInformation[color]['scrollbars'][key]['above'] = ''
-                playerInformation[color]['scrollbars'][key]['below'] = tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{tool.call('plainReplaceAccessor',{text,newPage,''}),'Beginning'}),'Ending'})
-                playerInformation[color]['scrollbars'][key]['starting'] = playerInformation[color][key].getDescription()
+                if type(newPage) == 'table' then -- Checking for unidentified characters
+                    playerInformation[color]['scrollbars'][key] = {}
+                    playerInformation[color]['scrollbars'][key]['above'] = ''
+                    playerInformation[color]['scrollbars'][key]['below'] = ''
+                    playerInformation[color]['scrollbars'][key]['starting'] = ''
+                    if CharacterSheets[color].getVar('wipeCorruptedNotecards') == true then
+                        printToColor('Deleting broken notecard: '..value['name'],color,{1,0.3,0.3})
+                        playerInformation[color][key].setDescription('')
+                    else
+                        playerInformation[color][key].setDescription(text)
+                        printToColor('Uh oh! The notecard named "'..value['name']..'" was saved with the unrecognized character/letter "'..newPage[1]..'"',color,{1,0.3,0.3})
+                        printToColor('Force closing the journal to prevent data loss. Please open the LUA script of this journal in single player and remove the unrecognized character/letter!',color,{1,0.3,0.3})
+                        printToColor('Alternatively, quickly load this journal again if you want to erase the broken notecard completely -- your data will be lost!',color,{1,0.3,0.3})
+                        printToColor('\nCharacter Sheet is now in "Erase Corrupted Notecards" mode.',color,{1,0.3,0.3})
+
+                        Timer.create({
+                            ['identifier'] = 'forceCloseJournal'..color..math.random(1000),
+                            ['function_name'] = 'saveCharacterAccessor',
+                            ['function_owner'] = self,
+                            ['parameters'] = {color},
+                            ['delay'] = 3
+                        })
+                        CharacterSheets[color].setVar('wipeCorruptedNotecards',true)
+                        Timer.create({
+                            ['identifier'] = 'returnFromEraseModeCharacterSheet'..color..math.random(1000),
+                            ['function_name'] = 'disableEraseMode',
+                            ['function_owner'] = self,
+                            ['parameters'] = {color},
+                            ['delay'] = 15
+                        })
+                    end
+                else
+                    playerInformation[color][key].setDescription(newPage)
+                    playerInformation[color]['scrollbars'][key] = {}
+                    playerInformation[color]['scrollbars'][key]['above'] = ''
+                    playerInformation[color]['scrollbars'][key]['below'] = tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{tool.call('plainReplaceAccessor',{text,newPage,''}),'Beginning'}),'Ending'})
+                    playerInformation[color]['scrollbars'][key]['starting'] = playerInformation[color][key].getDescription()
+                end
             else
                 playerInformation[color][key].setDescription(journal.getVar(key))
             end
         end
+        journal.setVar('wipeCorruptedNotecards',false)
     end
 
     tool.call('setupNewInventory',{color,journal.getVar('Inventory')})
@@ -806,6 +840,15 @@ function readFromBook(color,journal)
     playerInformation[color]['HP'].Counter.setValue(journal.getVar('HP'))
 
     characterSheetSource.call('calculateCharacterSheetValues',{color})
+end
+
+function disableEraseMode(table) -- Timer function that stops CS from erasing corrupted notecars, table only contains color
+    if CharacterSheets[table[1]] ~= nil then
+        if CharacterSheets[table[1]].getVar('wipeCorruptedNotecards') == true then
+            printToColor('Character sheet returning to normal. No longer in "Erase Corrupted Notecards" mode.',table[1],{1,0.3,0.3})
+            CharacterSheets[table[1]].setVar('wipeCorruptedNotecards',false)
+        end
+    end
 end
 
 function saveCharacter(obj,color)
@@ -822,6 +865,12 @@ function saveCharacter(obj,color)
     closeBook(color)
     cleanText(color)
     Global.call('setZone',{color,1})
+end
+
+function saveCharacterAccessor(table) -- table only contains color
+    if CharacterJournals[table[1]] ~= nil then
+        saveCharacter(CharacterSheets[table[1]],table[1])
+    end
 end
 
 function closeBook(color)
