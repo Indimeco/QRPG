@@ -1,4 +1,4 @@
-uniqueID = 'D&D5e by Indimeco and rolandostar'
+uniqueID = 'D&D5e by Indimeco and rolandostar v1.1'
 
 customSheetData = { -- The custom model information for your character sheet.
     ['mesh'] = 'http://pastebin.com/raw/WM95FWL5',
@@ -27,24 +27,24 @@ Format for each line:
          }
 --]]
 
-    ['HP']        = { 2.161939,-4.81705,     ['type'] = 'Counter',  ['height'] = 0.4229977, ['rotation'] = {-90,0,0}, ['scale'] = 1.05,  ['name'] = 'Health'},
-    ['Note1']     = { -2.5398102,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Normal Attacks',                         ['tab'] = 'Tab_1'},
-    ['Note2']     = { -7.2604314,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Special Attacks',                        ['tab'] = 'Tab_1'},
-    ['Note3']     = { -4.9058342,5.02206,    ['type'] = 'Notecard', ['height'] = 1.014,     ['rotation'] = {-90,0,0}, ['scale'] = 1.175, ['name'] = 'Companions',                             ['tab'] = 'Tab_1'},
-    ['Note4']     = { -2.5398102,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Spellbook',        ['scrollbar'] = true, ['tab'] = 'Tab_2'},
-    ['Note5']     = { -7.2604314,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Prepared Spells',  ['scrollbar'] = true, ['tab'] = 'Tab_2'},
-    ['Note6']     = { -4.9058342,-1.02831,   ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Magic Items',      ['scrollbar'] = true, ['tab'] = 'Tab_2'},
-    ['Note7']    = { -4.9058342,5.02206,     ['type'] = 'Notecard', ['height'] = 1.014,     ['rotation'] = {-90,0,0}, ['scale'] = 1.175, ['name'] = 'Spell Use Tracker',['scrollbar'] = true, ['tab'] = 'Tab_2'},
-    ['Note8']     = { -2.5398102,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Traits/Flaws',                           ['tab'] = 'Tab_3'},
-    ['Note9']     = { -7.2604314,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Appearance',                             ['tab'] = 'Tab_3'},
-    ['Note10']     = { -4.9058342,-1.02831,  ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Bonds',                                  ['tab'] = 'Tab_3'},
-    ['Note11']    = { -4.9058342,5.02206,    ['type'] = 'Notecard', ['height'] = 1.014,     ['rotation'] = {-90,0,0}, ['scale'] = 1.175, ['name'] = 'Backstory',        ['scrollbar'] = true, ['tab'] = 'Tab_3'},
-    ['Note12']    = { -2.5398102,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Race/Class Feats', ['scrollbar'] = true, ['tab'] = 'Tab_4'},
-    ['Note13']    = { -7.2604314,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Additional Feats', ['scrollbar'] = true, ['tab'] = 'Tab_4'},
-    ['Note14']    = { -4.9058342,-1.02831,   ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Languages',                              ['tab'] = 'Tab_4'},
-    ['Note15']    = { -4.9058342,5.02206,    ['type'] = 'Notecard', ['height'] = 1.014,     ['rotation'] = {-90,0,0}, ['scale'] = 1.175, ['name'] = 'Personal Journal', ['scrollbar'] = true, ['tab'] = 'Tab_4'},
-    ['Equipment'] = { 6.476904,-0.0266,      ['type'] = 'Notecard', ['height'] = 1.031,     ['rotation'] = {-90,0,0}, ['scale'] = 0.775, ['name'] = 'Equipment',        ['scrollbar'] = true},
-    ['Inventory'] = { 4.994779,4.361943,     ['type'] = 'Notecard', ['height'] = 1.023388,  ['rotation'] = {-90,0,0}, ['scale'] = 0.925, ['name'] = 'Inventory'}
+    ['HP']              = { 2.161939,-4.81705,     ['type'] = 'Counter',  ['height'] = 0.4229977, ['rotation'] = {-90,0,0}, ['scale'] = 1.05,  ['name'] = 'Health'},
+    ['Normal_Attacks']  = { -2.5398102,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Normal Attacks',   ['scrollbar'] = true, ['tab'] = 'Tab_1'},
+    ['Special_Attacks'] = { -7.2604314,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Special Attacks',  ['scrollbar'] = true, ['tab'] = 'Tab_1'},
+    ['Companions']      = { -4.9058342,5.02206,    ['type'] = 'Notecard', ['height'] = 1.014,     ['rotation'] = {-90,0,0}, ['scale'] = 1.175, ['name'] = 'Companions',       ['scrollbar'] = true, ['tab'] = 'Tab_1'},
+    ['Spellbook']       = { -2.5398102,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Spellbook',        ['scrollbar'] = true, ['tab'] = 'Tab_2'},
+    ['Prepared_Spells'] = { -7.2604314,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Prepared Spells',  ['scrollbar'] = true, ['tab'] = 'Tab_2'},
+    ['Magic_Items']     = { -4.9058342,-1.02831,   ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Magic Items',      ['scrollbar'] = true, ['tab'] = 'Tab_2'},
+    ['Spell_Use']       = { -4.9058342,5.02206,    ['type'] = 'Notecard', ['height'] = 1.014,     ['rotation'] = {-90,0,0}, ['scale'] = 1.175, ['name'] = 'Spell Use Tracker',['scrollbar'] = true, ['tab'] = 'Tab_2'},
+    ['Traits']          = { -2.5398102,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Traits/Flaws',                           ['tab'] = 'Tab_3'},
+    ['Appearance']      = { -7.2604314,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Appearance',                             ['tab'] = 'Tab_3'},
+    ['Connections']     = { -4.9058342,-1.02831,   ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Connections',      ['scrollbar'] = true, ['tab'] = 'Tab_3'},
+    ['Backstory']       = { -4.9058342,5.02206,    ['type'] = 'Notecard', ['height'] = 1.014,     ['rotation'] = {-90,0,0}, ['scale'] = 1.175, ['name'] = 'Backstory',        ['scrollbar'] = true, ['tab'] = 'Tab_3'},
+    ['Feats']           = { -2.5398102,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Race/Class Feats', ['scrollbar'] = true, ['tab'] = 'Tab_4'},
+    ['Info']            = { -7.2604314,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Additional Info',  ['scrollbar'] = true, ['tab'] = 'Tab_4'},
+    ['Languages']       = { -4.9058342,-1.02831,   ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Languages',                              ['tab'] = 'Tab_4'},
+    ['Journal']         = { -4.9058342,5.02206,    ['type'] = 'Notecard', ['height'] = 1.014,     ['rotation'] = {-90,0,0}, ['scale'] = 1.175, ['name'] = 'Personal Journal', ['scrollbar'] = true, ['tab'] = 'Tab_4'},
+    ['Equipment']       = { 6.476904,-0.0266,      ['type'] = 'Notecard', ['height'] = 1.031,     ['rotation'] = {-90,0,0}, ['scale'] = 0.775, ['name'] = 'Equipment',        ['scrollbar'] = true},
+    ['Inventory']       = { 4.994779,4.361943,     ['type'] = 'Notecard', ['height'] = 1.023388,  ['rotation'] = {-90,0,0}, ['scale'] = 0.925, ['name'] = 'Inventory'}
 }
 
 incrementalOffsetList = { -- Text Tools that will spawn modifiers to act like counters - for numbers
@@ -100,9 +100,9 @@ toggleOffsetList = { -- Text Tools that will spawn buttons which change the valu
              }
     --]]
 
-    ['Max_Hit_Dice_Type']     = { 3,-3.47588,        ['size'] = 30, ['set'] = {'d4','d6','d8','d12'},                        ['mod'] = {0,0.22}, ['modSize'] = 300},
-    ['Vision']                = { 2.074633,0.97407,  ['size'] = 24, ['set'] = {'Blinded','Normal','Darkvision','Truesight'}, ['mod'] = {0,0.22}, ['modSize'] = 400},
-    ['Spell_Casting_Ability'] = { 8.558649,-3.18593, ['size'] = 40, ['set'] = {'STR','DEX','CON','INT','WIS','CHA'},         ['mod'] = {0,0.25}, ['modSize'] = 400}
+    ['Max_Hit_Dice_Type']     = { 3,-3.47588,        ['size'] = 30, ['set'] = {'d4','d6','d8','d10','d12'},                        ['mod'] = {0,0.22}, ['modSize'] = 300},
+    ['Vision']                = { 2.074633,0.97407,  ['size'] = 24, ['set'] = {'Blinded','Normal','Darkvision','Truesight'},       ['mod'] = {0,0.22}, ['modSize'] = 400},
+    ['Spell_Casting_Ability'] = { 8.558649,-3.18593, ['size'] = 40, ['set'] = {'N/A','STR','DEX','CON','INT','WIS','CHA'},         ['mod'] = {0,0.25}, ['modSize'] = 400}
 }
 
 checkboxOffsetList = { -- Text Tools that contain lists of individual items with checkboxes
@@ -241,5 +241,9 @@ function calculateCharacterSheetValues(color) -- Your chance to script automatio
     char.getTable('playerInformation')[color]['Skill_Numbers'].TextTool.setValue(str)
 
     -- Calculate Passive Perception
-    char.getTable('playerInformation')[color]['Passive_Perception'].TextTool.setValue(tostring(10+abilityMod['WIS']))
+    if statTable['Perception'] == true then
+        char.getTable('playerInformation')[color]['Passive_Perception'].TextTool.setValue(tostring(10+abilityMod['WIS']+char.getTable('CharacterJournals')[color].getVar('Proficiency_Bonus')))
+    else
+        char.getTable('playerInformation')[color]['Passive_Perception'].TextTool.setValue(tostring(10+abilityMod['WIS']))
+    end
 end

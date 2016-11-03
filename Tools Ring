@@ -70,6 +70,8 @@ characterWidthTable = {
     ['v'] = 2564, ['V'] = 2777, ['b'] = 2564, ['B'] = 2564, ['n'] = 2564,
     ['N'] = 3226, ['m'] = 3846, ['M'] = 3846, [','] = 1282, ['<'] = 2174,
     ['.'] = 1282, ['>'] = 2174, ['/'] = 1923, ['?'] = 2174, [' '] = 1282,
+    [string.char(8220)] = 1923, [string.char(8221)] = 1923, [string.char(8217)] = 1075, -- left quotes, right quotes, apostrophe
+    [string.char(8226)] = 1493,                                                         -- bullet point
     ['\t'] = 5128, ['\r'] = 0, ['\n'] = 100000
 }
 
@@ -87,7 +89,7 @@ function onload(save_state)
         {'Reserved',{2,2},'reservedButton',1},
         {'Reserved',{2,2},'reservedButton',1},
         {'Reserved',{2,2},'reservedButton',17},
-        {'?',{1,1},'showHelp',1},
+        {string.char(9432),{1,1},'showHelp',1},
         {'RPG\nDesk',{1,2},'changeLayoutTo1',1},
         {'Props\nDesk',{1,2},'changeLayoutTo2',1},
         {'Maps\nDesk',{1,2},'changeLayoutTo3',0},
@@ -237,8 +239,8 @@ function onload(save_state)
     Global.call('addButton', {invController.getGUID(),7100,1000,500,'Update','push',self,{0,1.289,10.2},{0,0,0}})
     Global.call('addButton', {DMIsHealthController.getGUID(),2550,500,300,'The DM','updateHealthController',self,{0,0.05,-3.3},{0,270,0}})
     Global.call('addButton', {playerIsHealthController.getGUID(),2550,500,300,'The Player','updateHealthController',self,{0,0.05,-3.3},{0,270,0}})
-    Global.call('addButton',{invControllerInvCard['Master'].getGUID(), 40,40,70,'<','scrollUp',self,{-0.46,5,0.45},{0,-90,0}})
-    Global.call('addButton',{invControllerInvCard['Master'].getGUID(), 40,40,70,'<','scrollDown',self,{-0.46,5,-0.45},{0,90,0}})
+    Global.call('addButton',{invControllerInvCard['Master'].getGUID(), 40,40,70,string.char(9662),'scrollUp',self,{-0.46,5,0.45},{0,0,0}})
+    Global.call('addButton',{invControllerInvCard['Master'].getGUID(), 40,40,70,string.char(9652),'scrollDown',self,{-0.46,5,-0.45},{0,0,0}})
 
     Global.call('addButton', {monsterPlatform[2].getGUID(),950,380,190,'Copy Card','cloneCard',self,{-1.6,0.22,0.1},{0,180,0}})
     Global.call('addButton', {monsterPlatform[2].getGUID(),950,380,190,'Reset','resetPlatform',self,{1.6,0.22,0.1},{0,180,0}})
@@ -254,14 +256,14 @@ function onload(save_state)
 
     Global.call('addButton',{initShell.getGUID(),3250,500,250,'Initiative Roll','callRoutine',self,{-0.25,0.1,-3.3},{0,180,0}})
     Global.call('addButton',{initShell.getGUID(),1,1,1,'Continue','nil',self,{0,-5,0},{0,180,0}})
-    Global.call('addButton',{initShell.getGUID(),400,500,150,Global.getVar('unicodeNextTurn'),'nextTurn',self,{-4.5,0.1,-3.3},{0,180,0}})
+    Global.call('addButton',{initShell.getGUID(),400,500,150,string.char(9654),'nextTurn',self,{-4.5,0.1,-3.3},{0,180,0}})
     if initiativeBroadcastState == 1 then
-        Global.call('addButton',{initShell.getGUID(), 400,500,150,Global.getVar('unicodeCheckedBox'),'toggleInitiativeBroadcast',self,{3.6,0.1,-3.3},{0,180,0}})
+        Global.call('addButton',{initShell.getGUID(), 400,500,150,string.char(9745),'toggleInitiativeBroadcast',self,{3.6,0.1,-3.3},{0,180,0}})
     else
-        Global.call('addButton',{initShell.getGUID(), 400,500,150,Global.getVar('unicodeCrossBox'),'toggleInitiativeBroadcast',self,{3.95,0.1,-3.3},{0,180,0}})
+        Global.call('addButton',{initShell.getGUID(), 400,500,150,string.char(9746),'toggleInitiativeBroadcast',self,{3.95,0.1,-3.3},{0,180,0}})
     end
-    Global.call('addButton',{invControllerInvCard['initiative'].getGUID(), 40,40,70,'<','scrollUp',self,{-0.46,5,0.45},{0,-90,0}})
-    Global.call('addButton',{invControllerInvCard['initiative'].getGUID(), 40,40,70,'<','scrollDown',self,{-0.46,5,-0.45},{0,90,0}})
+    Global.call('addButton',{invControllerInvCard['initiative'].getGUID(), 40,40,70,string.char(9662),'scrollUp',self,{-0.46,5,0.45},{0,0,0}})
+    Global.call('addButton',{invControllerInvCard['initiative'].getGUID(), 40,40,70,string.char(9652),'scrollDown',self,{-0.46,5,-0.45},{0,0,0}})
 end
 
 function toggleScreen() --[[Shrinks and displaces the screen or resets it]]--
@@ -301,7 +303,7 @@ function toggleTablet() --[[Shrinks and displaces the self or resets it]]--
             smallTablet.setVar('tabletToggle', true)
         end
     else
-        printToColor("?DA?Must be on RPG Desk to toggle tablet", "White", {1,1,1})
+        printToColor(string.char(12304)..'DA'..string.char(12305).."Must be on RPG Desk to toggle tablet", "White", {1,1,1})
     end
 end
 
@@ -367,8 +369,8 @@ function loadPlayer(param)
     invControllerButton[color].setVar('color',color)
     Global.call('addButton', {invControllerButton[color].guid,1350,600,400,color,'selectPlayer',self,{0,-0.2,0},{180,90,0}})
     invControllerInvCard[color].setVar('color', color)
-    Global.call('addButton',{invControllerInvCard[color].guid, 40,40,70,'<','scrollUp',self,{-0.46,5,0.45},{0,-90,0}})
-    Global.call('addButton',{invControllerInvCard[color].guid, 40,40,70,'<','scrollDown',self,{-0.46,5,-0.45},{0,90,0}})
+    Global.call('addButton',{invControllerInvCard[color].guid, 40,40,70,string.char(9662),'scrollUp',self,{-0.46,5,0.45},{0,0,0}})
+    Global.call('addButton',{invControllerInvCard[color].guid, 40,40,70,string.char(9652),'scrollDown',self,{-0.46,5,-0.45},{0,0,0}})
     playerHealthCounters[keyFromValue(Global.getVar('colorTable'),color)] = char.getTable('playerInformation')[color]['HP']
 end
 
@@ -534,7 +536,7 @@ end
 function showHelp()
     if helpCard.getPosition()[2] > 100 then
         helpCard.setPositionSmooth({-71,13,0})
-        largeTablet.setValue('https://www.youtube.com/watch?v=nAwzJHX3KKI')
+        -- largeTablet.setValue('') -- video tutorials playlist link if desired
     else
         helpCard.setPositionSmooth({81.5,136.6,-7.7})
     end
@@ -620,14 +622,18 @@ function scrollDown(obj,player) -- Concatenates the first 9 lines of the main in
 -- This function is called from a button - ergo obj is the button that made the call.
     local color = obj.getVar('color')
     if obj.getDescription() ~= '' or invControllerHiddenTextBelow[color] ~= '' then
-        local newPage = getPage(preserveNewline(obj.getDescription()))
-        if type(newPage) == 'table' then -- getPage() returns a table when it encounters a character that doesn't exist within the characterWidthTable.
-           printToColor('Unrecognized character: "'..newPage[1]..'" in scrollbar notecard "'..obj.getName()..'"\nPlease delete it.',player,{1,0.2,0.2})
+        local abovePage = getPage(preserveNewline(obj.getDescription()))
+        local newPage
+        if type(abovePage) == 'table' then -- getPage() returns a table when it encounters a character that doesn't exist within the characterWidthTable.
+           printToColor('Unrecognized character: "'..abovePage[1]..'" in scrollbar notecard "'..obj.getName()..'"\nPlease delete it.',player,{1,0.2,0.2})
         else
-            invControllerHiddenTextAbove[color] = removeNewline(invControllerHiddenTextAbove[color]..'\n'..newPage,'Beginning')
-            local tempPage = string.sub(preserveNewline(obj.getDescription()),string.len(newPage)+1,-1)
+            local tempPage = string.sub(preserveNewline(obj.getDescription()),string.len(abovePage)+1,-1)
             if tempPage ~= '' then
                 newPage = getPage(removeNewline(removeNewline(tempPage..'\n'..invControllerHiddenTextBelow[color],'Ending'),'Beginning'))
+                if type(newPage) == 'table' then -- getPage() returns a table when it encounters a character that doesn't exist within the characterWidthTable.
+                   printToColor('Unrecognized character: "'..newPage[1]..'" in scrollbar notecard "'..obj.getName()..'"\nPlease delete it.',player,{1,0.2,0.2})
+                   return 0
+                end
                 if string.len(newPage) > string.len(tempPage) then
                     tempPage = ''
                 end
@@ -635,6 +641,7 @@ function scrollDown(obj,player) -- Concatenates the first 9 lines of the main in
                 tempPage = ''
                 newPage = getPage(removeNewline(removeNewline(invControllerHiddenTextBelow[color],'Ending'),'Beginning'))
             end
+            invControllerHiddenTextAbove[color] = removeNewline(invControllerHiddenTextAbove[color]..'\n'..abovePage,'Beginning')
 
             local extraLength1 = getLines(preserveNewline(obj.getDescription()))
             local tempStartingText = getLines(invControllerStartingText[color])
@@ -714,7 +721,7 @@ function getLines(str) -- Returns a table countaining the number of lines in a s
             break
         end
         if characterWidthTable[key] == nil then
-            print("Unrecognized character found in a scrollbar notecard: "..key..'\nPlease do not use that character.')
+            print("Unrecognized character found in a scrollbar notecard: "..key..'\nPlease remove it and do not use that character.')
         else
             lineWidth = lineWidth + characterWidthTable[key]
         end
@@ -893,7 +900,7 @@ function callRoutine() -- Accesses the Roll core to begin the initiative call an
             return 1
         end
     end
-    if Player.White.seated == true then printToColor("?DA?Atleast 1 character must be loaded to roll Initiative", "White", {1,1,1}) end
+    if Player.White.seated == true then printToColor(string.char(12304)..'DA'..string.char(12305).."Atleast 1 character must be loaded to roll Initiative", "White", {1,1,1}) end
     return 1
 end
 
@@ -966,7 +973,7 @@ function getInitiative() -- Called when the DM continues after the players have 
         str = str..'a New Round!'..'\n'
         invControllerInvCard['initiative'].setDescription(removeNewline(str,'Ending'))
     else
-        if Player.White.seated == true then printToColor("?DA?No players nor monsters are active.","White",{1,1,1}) end
+        if Player.White.seated == true then printToColor(string.char(12304)..'DA'..string.char(12305).."No players nor monsters are active.","White",{1,1,1}) end
     end
 end
 
@@ -1000,18 +1007,18 @@ function nextTurn() -- Takes the next line of the initiative card and sets it as
     invControllerInvCard['initiative'].setName('Up Next is '..string.sub(fullText,1,i-1))
     invControllerStartingText['initiative'] = invControllerInvCard['initiative'].getDescription()
     if initiativeBroadcastState == 1 then
-      printToAll('?DA?'..invControllerInvCard['initiative'].getName(),{0.1,0.7,0.1})
+      printToAll(string.char(12304)..'DA'..string.char(12305)..''..invControllerInvCard['initiative'].getName(),{0.1,0.7,0.1})
     end
 end
 
 function toggleInitiativeBroadcast() -- Changes whether, on clicking next turn, the console will print the title of the card to all players.
   local params = initShell.getButtons()
   if initiativeBroadcastState == 1 then
-    params[4]['label'] = Global.getVar('unicodeCrossBox')
+    params[4]['label'] = string.char(9746)
     initShell.editButton(params[4])
     initiativeBroadcastState = 0
   else
-    params[4]['label'] = Global.getVar('unicodeCheckedBox')
+    params[4]['label'] = string.char(9745)
     initShell.editButton(params[4])
     initiativeBroadcastState = 1
   end
