@@ -58,7 +58,6 @@ function onload(save_state)
     end
 
     keyLookup = {}
-    circle = Global.getVar('unicodeCircle')
 
     config = Global.getVar('config')
     tool = Global.getVar('tool')
@@ -491,8 +490,8 @@ function enableManager(color)
     local function createScrollbarButtonsFromTable(table)
         for key,object in pairs(table) do
             if object['type'] == 'Notecard' and object['scrollbar'] == true then
-                Global.call('addButton',{playerInformation[color][key].getGUID(), 40,40,70,'<','scrollUp',self,{-0.46,5,0.45},{0,-90,0}})
-                Global.call('addButton',{playerInformation[color][key].getGUID(), 40,40,70,'<','scrollDown',self,{-0.46,5,-0.45},{0,90,0}})
+                Global.call('addButton',{playerInformation[color][key].getGUID(), 40,40,70,string.char(9662),'scrollUp',self,{-0.46,5,0.45},{0,0,0}})
+                Global.call('addButton',{playerInformation[color][key].getGUID(), 40,40,70,string.char(9652),'scrollDown',self,{-0.46,5,-0.45},{0,0,0}})
             end
         end
     end
@@ -1188,7 +1187,7 @@ function getProficienciesString(color, tableName) -- Reads vars from the journal
     local itemTable = CharacterJournals[color].getTable(tableName)
     for i,v in pairs(itemTable) do
         if itemTable[i] == true then
-            str = str..circle..'\n'
+            str = str..string.char(9679)..'\n'
         else
             str = str..'\n'
         end
@@ -1228,14 +1227,18 @@ end
 function scrollDown(obj,color)
     local key = keyFromValue(playerInformation[color],obj)
     if obj.getDescription() ~= '' or playerInformation[color]['scrollbars'][key]['below'] ~= '' then
-        local newPage = tool.call('getPageAccessor',{tool.call('preserveNewlineAccessor',{obj.getDescription()})})
-        if type(newPage) == 'table' then -- getPage() returns a table when it encounters a character that doesn't exist within the characterWidthTable.
-            printToColor('Unrecognized character: "'..newPage[1]..'" in scrollbar notecard "'..obj.getName()..'"\nPlease delete it.',color,{1,0.2,0.2})
+        local abovePage = tool.call('getPageAccessor',{tool.call('preserveNewlineAccessor',{obj.getDescription()})})
+        local newPage
+        if type(abovePage) == 'table' then -- getPage() returns a table when it encounters a character that doesn't exist within the characterWidthTable.
+            printToColor('Unrecognized character: "'..abovePage[1]..'" in scrollbar notecard "'..obj.getName()..'"\nPlease delete it.',color,{1,0.2,0.2})
         else
-            playerInformation[color]['scrollbars'][key]['above'] = tool.call('removeNewlineAccessor',{playerInformation[color]['scrollbars'][key]['above']..'\n'..newPage,'Beginning'})
-            local tempPage = string.sub(tool.call('preserveNewlineAccessor',{obj.getDescription()}),string.len(newPage)+1,-1)
+            local tempPage = string.sub(tool.call('preserveNewlineAccessor',{obj.getDescription()}),string.len(abovePage)+1,-1)
             if tempPage ~= '' then
                 newPage = tool.call('getPageAccessor',{tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{tempPage..'\n'..playerInformation[color]['scrollbars'][key]['below'],'Ending'}),'Beginning'})})
+                if type(newPage) == 'table' then -- getPage() returns a table when it encounters a character that doesn't exist within the characterWidthTable.
+                    printToColor('Unrecognized character: "'..newPage[1]..'" in scrollbar notecard "'..obj.getName()..'"\nPlease delete it.',color,{1,0.2,0.2})
+                    return 0
+                end
                 if string.len(newPage) > string.len(tempPage) then
                     tempPage = ''
                 end
@@ -1243,6 +1246,8 @@ function scrollDown(obj,color)
                 tempPage = ''
                 newPage = tool.call('getPageAccessor',{tool.call('removeNewlineAccessor',{tool.call('removeNewlineAccessor',{playerInformation[color]['scrollbars'][key]['below'],'Ending'}),'Beginning'})})
             end
+            playerInformation[color]['scrollbars'][key]['above'] = tool.call('removeNewlineAccessor',{playerInformation[color]['scrollbars'][key]['above']..'\n'..abovePage,'Beginning'})
+
             local extraLength1 = tool.call('getLinesAccessor',{tool.call('preserveNewlineAccessor',{obj.getDescription()})})
             local tempStartingText = tool.call('getLinesAccessor',{playerInformation[color]['scrollbars'][key]['starting']})
             local extraLength2 = extraLength1['lineCount'] - tempStartingText['lineCount']
