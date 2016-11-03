@@ -1,17 +1,3 @@
-unicodeCircle = '?'
-unicodeReload = '?'
-unicodeNextTurn = '?'
-unicodeCheckedBox = '?'
-unicodeCrossBox = '?'
-
--- Set Unicode Characters
-if unicodeCircle == '?' then unicodeCircle = '#' end
-if unicodeReload == '?' then unicodeReload = '@' end
-if unicodeCrossBox == '?' then unicodeCrossBox = 'X' end
-if unicodeNextTurn == '?' then unicodeNextTurn = '>' end
-if unicodeCheckedBox == '?' then unicodeCheckedBox = 'O' end
-
-
 colorTable = {'Red','Orange','Yellow','Green','Blue','Purple'}
 pActiveZoneArray = {
     ['6e38a4'] = -1, -- Right MP
@@ -72,7 +58,7 @@ function onload(save_state)
     -- Set interactions
     for i,value in pairs(uninteractable) do getObjectFromGUID(value)['interactable'] = false end
     for i=1,6 do getObjectFromGUID(colorTable[i]..'NameDisplay').setValue(' ') end
-    printToAll("?DA?Welcome Everyone. Have a good time.",{0,1,0})
+    printToAll(string.char(12304)..'DA'..string.char(12305).."Welcome Everyone. Have a good time.",{0,1,0})
 end
 
 lastTick = 0
@@ -122,14 +108,14 @@ function onObjectEnterScriptingZone(zone, enter_object)
                     printToColor("Incompatible Version (Journal: "..enter_object.getVar('uniqueID').." / Table: "..char.getVar('characterSheetSource').getVar('uniqueID')..")",keyFromValue(zoneFromColor,zone.guid),{1,1,1})
                 end
             --else -- Not a journal
-            --    printToColor('?DA?This object is not a Character Journal', enter_object['held_by_color'], {0.7,0.1,0.1})
+            --    printToColor(string.char(12304)..'DA'..string.char(12305)..'This object is not a Character Journal', enter_object['held_by_color'], {0.7,0.1,0.1})
             end
         end,
         [2] = function() -- Zona is active, character loaded
             if enter_object.getVar('Character_Name') ~= nil and enter_object.getVar('open') ~= 1 then
-                printToColor('?DA?This sheet is being occupied by someone else', enter_object['held_by_color'], {0.7,0.1,0.1})
+                printToColor(string.char(12304)..'DA'..string.char(12305)..'This sheet is being occupied by someone else', enter_object['held_by_color'], {0.7,0.1,0.1})
             elseif enter_object.getVar('Character_Name') ~= nil and enter_object.getVar('open') == 1 then
-                printToColor('?DA?Finished loading character.',keyFromValue(zoneFromColor,zone.guid),{0.1,0.7,0.1})
+                printToColor(string.char(12304)..'DA'..string.char(12305)..'Finished loading character.',keyFromValue(zoneFromColor,zone.guid),{0.1,0.7,0.1})
             end
         end
     }
