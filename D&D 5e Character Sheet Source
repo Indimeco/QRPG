@@ -1,8 +1,8 @@
-uniqueID = 'D&D5e by Indimeco and rolandostar v1.1'
+uniqueID = 'D&D5e by Indimeco and rolandostar v1.2'
 
 customSheetData = { -- The custom model information for your character sheet.
     ['mesh'] = 'http://pastebin.com/raw/WM95FWL5',
-    ['diffuse'] = 'http://i.imgur.com/r0ML3q9.png',
+    ['diffuse'] = 'http://i.imgur.com/GFJrLxu.png',
     ['type'] = 4, -- Board
     ['material'] = 3, -- Cardboard
     ['specular_intensity'] = 0.1,
@@ -11,7 +11,7 @@ customSheetData = { -- The custom model information for your character sheet.
     ['cast_shadows'] = false
 }
 
-Base_Stats = {'STR','DEX','CON','INT','WIS','CHA'} -- The names of 6 incremental text tools to be represented for the DM when selecting a player.
+DM_Visible_Stats = {'Armor_Class','Speed','Spell_Save_DC','Passive_Perception','STRMod','DEXMod'} -- The names of 6 text tools to be represented for the DM when selecting a player. They must have numeric values or they will not work.
 
 objectOffsetList = { -- Objects different than 3DTexts
 
@@ -28,6 +28,11 @@ Format for each line:
 --]]
 
     ['HP']              = { 2.161939,-4.81705,     ['type'] = 'Counter',  ['height'] = 0.4229977, ['rotation'] = {-90,0,0}, ['scale'] = 1.05,  ['name'] = 'Health'},
+    ['Copper']          = { 8.458632,7.3,          ['type'] = 'Counter',  ['height'] = 0.9,       ['rotation'] = {-90,0,0}, ['scale'] = 0.3,   ['color'] = 'Copper',   ['name'] = 'Copper'},
+    ['Silver']          = { 6.648649,7.3,          ['type'] = 'Counter',  ['height'] = 0.9,       ['rotation'] = {-90,0,0}, ['scale'] = 0.3,   ['color'] = 'Silver',   ['name'] = 'Silver'},
+    ['Electrum']        = { 4.868639,7.3,          ['type'] = 'Counter',  ['height'] = 0.9,       ['rotation'] = {-90,0,0}, ['scale'] = 0.3,   ['color'] = 'Electrum', ['name'] = 'Electrum'},
+    ['Gold']            = { 3.04866,7.3,           ['type'] = 'Counter',  ['height'] = 0.9,       ['rotation'] = {-90,0,0}, ['scale'] = 0.3,   ['color'] = 'Gold',     ['name'] = 'Gold'},
+    ['Platinum']        = { 1.258625,7.3,          ['type'] = 'Counter',  ['height'] = 0.9,       ['rotation'] = {-90,0,0}, ['scale'] = 0.3,   ['color'] = 'Platinum', ['name'] = 'Platinum'},
     ['Normal_Attacks']  = { -2.5398102,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Normal Attacks',   ['scrollbar'] = true, ['tab'] = 'Tab_1'},
     ['Special_Attacks'] = { -7.2604314,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Special Attacks',  ['scrollbar'] = true, ['tab'] = 'Tab_1'},
     ['Companions']      = { -4.9058342,5.02206,    ['type'] = 'Notecard', ['height'] = 1.014,     ['rotation'] = {-90,0,0}, ['scale'] = 1.175, ['name'] = 'Companions',       ['scrollbar'] = true, ['tab'] = 'Tab_1'},
@@ -77,12 +82,7 @@ incrementalOffsetList = { -- Text Tools that will spawn modifiers to act like co
     ['CON']                = { 14.88863,-1.04589, ['size'] = 72, ['gap'] = {0.85,0}, ['mod'] = {0,1.8},     ['modSize'] = 250, ['color'] = 'Black',  ['triggerUpdate'] = true},
     ['INT']                = { 14.88863,1.44407,  ['size'] = 72, ['gap'] = {0.85,0}, ['mod'] = {0,1.8},     ['modSize'] = 250, ['color'] = 'Blue',   ['triggerUpdate'] = true},
     ['WIS']                = { 14.88863,3.934117, ['size'] = 72, ['gap'] = {0.85,0}, ['mod'] = {0,1.8},     ['modSize'] = 250, ['color'] = 'Pink',   ['triggerUpdate'] = true},
-    ['CHA']                = { 14.88863,6.424077, ['size'] = 72, ['gap'] = {0.85,0}, ['mod'] = {0,1.8},     ['modSize'] = 250, ['color'] = 'Yellow', ['triggerUpdate'] = true},
-    ['Copper']             = { 8.488632,6.974126, ['size'] = 36, ['gap'] = {0.4,0},  ['mod'] = {0,0.8}, ['color'] = 'Copper',  ['alwaysVisible'] = true},
-    ['Silver']             = { 6.688649,6.974126, ['size'] = 36, ['gap'] = {0.4,0},  ['mod'] = {0,0.8}, ['color'] = 'Silver',  ['alwaysVisible'] = true},
-    ['Electrum']           = { 4.868639,6.974126, ['size'] = 36, ['gap'] = {0.4,0},  ['mod'] = {0,0.8}, ['color'] = 'Electrum',['alwaysVisible'] = true},
-    ['Gold']               = { 3.02866,6.97431,   ['size'] = 36, ['gap'] = {0.4,0},  ['mod'] = {0,0.8}, ['color'] = 'Gold',    ['alwaysVisible'] = true},
-    ['Platinum']           = { 1.258625,6.974126, ['size'] = 36, ['gap'] = {0.4,0},  ['mod'] = {0,0.8}, ['color'] = 'Platinum',['alwaysVisible'] = true}
+    ['CHA']                = { 14.88863,6.424077, ['size'] = 72, ['gap'] = {0.85,0}, ['mod'] = {0,1.8},     ['modSize'] = 250, ['color'] = 'Yellow', ['triggerUpdate'] = true}
 }
 
 toggleOffsetList = { -- Text Tools that will spawn buttons which change the value of the Text Tool
@@ -144,6 +144,7 @@ textOffsetList = { -- Text Tools that will be unlocked - for words
     ['Alignment']       = { 4.632616,-6.87593, ['size'] = 24},
     ['Party']           = { 1.564409,-6.87593, ['size'] = 24},
     ['Race_Class']      = { 7.707871,-7.57593, ['size'] = 24},
+    ['Experience']      = { 1.564409,-7.57593, ['size'] = 24},
     ['Character_Level'] = { 10.19124,-7.30251, ['size'] = 32, ['color'] = 'Black'},
     ['Character_Name']  = { 13.26529,-7.56156, ['size'] = 36, ['color'] = true}
 }
@@ -158,7 +159,6 @@ inertOffsetList = { -- Text Tools that are only interacted upon by other changin
              }
     --]]
 
-    ['Player']                = { 1.564409,-7.57593, ['size'] = 24},
     ['STRMod']                = { 13.78865,-5.7159,  ['size'] = 40, ['color'] = 'Red'},
     ['DEXMod']                = { 13.78865,-3.25593, ['size'] = 40, ['color'] = 'Green'},
     ['CONMod']                = { 13.78865,-0.76592, ['size'] = 40, ['color'] = 'Black'},
@@ -204,13 +204,13 @@ function calculateCharacterSheetValues(color) -- Your chance to script automatio
 
     -- Calculate Ability Modifiers.
     local abilityMod = {}
-    local statTable = char.getTable('CharacterJournals')[color].getTable('Base_Stats')
-    for key,value in pairs(statTable) do
-        abilityMod[key] = math.floor((value-10)/2)
-        if abilityMod[key] > 0 then
-            char.getTable('playerInformation')[color][key..'Mod'].setValue('+'..tostring(abilityMod[key]))
+    local statTable = {}
+    for key,value in pairs({'STR','DEX','CON','INT','WIS','CHA'}) do
+        abilityMod[value] = math.floor((char.getTable('CharacterJournals')[color].getVar(value)-10)/2)
+        if abilityMod[value] > 0 then
+            char.getTable('playerInformation')[color][value..'Mod'].setValue('+'..tostring(abilityMod[value]))
         else
-            char.getTable('playerInformation')[color][key..'Mod'].setValue(tostring(abilityMod[key]))
+            char.getTable('playerInformation')[color][value..'Mod'].setValue(tostring(abilityMod[value]))
         end
     end
 
