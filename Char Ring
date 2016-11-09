@@ -222,7 +222,7 @@ end
 
 function selectCharacterSheetSource(zone)
     for index,source in pairs(zone.getObjects()) do
-        if source.getTable('Base_Stats') ~= nil then
+        if source.getVar('uniqueID') ~= nil then
             source['interactable'] = false
             return source
         end
@@ -233,7 +233,7 @@ end
 
 function setupNewCharacterSheetSource(source)
     customSheetData = source.getTable('customSheetData') or {}
-    Base_Stats = source.getTable('Base_Stats') or {}
+    DM_Visible_Stats = source.getTable('DM_Visible_Stats') or {}
     objectOffsetList = source.getTable('objectOffsetList') or {}
     incrementalOffsetList = source.getTable('incrementalOffsetList') or {}
     toggleOffsetList = source.getTable('toggleOffsetList') or {}
@@ -376,6 +376,7 @@ function initSheet(color)
                     })
                     obj.setName(value['name'] or '')
                     obj.setScale({value['scale'],value['scale'],value['scale']})
+                    obj.setColorTint(returnColorTable(value['color'] or 'Grey'))
                     obj.lock()
                     if value['tab'] ~= nil then
                         obj['interactable'] = false
@@ -634,16 +635,9 @@ function modifierAdd(obj,color) -- Called from a + incremental button
         local counter = getObjectFromGUID(targetGUID)
         local key = keyFromValue(playerInformation[color],counter)
         local newValue
-        if contains(Base_Stats,key) then
-            local BSTable = CharacterJournals[color].getTable('Base_Stats')
-            newValue = BSTable[key] + 1
-            BSTable[key] = newValue
-            CharacterJournals[color].setTable('Base_Stats',BSTable)
-        else
-            newValue = CharacterJournals[color].getVar(key) or 0
-            newValue = newValue + 1
-            CharacterJournals[color].setVar(key,newValue)
-        end
+        newValue = CharacterJournals[color].getVar(key) or 0
+        newValue = newValue + 1
+        CharacterJournals[color].setVar(key,newValue)
         counter.TextTool.setValue(tostring(newValue))
         if lookupButtonData[key]['triggerUpdate'] == true then characterSheetSource.call('calculateCharacterSheetValues',{color}) end
     else
@@ -657,16 +651,9 @@ function modifierSub(obj,color) -- Called from a - incremental button
         local counter = getObjectFromGUID(targetGUID)
         local key = keyFromValue(playerInformation[color],counter)
         local newValue
-        if contains(Base_Stats,key) then
-            local BSTable = CharacterJournals[color].getTable('Base_Stats')
-            newValue = BSTable[key] - 1
-            BSTable[key] = newValue
-            CharacterJournals[color].setTable('Base_Stats',BSTable)
-        else
-            newValue = CharacterJournals[color].getVar(key) or 0
-            newValue = newValue - 1
-            CharacterJournals[color].setVar(key,newValue)
-        end
+        newValue = CharacterJournals[color].getVar(key) or 0
+        newValue = newValue - 1
+        CharacterJournals[color].setVar(key,newValue)
         counter.TextTool.setValue(tostring(newValue))
         if lookupButtonData[key]['triggerUpdate'] == true then characterSheetSource.call('calculateCharacterSheetValues',{color}) end
     else
@@ -757,15 +744,8 @@ function readFromBook(color,journal)
         end
     end
     for key,value in pairs(incrementalOffsetList) do
-        if not contains(Base_Stats,key) then
-            CharacterJournals[color].setVar(key,journal.getVar(key))
-            playerInformation[color][key].TextTool.setValue(tostring(journal.getVar(key)))
-        end
-    end
-
-    CharacterJournals[color].setTable('Base_Stats', journal.getTable('Base_Stats'))
-    for key,value in pairs(CharacterJournals[color].getTable('Base_Stats')) do
-        playerInformation[color][key].TextTool.setValue(tostring(value))
+        CharacterJournals[color].setVar(key,journal.getVar(key))
+        playerInformation[color][key].TextTool.setValue(tostring(journal.getVar(key)))
     end
 
     for key,value in pairs(checkboxOffsetList) do
@@ -994,21 +974,9 @@ script = script..'\n\n--------------------------- Character Information --------
         end
     end
 
-    script = script..'\nBase_Stats = {'
-    for key,value in pairs(CharacterJournals[color].getTable('Base_Stats')) do
-        if tonumber(key) then
-            script = script..'\n\t['..key..'] = '..value..','
-        else
-            script = script..'\n\t[\"'..key..'\"] = '..value..','
-        end
-    end
-    script = string.sub(script,1,-2)
-    script = script..'\n}\n'
-
+    script = script..'\n\n'
     for key,value in pairs(incrementalOffsetList) do
-        if not contains(Base_Stats,key) then
-            script = script..'\n'..key..' = '..CharacterJournals[color].getVar(key)
-        end
+        script = script..'\n'..key..' = '..CharacterJournals[color].getVar(key)
     end
 
     for key,value in pairs(toggleOffsetList) do
@@ -1077,21 +1045,9 @@ function createBlankJournal()
             end
         end
 
-        script = script..'\nBase_Stats = {'
-        for key,value in pairs(Base_Stats) do
-            if tonumber(value) then
-                script = script..'\n\t['..value..'] = 0,'
-            else
-                script = script..'\n\t[\"'..value..'\"] = 0,'
-            end
-        end
-        script = string.sub(script,1,-2)
-        script = script..'\n}\n'
-
+        script = script..'\n\n'
         for key,value in pairs(incrementalOffsetList) do
-            if not contains(Base_Stats,key) then
-                script = script..'\n'..key..' = 0'
-            end
+            script = script..'\n'..key..' = 0'
         end
 
         for key,value in pairs(toggleOffsetList) do

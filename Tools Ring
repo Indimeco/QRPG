@@ -24,7 +24,7 @@ monsterPlatformValueCounters = {}
 monsterPlatformValueCounterGUIDs = {}
 
 monsterPlatformZoneGUID = {'c0ccc7','6e38a4'}
-DMSkillCounterGUIDs = {'d05e4e','859337','8a0e67','ba1d15','b9fb4c','f403ae'}
+DMOverlayCounterGUIDs = {'d05e4e','859337','8a0e67','ba1d15','b9fb4c','f403ae'}
 DMHealthCounterGUIDs = {'af016f','283218','0c5edf','2513de','1a039e','591edd'}
 monsterPlatformValueCounterGUIDs_1 = {'1ba1f5','ecccee','7d7d5f','ce521a','a97acb','c0a4e4','ea3819','825236','d4cde7','622613','d18abd','361bb8','9107ab'}
 monsterPlatformValueCounterGUIDs_2 = {'136710','ec67c6','27fad5','64962d','4bfdb4','6b69ce','f95a0c','a172ae','3ed4a0','5f4dac','b79442','84e811','b12726'}
@@ -221,11 +221,11 @@ function onload(save_state)
     invControllerInvCard['Master'].setVar('color', 'Master')
     invControllerInvCard['initiative'].setVar('color','initiative')
 
-    DMSkillCounters = createCounters(DMSkillCounterGUIDs)
+    DMOverlayCounters = createCounters(DMOverlayCounterGUIDs)
     monsterPlatformValueCounters[1] = createCounters(monsterPlatformValueCounterGUIDs_1)
     monsterPlatformValueCounters[2] = createCounters(monsterPlatformValueCounterGUIDs_2)
     for i=1,6 do DMHealthCounters[Global.getVar('colorTable')[i]] = getObjectFromGUID(DMHealthCounterGUIDs[i]) end
-    for i=1,6 do DMSkillCounters[i].setValue(0) end
+    for i=1,6 do DMOverlayCounters[i].setValue(0) end
 
     -- Dynamic position for Oblivion, only useful when debugging
     local planePos = oblivion.getPosition()
@@ -564,7 +564,7 @@ function selectPlayer(obj) -- Changes selection of player and sets color of the 
 -- Copies the selected player's inventory to the invControllerInvCard['Master']
 -- This function is called from a button - ergo obj is the button's object that made the call
     colorSelector = obj.getVar('color')
-    updateSkillCounters(colorSelector)
+    updateDMOverlayCounters(colorSelector)
 
     local fullText = getFullText(colorSelector)
     local newPage = getPage(fullText)
@@ -861,10 +861,15 @@ function toggleInvControllerButton(color,flag) -- Removes or adds a button on th
     end
 end
 
-function updateSkillCounters(color) -- Gets the STR, DEX, etc., from the player when selectPlayer is called
-    local names = {'STR','DEX','CON','INT','WIS','CHA'}
+function updateDMOverlayCounters(color) -- Gets the DM_Visible_Stats from the player's char sheet when selectPlayer is called
+    local names = char.getVar('DM_Visible_Stats')
     for i=1,6 do
-        DMSkillCounters[i].setValue(tonumber(char.getTable('playerInformation')[color][names[i]].getValue()))
+        if tonumber(char.getTable('playerInformation')[color][names[i]].getValue()) ~= nil then
+            DMOverlayCounters[i].setName(names[i])
+            DMOverlayCounters[i].setValue(tonumber(char.getTable('playerInformation')[color][names[i]].getValue()))
+        else
+            DMOverlayCounters[i].setName('Invalid Value for '..names[i])
+        end
     end
 end
 

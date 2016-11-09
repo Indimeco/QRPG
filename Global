@@ -19,12 +19,11 @@ local uninteractable = {
     'aad6e8','0d093a', -- Inv Controller/Highlight
     'RedNameDisplay','OrangeNameDisplay','YellowNameDisplay','GreenNameDisplay','BlueNameDisplay','PurpleNameDisplay',
     -- '985288','e82794','dc0278','c670af','28f736','b4f394', -- Initiative Dominos
-    'd05e4e','859337','8a0e67','ba1d15','b9fb4c','f403ae', -- Skill Coutners
+    -- 'd05e4e','859337','8a0e67','ba1d15','b9fb4c','f403ae', -- Skill Coutners
     --'591edd','1a039e','2513de','0c5edf','283218','af016f', -- Health counters
     '5fff87','6b1448', -- Monster Platforms
     '10dea3','0a66ae','23f579','649d04','b189da','f2b44d', -- Dominos Inv Manager
     --'d58363','a75f3e','c1de54','e544c6','1dad3f','f9caf3','a0421e', -- Init Tracker
-    'd26e2d', -- Skill Labels
     'a9d826','5711dc','5665d7','f6705e','b96893','a8a2fd', -- Wedged die
     '580374','f6fa34','f336b5','070dd1','c3fdfd','926a00', -- Dice Roll Counters
     '3e3b93','75b9f2', -- Preset Dominos
