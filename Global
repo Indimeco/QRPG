@@ -39,8 +39,8 @@ local uninteractable = {
 }
 
 function onload(save_state)
-    clearPixelPaint()
-    clearVectorPaint()
+    -- clearPixelPaint()
+    -- clearVectorPaint()
 
     -- Cores
     char = getObjectFromGUID('CHAR')
