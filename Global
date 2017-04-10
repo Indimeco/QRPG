@@ -60,14 +60,15 @@ function onload(save_state)
     printToAll(string.char(12304)..'DA'..string.char(12305).."Welcome Everyone. Have a good time.",{0,1,0})
 end
 
-lastTick = 0
-function update()
-    curTick = os.clock()
-    tickTime = curTick - lastTick
-    lastTick = curTick
-    tickMult = tickTime * 30
-    setNotes("FPS: "..math.floor(30/tickMult))
-end
+--[[ FPS Counter Function ]]--
+-- lastTick = 0
+-- function update()
+--     curTick = os.clock()
+--     tickTime = curTick - lastTick
+--     lastTick = curTick
+--     tickMult = tickTime * 30
+--     setNotes("FPS: "..math.floor(30/tickMult))
+-- end
 
 function setZone(param)
     pActiveZoneArray[zoneFromColor[param[1]]] = param[2]
