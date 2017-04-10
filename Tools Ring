@@ -357,9 +357,11 @@ function update() -- Used to keep the health counters in sync
     frame = frame + 1 -- Counts Frames --
     if frame%60==0 then  --Every 60 Frames--
         seconds=seconds+1 --Adds a second--
-        if seconds%2==0 then updateCounters() end
+        if seconds%2==0 then
+            updateCounters()
+            changeColor(frame)
+        end
     end
-    changeColor(frame)
 end
 
 
@@ -491,16 +493,16 @@ end
 
 function changeColor(i)
     steps = 300
-    frequency = 2*math.pi/steps
+    frequency = 0.25*math.pi/steps
 
     -- * Width + Center
     red   = math.sin(frequency*i+0) * 9 + 12; -- 0
     green = math.sin(frequency*i+0) * 41 + 55; -- 2
     blue  = math.sin(frequency*i+0) * 108 + 146; -- 4
-    getObjectFromGUID('CONFIG').setColorTint({red/255,green/255,blue/255} )
+    -- getObjectFromGUID('CONFIG').setColorTint({red/255,green/255,blue/255} )
 
     steps = 1000
-    frequency = 2*math.pi/steps
+    frequency = 0.25*math.pi/steps
     -- * Width + Center
     if case == 1 then
         red   = 0
