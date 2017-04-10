@@ -958,7 +958,7 @@ end
 
 function encodeBook(color)
     local script = [[-- Quality RPG CHARACTER SAVE
--- ]].. os.date("Saved %X UTC ~ %a %d, %B %Y")..'\nuniqueID = \''..characterSheetSource.getVar('uniqueID')..'\''
+-- ]].. os.date("Saved %X UTC ~ %a %d, %B %Y")..'\nuniqueID = \''..characterSheetSource.getVar('uniqueID')..'\'\nQRPGVersion = '..Global.getVar('QRPGVersion')
 
 script = script..'\n\n--------------------------- Character Information ---------------------------\n'
 
@@ -1033,7 +1033,7 @@ function createBlankJournal()
         obj.setCustomObject(custom_param)
 
         local script = [[-- Quality RPG CHARACTER SAVE
-    -- ]].. os.date("Saved %X UTC ~ %a %d, %B %Y")..'\nuniqueID = \''..characterSheetSource.getVar('uniqueID')..'\''
+    -- ]].. os.date("Saved %X UTC ~ %a %d, %B %Y")..'\nuniqueID = \''..characterSheetSource.getVar('uniqueID')..'\'\nQRPGVersion = '..Global.getVar('QRPGVersion')
 
     script = script..'\n\n--------------------------- Character Information ---------------------------\n'
 
