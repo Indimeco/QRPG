@@ -1,0 +1,12 @@
+function onload()
+    self.setTable('pos',{0,-6,0})
+    self.setTable('rot',{0,-90,180})
+    Global.call('addButton',{self.getGUID(),1400,650,200,'Let\'s Go!','done',self})
+    getObjectFromGUID('f6aac5').setDescription('Thank you for joining the Beta of Quality RPG!\n[i]Please[/i] report any bugs and feel free to share your ideas, suggestions and experiences on Discord or on the workshop.\n\nPress '..string.char(9432)..' on the dashboard (below) for links\n\n~QRPG Devs\n[i]rolandostar[/i] & [i]Indimeco[/i]')
+end
+
+function done()
+    getObjectFromGUID('TOOLS').call('changeLayoutTo1')
+    getObjectFromGUID('f6aac5').destruct()
+    self.destruct()
+end
