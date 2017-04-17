@@ -836,10 +836,10 @@ function saveCharacter(obj,color)
     -- close book
     -- destruct figurine
     -- on book exit - change zone to 1
-    CharacterSheets[color].clearButtons()
     if obj.getVar('editMode') == 1 then -- Set edit buttons back to default.
         toggleEdit(obj,color)
     end
+	CharacterSheets[color].clearButtons()
     resetTab(color)
     closeBook(color)
     cleanText(color)
