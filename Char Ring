@@ -839,7 +839,7 @@ function saveCharacter(obj,color)
     if obj.getVar('editMode') == 1 then -- Set edit buttons back to default.
         toggleEdit(obj,color)
     end
-	CharacterSheets[color].clearButtons()
+    CharacterSheets[color].clearButtons()
     resetTab(color)
     closeBook(color)
     cleanText(color)
