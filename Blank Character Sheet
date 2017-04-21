@@ -126,5 +126,12 @@ tabsOffsetList = { -- Buttons that change what text tools and objects are on the
 
 }
 
-function calculateCharacterSheetValues(color) -- (optional) Your chance to script automation for your character sheet
+function calculateCharacterSheetValues(color) -- (optional) Your chance to script automation for your character sheet, for advanced LUA users
+    local char = getObjectFromGUID('CHAR') -- This is where all of your player's sheet data will be stored after it's processed.
+    color = color[1] -- This is the color of the player who triggered this calculate function
+    -- char.getTable('CharacterJournals')[color] is the journal of the player who triggered this calculate function. It contains all of the variables for your sheet.
+    -- char.getTable('playerInformation')[color][key] is the table containing the text tool objects where 'key' is the name of the text tool, e.g., 'Character_Name'
+    -- See https://github.com/Indimeco/QRPG/blob/master/D%26D%205e%20Character%20Sheet%20Source for usage examples.
+
+    -- Your code goes below this line
 end
