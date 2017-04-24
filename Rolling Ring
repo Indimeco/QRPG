@@ -365,21 +365,21 @@ end
 ]]--
 
 --Functions for each button
-function pClick1() presetRollCo(1) end
-function pClick2() presetRollCo(2) end
-function pClick3() presetRollCo(3) end
-function pClick4() presetRollCo(4) end
-function pClick5() presetRollCo(5) end
-function pClick6() presetRollCo(6) end
+function pClick1(obj,player) presetRollCo(1,player) end
+function pClick2(obj,player) presetRollCo(2,player) end
+function pClick3(obj,player) presetRollCo(3,player) end
+function pClick4(obj,player) presetRollCo(4,player) end
+function pClick5(obj,player) presetRollCo(5,player) end
+function pClick6(obj,player) presetRollCo(6,player) end
 function pClickCustom() presetRollCo(0) end
 
 --[[ Checks var:editPresets and either saves or loads preset to board ]]--
-function presetRollCo(num)
+function presetRollCo(num,player)
     if self.getVar('editPresets') == 1 then
         -- TODO Validate before saving preset
         print(string.char(12304)..'DA'..string.char(12305)..'Saving to '..num)
         savePreset(num)
-        toggleEditPreset(saveRollButton)
+        toggleEditPreset(saveRollButton,player)
     else
         --print(string.char(12304)..'DA'..string.char(12305)..'Loading from '..num)
         self.setVar('num', num)
