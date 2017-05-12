@@ -1,7 +1,7 @@
 ﻿{
-  "SaveName": "Quality RPG Beta v1 4 20 2017",
+  "SaveName": "QRPG Beta v1 Pathfinder CS 5/12",
   "GameMode": "Custom",
-  "Date": "4/20/2017 6:02:13 PM",
+  "Date": "5/12/2017 3:54:57 PM",
   "Table": "Table_Custom",
   "TableURL": "http://i.imgur.com/XGbUD1w.jpg",
   "Sky": "Sky_Museum",
@@ -211,8 +211,8 @@
       "Description": "",
       "ColorDiffuse": {
         "r": 1.0,
-        "g": 0.165300429,
-        "b": 0.266051829
+        "g": 0.16530031,
+        "b": 0.2660517
       },
       "Locked": true,
       "Grid": true,
@@ -276,9 +276,9 @@
       "Nickname": "DEX",
       "Description": "",
       "ColorDiffuse": {
-        "r": 0.38191095,
+        "r": 0.381910831,
         "g": 0.9303623,
-        "b": 0.188851357
+        "b": 0.188851237
       },
       "Locked": true,
       "Grid": true,
@@ -309,8 +309,8 @@
       "Nickname": "INT",
       "Description": "",
       "ColorDiffuse": {
-        "r": 0.306550741,
-        "g": 0.408501476,
+        "r": 0.306550622,
+        "g": 0.408501327,
         "b": 1.0
       },
       "Locked": true,
@@ -343,7 +343,7 @@
       "Description": "",
       "ColorDiffuse": {
         "r": 1.0,
-        "g": 0.32223928,
+        "g": 0.322239161,
         "b": 1.0
       },
       "Locked": true,
@@ -377,7 +377,7 @@
       "ColorDiffuse": {
         "r": 1.0,
         "g": 1.0,
-        "b": 0.188851327
+        "b": 0.188851207
       },
       "Locked": true,
       "Grid": true,
@@ -398,9 +398,9 @@
         "posX": 92.97,
         "posY": 201.034,
         "posZ": 23.38,
-        "rotX": 66.2713,
-        "rotY": 213.339981,
-        "rotZ": 359.8994,
+        "rotX": 66.27136,
+        "rotY": 213.340042,
+        "rotZ": 359.899475,
         "scaleX": 0.225,
         "scaleY": 0.225,
         "scaleZ": 0.225
@@ -718,12 +718,12 @@
     {
       "Name": "Custom_Model",
       "Transform": {
-        "posX": -47.9999962,
+        "posX": -48.0,
         "posY": 3.42703676,
         "posZ": 27.4,
-        "rotX": -1.81750929E-05,
-        "rotY": 186.337753,
-        "rotZ": -6.310873E-05,
+        "rotX": 6.549941E-05,
+        "rotY": 302.108734,
+        "rotZ": 1.782282E-05,
         "scaleX": 0.250000417,
         "scaleY": 0.250000417,
         "scaleZ": 0.250000417
@@ -731,8 +731,8 @@
       "Nickname": "Configuration ● Edit Me",
       "Description": "",
       "ColorDiffuse": {
-        "r": 0.216961712,
-        "g": 0.3307511,
+        "r": 0.216961443,
+        "g": 0.330750853,
         "b": 0.480836153
       },
       "Locked": false,
@@ -882,11 +882,11 @@
       "Name": "Custom_Model",
       "Transform": {
         "posX": -48.0,
-        "posY": 0.939,
+        "posY": 0.939000249,
         "posZ": 27.4,
-        "rotX": 1.13775068E-05,
-        "rotY": 143.9175,
-        "rotZ": 4.83814474E-05,
+        "rotX": 2.95583013E-05,
+        "rotY": 31.6709042,
+        "rotZ": -1.876303E-05,
         "scaleX": 3.449997,
         "scaleY": 3.449997,
         "scaleZ": 3.449997
@@ -967,9 +967,9 @@
         "posX": -48.0,
         "posY": 3.4269948,
         "posZ": 27.4,
-        "rotX": 302.8464,
-        "rotY": 352.586823,
-        "rotZ": 261.5247,
+        "rotX": 310.6619,
+        "rotY": 56.04004,
+        "rotZ": 304.575958,
         "scaleX": 1.17499936,
         "scaleY": 1.17499936,
         "scaleZ": 1.17499936
@@ -979,7 +979,7 @@
       "ColorDiffuse": {
         "r": 0.0,
         "g": 0.0,
-        "b": 0.495455027
+        "b": 0.502090156
       },
       "Locked": false,
       "Grid": true,
@@ -1050,9 +1050,9 @@
         "posX": -48.0,
         "posY": 3.427025,
         "posZ": 27.4,
-        "rotX": 17.77499,
-        "rotY": 26.05365,
-        "rotZ": 29.4312267,
+        "rotX": 354.07663,
+        "rotY": 341.372833,
+        "rotZ": 326.489227,
         "scaleX": 1.17499936,
         "scaleY": 1.17499936,
         "scaleZ": 1.17499936
@@ -1062,7 +1062,7 @@
       "ColorDiffuse": {
         "r": 0.0,
         "g": 0.0,
-        "b": 0.495455027
+        "b": 0.502090156
       },
       "Locked": false,
       "Grid": true,
@@ -1133,9 +1133,9 @@
         "posX": -48.0,
         "posY": 3.427035,
         "posZ": 27.4,
-        "rotX": 8.009721,
-        "rotY": 247.703445,
-        "rotZ": 291.699554,
+        "rotX": 8.010336,
+        "rotY": 3.472034,
+        "rotZ": 165.431122,
         "scaleX": 1.17499936,
         "scaleY": 1.17499936,
         "scaleZ": 1.17499936
@@ -1145,7 +1145,7 @@
       "ColorDiffuse": {
         "r": 0.0,
         "g": 0.0,
-        "b": 0.495455027
+        "b": 0.502090156
       },
       "Locked": false,
       "Grid": true,
@@ -1226,9 +1226,9 @@
       "Nickname": " ",
       "Description": "",
       "ColorDiffuse": {
-        "r": 0.31331858,
+        "r": 0.313318461,
         "g": 1.0,
-        "b": 0.345090121
+        "b": 0.34509
       },
       "Locked": true,
       "Grid": true,
@@ -1293,7 +1293,7 @@
       "Description": "",
       "ColorDiffuse": {
         "r": 0.929411769,
-        "g": 0.408233672,
+        "g": 0.408233553,
         "b": 0.0392156877
       },
       "Locked": true,
@@ -1327,7 +1327,7 @@
       "ColorDiffuse": {
         "r": 0.9512444,
         "g": 0.0156862754,
-        "b": 0.162360787
+        "b": 0.162360668
       },
       "Locked": true,
       "Grid": true,
@@ -1358,8 +1358,8 @@
       "Nickname": "",
       "Description": "",
       "ColorDiffuse": {
-        "r": 0.305874467,
-        "g": 0.3215607,
+        "r": 0.305874348,
+        "g": 0.3215606,
         "b": 1.0
       },
       "Locked": true,
@@ -1392,7 +1392,7 @@
       "Description": "",
       "ColorDiffuse": {
         "r": 0.818627536,
-        "g": 0.3215607,
+        "g": 0.3215606,
         "b": 1.0
       },
       "Locked": true,
@@ -1679,9 +1679,9 @@
       "Nickname": "",
       "Description": "",
       "ColorDiffuse": {
-        "r": 0.08363368,
-        "g": 0.08363368,
-        "b": 0.08363368
+        "r": 0.08363355,
+        "g": 0.08363355,
+        "b": 0.08363355
       },
       "Locked": true,
       "Grid": true,
@@ -1712,9 +1712,9 @@
       "Nickname": "",
       "Description": "",
       "ColorDiffuse": {
-        "r": 0.0836381242,
-        "g": 0.0836381242,
-        "b": 0.0836381242
+        "r": 0.08363802,
+        "g": 0.08363802,
+        "b": 0.08363802
       },
       "Locked": true,
       "Grid": true,
@@ -1745,9 +1745,9 @@
       "Nickname": "",
       "Description": "",
       "ColorDiffuse": {
-        "r": 0.0836381242,
-        "g": 0.0836381242,
-        "b": 0.0836381242
+        "r": 0.08363802,
+        "g": 0.08363802,
+        "b": 0.08363802
       },
       "Locked": true,
       "Grid": true,
@@ -1778,9 +1778,9 @@
       "Nickname": "",
       "Description": "",
       "ColorDiffuse": {
-        "r": 0.0836381242,
-        "g": 0.0836381242,
-        "b": 0.0836381242
+        "r": 0.08363802,
+        "g": 0.08363802,
+        "b": 0.08363802
       },
       "Locked": true,
       "Grid": true,
@@ -1811,9 +1811,9 @@
       "Nickname": "",
       "Description": "",
       "ColorDiffuse": {
-        "r": 0.0836381242,
-        "g": 0.0836381242,
-        "b": 0.0836381242
+        "r": 0.08363802,
+        "g": 0.08363802,
+        "b": 0.08363802
       },
       "Locked": true,
       "Grid": true,
@@ -1844,9 +1844,9 @@
       "Nickname": "",
       "Description": "",
       "ColorDiffuse": {
-        "r": 0.0836381242,
-        "g": 0.0836381242,
-        "b": 0.0836381242
+        "r": 0.08363802,
+        "g": 0.08363802,
+        "b": 0.08363802
       },
       "Locked": true,
       "Grid": true,
@@ -1966,9 +1966,9 @@
         "posX": -47.40613,
         "posY": 3.07810283,
         "posZ": 1.9511497,
-        "rotX": 74.04828,
-        "rotY": 93.01329,
-        "rotZ": 271.4292,
+        "rotX": 74.04836,
+        "rotY": 93.01309,
+        "rotZ": 271.429047,
         "scaleX": 1.5,
         "scaleY": 1.5,
         "scaleZ": 1.5
@@ -3027,7 +3027,7 @@
       "ColorDiffuse": {
         "r": 0.0,
         "g": 0.0,
-        "b": 0.10978011
+        "b": 0.109779976
       },
       "Locked": true,
       "Grid": true,
@@ -3060,7 +3060,7 @@
       "ColorDiffuse": {
         "r": 0.0,
         "g": 0.0,
-        "b": 0.109780081
+        "b": 0.109779947
       },
       "Locked": true,
       "Grid": true,
@@ -3372,7 +3372,7 @@
       "Description": "",
       "ColorDiffuse": {
         "r": 0.8122138,
-        "g": 0.0516796932,
+        "g": 0.0516795069,
         "b": 0.00575483777
       },
       "Locked": true,
@@ -11456,7 +11456,7 @@
         "posX": 1.95594984E+12,
         "posY": 3.49183427E+10,
         "posZ": -1.90787237E+12,
-        "rotX": -7.60483343E-10,
+        "rotX": -7.600762E-10,
         "rotY": 179.86055,
         "rotZ": 180.000778,
         "scaleX": 1.46919286,
@@ -12373,9 +12373,9 @@
         "posX": -70.3,
         "posY": 10.34,
         "posZ": 33.8,
-        "rotX": 66.2713,
-        "rotY": 213.339981,
-        "rotZ": 359.8994,
+        "rotX": 66.27136,
+        "rotY": 213.340042,
+        "rotZ": 359.899475,
         "scaleX": 0.001,
         "scaleY": 0.001,
         "scaleZ": 0.001
@@ -12459,7 +12459,7 @@
       "ColorDiffuse": {
         "r": 1.0,
         "g": 0.968661,
-        "b": 0.188215345
+        "b": 0.188215226
       },
       "Locked": true,
       "Grid": true,
@@ -12491,7 +12491,7 @@
       "Description": "",
       "ColorDiffuse": {
         "r": 1.0,
-        "g": 0.164685935,
+        "g": 0.164685816,
         "b": 0.803655148
       },
       "Locked": true,
@@ -12525,7 +12525,7 @@
       "ColorDiffuse": {
         "r": 0.0,
         "g": 0.0,
-        "b": 0.10978397
+        "b": 0.109783851
       },
       "Locked": true,
       "Grid": true,
@@ -12556,8 +12556,8 @@
       "Nickname": "INT",
       "Description": "",
       "ColorDiffuse": {
-        "r": 0.189225525,
-        "g": 0.255892217,
+        "r": 0.1892254,
+        "g": 0.2558921,
         "b": 0.949658453
       },
       "Locked": true,
@@ -12589,9 +12589,9 @@
       "Nickname": "DEX",
       "Description": "",
       "ColorDiffuse": {
-        "r": 0.392136872,
+        "r": 0.392136753,
         "g": 1.0,
-        "b": 0.3450781
+        "b": 0.345078
       },
       "Locked": true,
       "Grid": true,
@@ -12624,7 +12624,7 @@
       "ColorDiffuse": {
         "r": 0.9529411,
         "g": 0.0156862754,
-        "b": 0.224286258
+        "b": 0.224286139
       },
       "Locked": true,
       "Grid": true,
@@ -12657,7 +12657,7 @@
       "ColorDiffuse": {
         "r": 0.9529411,
         "g": 0.0156862754,
-        "b": 0.224286288
+        "b": 0.224286169
       },
       "Locked": true,
       "Grid": true,
@@ -12688,9 +12688,9 @@
       "Nickname": "DEX",
       "Description": "",
       "ColorDiffuse": {
-        "r": 0.3921369,
+        "r": 0.392136782,
         "g": 1.0,
-        "b": 0.34507814
+        "b": 0.345078021
       },
       "Locked": true,
       "Grid": true,
@@ -12723,7 +12723,7 @@
       "ColorDiffuse": {
         "r": 0.0,
         "g": 0.0,
-        "b": 0.109784
+        "b": 0.10978388
       },
       "Locked": true,
       "Grid": true,
@@ -12754,8 +12754,8 @@
       "Nickname": "INT",
       "Description": "",
       "ColorDiffuse": {
-        "r": 0.189225554,
-        "g": 0.255892217,
+        "r": 0.189225435,
+        "g": 0.2558921,
         "b": 0.949658453
       },
       "Locked": true,
@@ -12788,7 +12788,7 @@
       "Description": "",
       "ColorDiffuse": {
         "r": 1.0,
-        "g": 0.164685965,
+        "g": 0.164685845,
         "b": 0.803655148
       },
       "Locked": true,
@@ -12822,7 +12822,7 @@
       "ColorDiffuse": {
         "r": 1.0,
         "g": 0.968661,
-        "b": 0.188215375
+        "b": 0.188215256
       },
       "Locked": true,
       "Grid": true,
@@ -12855,7 +12855,7 @@
       "ColorDiffuse": {
         "r": 0.0,
         "g": 0.0,
-        "b": 0.07752585
+        "b": 0.07752562
       },
       "Locked": true,
       "Grid": true,
@@ -13032,7 +13032,7 @@
         "posX": 93.80846,
         "posY": 200.101578,
         "posZ": 17.33929,
-        "rotX": 0.0594349653,
+        "rotX": 0.05943499,
         "rotY": 0.000154389592,
         "rotZ": 0.123172872,
         "scaleX": 0.1,
@@ -13042,9 +13042,9 @@
       "Nickname": "Primary Monster Deck",
       "Description": "",
       "ColorDiffuse": {
-        "r": 0.249997437,
-        "g": 0.249997437,
-        "b": 0.249997437
+        "r": 0.249997318,
+        "g": 0.249997318,
+        "b": 0.249997318
       },
       "Locked": true,
       "Grid": true,
@@ -15449,9 +15449,9 @@
         "posX": 93.81055,
         "posY": 200.101257,
         "posZ": 17.6584587,
-        "rotX": 0.05943255,
+        "rotX": 0.0594325773,
         "rotY": 0.000149938423,
-        "rotZ": 0.123191692,
+        "rotZ": 0.12319164,
         "scaleX": 0.1,
         "scaleY": 0.1,
         "scaleZ": 0.1
@@ -16519,7 +16519,7 @@
         "posZ": -31.9245358,
         "rotX": 359.876923,
         "rotY": 89.9889755,
-        "rotZ": 0.0593568049,
+        "rotZ": 0.05935677,
         "scaleX": 1.89999926,
         "scaleY": 1.89999926,
         "scaleZ": 1.89999926
@@ -16558,7 +16558,7 @@
         "posY": 1.03709579,
         "posZ": -30.9882,
         "rotX": 359.83493,
-        "rotY": 0.00666830968,
+        "rotY": 0.00666831154,
         "rotZ": 0.016632244,
         "scaleX": 1.0,
         "scaleY": 1.0,
@@ -16567,9 +16567,9 @@
       "Nickname": "Blank Character Sheets",
       "Description": "The necessary bare-bones for a character sheet.",
       "ColorDiffuse": {
-        "r": 0.2499977,
-        "g": 0.2499977,
-        "b": 0.2499977
+        "r": 0.249997586,
+        "g": 0.249997586,
+        "b": 0.249997586
       },
       "Locked": true,
       "Grid": true,
@@ -16719,10 +16719,10 @@
       "Transform": {
         "posX": 93.29318,
         "posY": 200.207062,
-        "posZ": -0.380363047,
-        "rotX": -0.000974465,
+        "posZ": -0.380366772,
+        "rotX": -0.000184037359,
         "rotY": 271.8733,
-        "rotZ": -0.00103513,
+        "rotZ": 0.0010839412,
         "scaleX": 0.11523807,
         "scaleY": 1.0,
         "scaleZ": 0.11523807
@@ -16759,10 +16759,10 @@
       "Transform": {
         "posX": 92.72429,
         "posY": 200.1158,
-        "posZ": -0.5695337,
-        "rotX": 0.000726766244,
-        "rotY": 90.01146,
-        "rotZ": -0.000233881277,
+        "posZ": -0.569533765,
+        "rotX": -6.849709E-05,
+        "rotY": 90.0114441,
+        "rotZ": 9.07567955E-05,
         "scaleX": 0.124999978,
         "scaleY": 0.124999978,
         "scaleZ": 0.124999978
@@ -16790,9 +16790,9 @@
         "posX": 93.28404,
         "posY": 200.098419,
         "posZ": -0.7038046,
-        "rotX": 0.05952929,
+        "rotX": 0.0595293157,
         "rotY": 359.95694,
-        "rotZ": 0.123129025,
+        "rotZ": 0.123128965,
         "scaleX": 0.1,
         "scaleY": 0.1,
         "scaleZ": 0.1
@@ -16801,8 +16801,8 @@
       "Description": "",
       "ColorDiffuse": {
         "r": 0.856,
-        "g": 0.0999981239,
-        "b": 0.09399813
+        "g": 0.09999799,
+        "b": 0.09399801
       },
       "Locked": true,
       "Grid": true,
@@ -16864,9 +16864,9 @@
         "posX": 92.6483154,
         "posY": 200.1158,
         "posZ": -17.2379074,
-        "rotX": -0.0007103078,
-        "rotY": 89.98159,
-        "rotZ": -0.000224556148,
+        "rotX": -0.0007067639,
+        "rotY": 89.98165,
+        "rotZ": -0.000370140682,
         "scaleX": 0.124999978,
         "scaleY": 0.124999978,
         "scaleZ": 0.124999978
@@ -16894,9 +16894,9 @@
         "posX": 92.73124,
         "posY": 200.1158,
         "posZ": 0.5280145,
-        "rotX": 0.00072794134,
-        "rotY": 90.01228,
-        "rotZ": -0.000174122775,
+        "rotX": -0.0001468343,
+        "rotY": 90.0123138,
+        "rotZ": 7.461225E-05,
         "scaleX": 0.124999978,
         "scaleY": 0.124999978,
         "scaleZ": 0.124999978
@@ -16935,8 +16935,8 @@
       "Description": "",
       "ColorDiffuse": {
         "r": 0.856,
-        "g": 0.0999981239,
-        "b": 0.09399813
+        "g": 0.09999799,
+        "b": 0.09399801
       },
       "Locked": true,
       "Grid": true,
@@ -16998,9 +16998,9 @@
       "Nickname": "Character Sheet Storage",
       "Description": "These are sheet sources users have made and we have added for your use. Contact us to submit any sheets you've made!",
       "ColorDiffuse": {
-        "r": 0.249997675,
-        "g": 0.249997675,
-        "b": 0.249997675
+        "r": 0.249997556,
+        "g": 0.249997556,
+        "b": 0.249997556
       },
       "Locked": true,
       "Grid": true,
@@ -17016,12 +17016,12 @@
         {
           "Name": "Bag",
           "Transform": {
-            "posX": -50.9451,
-            "posY": 2.93472457,
-            "posZ": -33.9842148,
-            "rotX": 359.76944,
-            "rotY": 359.7651,
-            "rotZ": 0.04276655,
+            "posX": -50.6615219,
+            "posY": 2.93361545,
+            "posZ": -34.2893867,
+            "rotX": 359.702576,
+            "rotY": 359.766571,
+            "rotZ": 359.972137,
             "scaleX": 1.0,
             "scaleY": 1.0,
             "scaleZ": 1.0
@@ -17030,7 +17030,7 @@
           "Description": "These are sheet sources users have made and we have added for your use. Contact us to submit any sheets you've made!",
           "ColorDiffuse": {
             "r": 0.627,
-            "g": 0.12499997,
+            "g": 0.124999888,
             "b": 0.941
           },
           "Locked": false,
@@ -17047,12 +17047,96 @@
             {
               "Name": "Bag",
               "Transform": {
-                "posX": -42.56807,
-                "posY": 2.9397397,
-                "posZ": -31.8665257,
-                "rotX": 0.09682284,
-                "rotY": -0.0006727117,
-                "rotZ": 0.150087744,
+                "posX": -43.75282,
+                "posY": 2.93472171,
+                "posZ": -33.1882629,
+                "rotX": 0.154195577,
+                "rotY": -0.0012530277,
+                "rotZ": 0.05489304,
+                "scaleX": 1.0,
+                "scaleY": 1.0,
+                "scaleZ": 1.0
+              },
+              "Nickname": "Pathfinder by B0021",
+              "Description": "A Character Sheet Source for Pathfinder",
+              "ColorDiffuse": {
+                "r": 0.1179995,
+                "g": 0.53,
+                "b": 1.0
+              },
+              "Locked": false,
+              "Grid": true,
+              "Snap": true,
+              "Autoraise": true,
+              "Sticky": true,
+              "Tooltip": true,
+              "MaterialIndex": -1,
+              "MeshIndex": -1,
+              "LuaScript": "",
+              "LuaScriptState": "",
+              "ContainedObjects": [
+                {
+                  "Name": "Custom_Model",
+                  "Transform": {
+                    "posX": -35.30981,
+                    "posY": 3.11737251,
+                    "posZ": -36.61426,
+                    "rotX": 359.984772,
+                    "rotY": 89.9993439,
+                    "rotZ": 359.82312,
+                    "scaleX": 1.0,
+                    "scaleY": 1.0,
+                    "scaleZ": 1.0
+                  },
+                  "Nickname": "Core Pathfinder Character Sheet Source",
+                  "Description": "by B0021",
+                  "ColorDiffuse": {
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0
+                  },
+                  "Locked": false,
+                  "Grid": true,
+                  "Snap": true,
+                  "Autoraise": true,
+                  "Sticky": true,
+                  "Tooltip": true,
+                  "CustomMesh": {
+                    "MeshURL": "http://cloud-3.steamusercontent.com/ugc/194046401106672851/690A751D10CF905F45204E548D5ED1F336489616/",
+                    "DiffuseURL": "http://i.imgur.com/WUlbtbn.jpg",
+                    "NormalURL": "",
+                    "ColliderURL": "",
+                    "Convex": true,
+                    "MaterialIndex": 3,
+                    "TypeIndex": 0,
+                    "CustomShader": {
+                      "SpecularColor": {
+                        "r": 0.0,
+                        "g": 0.0,
+                        "b": 0.0
+                      },
+                      "SpecularIntensity": 0.0,
+                      "SpecularSharpness": 2.0,
+                      "FresnelStrength": 0.0
+                    },
+                    "CastShadows": true
+                  },
+                  "LuaScript": "uniqueID = 'Pathfinder Character Sheet By B0021 v1.0' -- The name by which your character sheet will be identified from others.\r\n\r\ncustomSheetData = { -- The custom model information for your character sheet.\r\n    ['mesh'] = 'http://pastebin.com/raw/WM95FWL5',\r\n    ['diffuse'] = 'https://cdn.discordapp.com/attachments/289473431295098890/311904328069808129/Scripted-Character-Sheet-Picture2.jpg', -- Image required\r\n    ['type'] = 4, -- Board\r\n    ['material'] = 3, -- Cardboard\r\n    ['specular_intensity'] = 0.1,\r\n    ['specular_sharpness'] = 7.25,\r\n    ['fresnel_strength'] = 0.60,\r\n    ['cast_shadows'] = false\r\n}\r\n\r\nDM_Visible_Stats = {'STR','DEX','CON','INT','WIS','CHA'} -- The names of 6 text tools to be represented for the DM when selecting a player. They must have numeric values or they will not work.\r\n\r\nobjectOffsetList = { -- Objects different than 3DTexts\r\n\r\n--[[\r\nFormat for each line:\r\n[Name] = {\r\n            x position of the object, z position of the object,\r\n            ['type'] = 'the kind of object to be spawned', ['height'] = the y position of the object,\r\n            ['rot'] = {x rotation, y rotation, z rotation}, ['scale'] = the size of the object,\r\n            ['name'] = 'the visible display name of the spawned object',\r\n            (optional)['tab'] = 'the tab table in the tabOffsetList you want this item to belong to -defaults to nil-',\r\n            (optional)['scrollbar'] = true if the object is a notecard and you would like it to have scrolling capability -defaults to false-\r\n         }\r\n--]]\r\n\r\n    ['HP']              = { 11.438917,-2.00593,    ['type'] = 'Counter',  ['height'] = 1.0,       ['rotation'] = {-90,0,0}, ['scale'] = 0.50,  ['name'] = 'Health'},\r\n    ['Copper']          = { 5.468632,1.56,          ['type'] = 'Counter',  ['height'] = 1.0,       ['rotation'] = {-90,0,0}, ['scale'] = 0.3,   ['color'] = 'Copper',   ['name'] = 'Copper'},\r\n    ['Silver']          = { 4.708649,1.98,          ['type'] = 'Counter',  ['height'] = 1.0,       ['rotation'] = {-90,0,0}, ['scale'] = 0.3,   ['color'] = 'Silver',   ['name'] = 'Silver'},\r\n    ['Gold']            = { 3.92866,2.39,           ['type'] = 'Counter',  ['height'] = 1.0,       ['rotation'] = {-90,0,0}, ['scale'] = 0.3,   ['color'] = 'Gold',     ['name'] = 'Gold'},\r\n    ['Platinum']        = { 3.158625,2.81,          ['type'] = 'Counter',  ['height'] = 1.0,       ['rotation'] = {-90,0,0}, ['scale'] = 0.3,   ['color'] = 'Platinum', ['name'] = 'Platinum'},\r\n    ['Normal_Attacks']  = { -2.5398102,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Normal Attacks',   ['scrollbar'] = true, ['tab'] = 'Tab_1'},\r\n    ['Special_Attacks'] = { -7.2604314,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Special Attacks',  ['scrollbar'] = true, ['tab'] = 'Tab_1'},\r\n    ['Companions']      = { -4.9058342,5.02206,    ['type'] = 'Notecard', ['height'] = 1.014,     ['rotation'] = {-90,0,0}, ['scale'] = 1.175, ['name'] = 'Companions',       ['scrollbar'] = true, ['tab'] = 'Tab_1'},\r\n    ['Spellbook']       = { -2.5398102,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Spellbook',        ['scrollbar'] = true, ['tab'] = 'Tab_2'},\r\n    ['Prepared_Spells'] = { -7.2604314,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Prepared Spells',  ['scrollbar'] = true, ['tab'] = 'Tab_2'},\r\n    ['Magic_Items']     = { -4.9058342,-1.02831,   ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Magic Items',      ['scrollbar'] = true, ['tab'] = 'Tab_2'},\r\n    ['Spell_Use']       = { -4.9058342,5.02206,    ['type'] = 'Notecard', ['height'] = 1.014,     ['rotation'] = {-90,0,0}, ['scale'] = 1.175, ['name'] = 'Spell Use Tracker',['scrollbar'] = true, ['tab'] = 'Tab_2'},\r\n    ['Traits']          = { -2.5398102,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Traits/Flaws',                           ['tab'] = 'Tab_3'},\r\n    ['Appearance']      = { -7.2604314,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Appearance',                             ['tab'] = 'Tab_3'},\r\n    ['Connections']     = { -4.9058342,-1.02831,   ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Connections',      ['scrollbar'] = true, ['tab'] = 'Tab_3'},\r\n    ['Backstory']       = { -4.9058342,5.02206,    ['type'] = 'Notecard', ['height'] = 1.014,     ['rotation'] = {-90,0,0}, ['scale'] = 1.175, ['name'] = 'Backstory',        ['scrollbar'] = true, ['tab'] = 'Tab_3'},\r\n    ['Feats']           = { -2.5398102,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Race/Class Feats', ['scrollbar'] = true, ['tab'] = 'Tab_4'},\r\n    ['Info']            = { -7.2604314,-3.9832565, ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Additional Info',  ['scrollbar'] = true, ['tab'] = 'Tab_4'},\r\n    ['Languages']       = { -4.9058342,-1.02831,   ['type'] = 'Notecard', ['height'] = 1.04,      ['rotation'] = {-90,0,0}, ['scale'] = 0.65,  ['name'] = 'Languages',                              ['tab'] = 'Tab_4'},\r\n    ['Journal']         = { -4.9058342,5.02206,    ['type'] = 'Notecard', ['height'] = 1.014,     ['rotation'] = {-90,0,0}, ['scale'] = 1.175, ['name'] = 'Personal Journal', ['scrollbar'] = true, ['tab'] = 'Tab_4'},\r\n    ['Equipment']       = { -4.9058342,5.02206,      ['type'] = 'Notecard', ['height'] = 1.05,     ['rotation'] = {-90,0,0}, ['scale'] = 1.175, ['name'] = 'Equipment',        ['scrollbar'] = true, ['tab'] = 'Tab_5'},\r\n    ['Inventory']       = { 3.024779,5.531943,     ['type'] = 'Notecard', ['height'] = 1.05,  ['rotation'] = {-90,0,0}, ['scale'] = 0.925, ['name'] = 'Inventory'}\r\n}\r\n\r\nincrementalOffsetList = { -- Text Tools that will spawn modifiers to act like counters - for numbers\r\n\r\n   --[[\r\n   Format for each line:\r\n   [Name] = {\r\n                x position of Text Tool, z position of Text Tool, ['size'] = font size,\r\n                ['gap'] = { space between x axis of +/- buttons, space between z axis of +/- buttons },\r\n                ['mod'] = { x position of the center of +/- buttons relative to the Text Tool, z position of the center of +/- buttons relative to the Text Tool }\r\n                (optional)['modSize'] = size of the buttons -defaults to 200-, (optional)['color'] = color of the Text Tool -defaults to 'Grey'-,\r\n                (optional)['alwaysVisible'] = false to only show buttons when in \"Edit Mode\" or true to always display buttons -defaults to false-,\r\n                (optional)['triggerUpdate'] = false to prevent the button(s) from calling calculateCharacterSheetValues() when modified or true to make the button(s) call the function when modified -defaults to false-,\r\n                (optional)['tab'] = 'the tab table in the tabOffsetList you want this item to belong to -defaults to nil-'\r\n            }\r\n   --]]\r\n\r\n    ['STR']               = { 14.2789127,-6.42593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['DEX']               = { 14.2789127,-5.93593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['CON']               = { 14.2789127,-5.44593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['INT']               = { 14.2789127,-4.95593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['WIS']               = { 14.2789127,-4.46593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['CHA']               = { 14.2789127,-3.97593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['STR_MOD']           = { 13.5189127,-6.42593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['DEX_MOD']           = { 13.5189127,-5.93593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['CON_MOD']           = { 13.5189127,-5.44593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['INT_MOD']           = { 13.5189127,-4.95593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['WIS_MOD']           = { 13.5189127,-4.46593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['CHA_MOD']           = { 13.5189127,-3.97593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Fort']              = { 13.4589127,-3.27593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Reflex']            = { 13.4589127,-2.78593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Will']              = { 13.4589127,-2.31593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['BAB']               = { 10.8689127,-1.32593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Spell_Res']         = { 8.0489127,-1.32593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Touch']             = { 5.6789127,-1.27593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Flt_Foot']          = { 3.2589127,-1.27593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['AC']                = { 13.7389127,-0.75593,    ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['CMD']               = { 9.9989127,-0.70593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['CMB']               = { 6.0289127,-0.68593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Initiative']        = { 3.2389127,-0.70593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Base_Speed_FT']     = { 7.8789127,-3.29593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Base_Speed_SQ']     = { 6.8589127,-3.29593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['With_Armor_FT']     = { 5.6389127,-3.29593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['With_Armor_SQ']     = { 4.5889127,-3.29593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Fly']               = { 9.0189127,-2.60593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Manue']             = { 7.9789127,-2.60593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['S']              = { 6.8189127,-2.60593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['C']             = { 5.7289127,-2.60593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Burrow']            = { 4.5589127,-2.60593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Temp_MOD']          = { 3.1589127,-2.97593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Acro']              = { 12.4489127,-0.01593,    ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Appr']              = { 12.4489127,0.39593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Bluff']             = { 12.4489127,0.79593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Climb']             = { 12.4489127,1.19593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Craft1']            = { 12.4489127,1.59593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Craft2']            = { 12.4489127,1.99593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Craft3']            = { 12.4489127,2.39593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Dip']               = { 12.4489127,2.79593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Dis_Device']        = { 12.4489127,3.19593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Disg']              = { 12.4489127,3.59593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Escape']            = { 12.4489127,3.99593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Fly_Skill']         = { 12.4489127,4.39593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Hand_Ani']          = { 12.4489127,4.79593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Heal']              = { 12.4489127,5.19593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Intim']             = { 12.4489127,5.59593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Know_Arc']          = { 12.4489127,5.99593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Know_Dun']          = { 12.4489127,6.39593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Know_Eng']          = { 12.4489127,6.79593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Know_Geo']          = { 12.4489127,7.19593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Know_His']          = { 12.4489127,7.59593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Know_Loc']          = { 7.4789127,0.39593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Know_Nat']          = { 7.4789127,0.79593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Know_Nob']          = { 7.4789127,1.19593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Know_Pla']          = { 7.4789127,1.59593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Know_Rel']          = { 7.4789127,1.99593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Lin']               = { 7.4789127,2.39593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Perce']             = { 7.4789127,2.79593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Perfo1']            = { 7.4789127,3.19593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Perfo2']            = { 7.4789127,3.59593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Perfe1']            = { 7.4789127,3.99593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Perfe2']            = { 7.4789127,4.39593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Ride']              = { 7.4789127,4.79593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Sen_Mot']           = { 7.4789127,5.19593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Sle_of_Han']        = { 7.4789127,5.59593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Spellcra']          = { 7.4789127,5.99593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Stealth']           = { 7.4789127,6.39593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Surv']              = { 7.4789127,6.79593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Swim']              = { 7.4789127,7.19593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Use_Mag_Dev']       = { 7.4789127,7.59593,     ['size'] = 30, ['gap'] = {0.3,0},  ['mod'] = {0,0.3}, ['modSize'] = 150, ['color'] = 'Black'}\r\n}\r\n\r\ntoggleOffsetList = { -- Text Tools that will spawn buttons which change the value of the Text Tool\r\n\r\n    --[[\r\n    Format for each line:\r\n    [Name] = {\r\n                 x position of Text Tool, z position of Text Tool, ['size'] = font size,\r\n                 ['set'] = {the different toggle displays},\r\n                 ['mod'] = { x position of the center of the button relative to the Text Tool, z position of the center of the button relative to the Text Tool }\r\n                 (optional)['modSize'] = size of the button -defaults to 200-, (optional)['color'] = color of the Text Tool -defaults to 'Grey'-,\r\n                 (optional)['alwaysVisible'] = 0 to only show buttons when in \"Edit Mode\" or 1 to always display buttons -defaults to 0-,\r\n                 (optional)['triggerUpdate'] = false to prevent the button(s) from calling calculateCharacterSheetValues() when modified or true to make the button(s) call the function when modified -defaults to false-\r\n                 (optional)['tab'] = 'the tab table in the tabOffsetList you want this item to belong to -defaults to nil-'\r\n             }\r\n    --]]\r\n    ['Craft_1']     = { 14.05,1.52588,        ['size'] = 25, ['set'] = {'Alchemy','Armor','Bows','Traps','Weapons','Varies'},                        ['mod'] = {0,0.22}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Craft_2']     = { 14.05,1.94588,        ['size'] = 25, ['set'] = {'Alchemy','Armor','Bows','Traps','Weapons','Varies'},                        ['mod'] = {0,0.22}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Craft_3']     = { 14.05,2.32588,        ['size'] = 25, ['set'] = {'Alchemy','Armor','Bows','Traps','Weapons','Varies'},                        ['mod'] = {0,0.22}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Perform_1']     = { 8.85,3.14588,        ['size'] = 25, ['set'] = {'Act','Comedy','Dance','Keyboard_Inst.','Oratory','Percussion_Inst.','String_Inst.','Wind_Inst.','Sing'},                        ['mod'] = {0,0.22}, ['modSize'] = 150, ['color'] = 'Black'},\r\n    ['Perform_2']     = { 8.85,3.53588,        ['size'] = 25, ['set'] = {'Act','Comedy','Dance','Keyboard_Inst.','Oratory','Percussion_Inst.','String_Inst.','Wind_Inst.','Sing'},                        ['mod'] = {0,0.22}, ['modSize'] = 150, ['color'] = 'Black'}\r\n}\r\n\r\ncheckboxOffsetList = { -- Text Tools that contain lists of individual items with checkboxes\r\n\r\n    --[[\r\n    Format for each line:\r\n    [Name] = {\r\n                 x position of Text Tool, z position of Text Tool, ['size'] = font size,\r\n                 (optional)['rotation'] = {x rotation, y rotation, z rotation} used primarily to create horizontal checkboxes\r\n                 ['gap'] = {the x distance between each button, the z difference between each button},\r\n                 ['mod'] = { x position of the center of the button relative to the Text Tool, z position of the center of the button relative to the Text Tool }\r\n                 ['listVariables'] = { 'the names of each item the checkbox will represent','separated by commas','do not use numbers' },\r\n                 (optional)['modSize'] = size of the button -defaults to 200-, (optional)['color'] = color of the Text Tool -defaults to 'Grey'-,\r\n                 (optional)['alwaysVisible'] = 0 to only show buttons when in \"Edit Mode\" or 1 to always display buttons -defaults to 0-,\r\n                 (optional)['triggerUpdate'] = false to prevent the button(s) from calling calculateCharacterSheetValues() when modified or true to make the button(s) call the function when modified -defaults to false-\r\n                 (optional)['tab'] = 'the tab table in the tabOffsetList you want this item to belong to -defaults to nil-'\r\n             }\r\n    --]]\r\n\r\n    ['Skill_Proficiencies']         = { 16.12858,0.0925, ['size'] = 26, ['gap'] = {0,0.395}, ['mod'] = {0,0}, ['listVariables'] = {'Acro','App','Bluff','Climb','Craft1','Craft2','Craft3','Dip','Dis_Divice',\r\n                                                                                                                'Disg','Escape','Fly_Skill','Hand_Ani','Heal','Intim','Know_Arc','Know_Dun','Know_Eng','Know_Geo','Know_His'},  ['color'] = 'Black', ['triggerUpdate'] = true, ['modSize'] = 100},\r\n\r\n    ['Skill_Proficiencies2']         = { 11.12858,0.4725, ['size'] = 26, ['gap'] = {0,0.395}, ['mod'] = {0,0}, ['listVariables'] = {'Know_Loc','Know_Nat','Know_Nob','Know_Pla','Know_Rel','Lin','Perce','Perfo1','Perfo2',\r\n                                                                                                                'Perfe1','Perfe2','Ride','Sen_Mot','Sle_of_Han','Spellcra','Stealth','Surv','Swim','Use_Mag_Dev'},  ['color'] = 'Black', ['triggerUpdate'] = true, ['modSize'] = 100}\r\n}\r\n\r\ntextOffsetList = { -- Text Tools that will be unlocked - for words\r\n\r\n    --[[\r\n    Format for each line:\r\n    [Name] = {\r\n                 x position of Text Tool, z position of Text Tool, ['size'] = font size,\r\n                 (optional)['color'] = color of the Text Tool or true to be the player's color -defaults to 'Grey'-,\r\n             }\r\n    --]]\r\n\r\n    ['Character_Name']  = { 10.39529,-6.12156, ['size'] = 30, ['color'] = true},\r\n    ['Alighnment']      = { 7.85529,-6.12156, ['size'] = 25, ['color'] = 'Black'},\r\n    ['Player']          = { 5.13529,-6.12156, ['size'] = 25, ['color'] = 'Black'},\r\n    ['CHAclass_LVL']    = { 9.76529,-5.12156, ['size'] = 25, ['color'] = 'Black'},\r\n    ['Deity']           = { 5.91529,-5.12156, ['size'] = 25, ['color'] = 'Black'},\r\n    ['Homeland']        = { 3.97529,-5.12156, ['size'] = 25, ['color'] = 'Black'},\r\n    ['Race']            = { 11.03529,-4.17156, ['size'] = 25, ['color'] = 'Black'},\r\n    ['Size']            = { 9.38529,-4.17156, ['size'] = 25, ['color'] = 'Black'},\r\n    ['Gender']          = { 8.38529,-4.17156, ['size'] = 25, ['color'] = 'Black'},\r\n    ['Age']             = { 7.563529,-4.17156, ['size'] = 25, ['color'] = 'Black'},\r\n    ['Hight']           = { 6.59529,-4.17156, ['size'] = 25, ['color'] = 'Black'},\r\n    ['Weight']          = { 5.50529,-4.17156, ['size'] = 25, ['color'] = 'Black'},\r\n    ['Hair']            = { 4.48529,-4.17156, ['size'] = 25, ['color'] = 'Black'},\r\n    ['Eyes']            = { 3.57529,-4.17156, ['size'] = 25, ['color'] = 'Black'},\r\n    ['HP_Total']        = { 10.34529,-3.25156, ['size'] = 25, ['color'] = 'Black'},\r\n    ['EXP']             = { 9.32529,-6.89156, ['size'] = 25, ['color'] = 'Black'},\r\n    ['EXP_Next_LVL']    = { 6.02529,-6.89156, ['size'] = 25, ['color'] = 'Black'},\r\n    ['Profession1']    = { 8.72529,3.95156, ['size'] = 25, ['color'] = 'Black'},\r\n    ['Profession2']    = { 8.72529,4.34156, ['size'] = 25, ['color'] = 'Black'}\r\n\r\n}\r\n\r\ninertOffsetList = { -- Text Tools that are only interacted upon by other changing other Text Tools or conditions.\r\n\r\n    --[[\r\n    Format for each line:\r\n    [Name] = {\r\n                 x position of Text Tool, z position of Text Tool, ['size'] = font size,\r\n                 (optional)['color'] = color of the Text Tool or true to be the player's color -defaults to 'Grey'-,\r\n             }\r\n    --]]\r\n\r\n}\r\n\r\ntabsOffsetList = { -- Buttons that change what text tools and objects are on the sheet\r\n\r\n    --[[\r\n    Format for each line:\r\n    [Name] = {\r\n                 x position of Text Tool, z position of Text Tool, ['size'] = font size,\r\n                 ['text'] = 'the button label'\r\n                 ['set'] = {the different toggle displays},\r\n                 ['mod'] = { x position of the center of the button relative to the Text Tool, z position of the center of the button relative to the Text Tool }\r\n                 (optional)['modSize'] = size of the button -defaults to 200-, (optional)['color'] = color of the Text Tool -defaults to 'Grey'-,\r\n                 (optional)['alwaysVisible'] = 0 to only show buttons when in \"Edit Mode\" or 1 to always display buttons -defaults to 0-,\r\n                 (optional)['triggerUpdate'] = false to prevent the button(s) from calling calculateCharacterSheetValues() when modified or true to make the button(s) call the function when modified -defaults to false-\r\n             }\r\n    --]]\r\n    ['Tab_1'] = { -1.5,-7.1, ['text'] = 'Combat',    ['size'] = 30, ['mod'] = {0,0.18},  ['modSize'] = 450, ['color']='Black', ['alwaysVisible'] = true},\r\n    ['Tab_2'] = { -4,-7.1,   ['text'] = 'Spellbook', ['size'] = 30, ['mod'] = {0,0.18},  ['modSize'] = 450, ['color']='Black', ['alwaysVisible'] = true},\r\n    ['Tab_3'] = { -6,-7.1,   ['text'] = 'Bio',       ['size'] = 30, ['mod'] = {0,0.18},  ['modSize'] = 450, ['color']='Black', ['alwaysVisible'] = true},\r\n    ['Tab_4'] = { -8,-7.1,   ['text'] = '[Notes]',   ['size'] = 30, ['mod'] = {0,0.18},  ['modSize'] = 450, ['color']='Black',   ['alwaysVisible'] = true},\r\n    ['Tab_5'] = { 0.5,-7.1,   ['text'] = 'Items',   ['size'] = 30, ['mod'] = {0,0.18},  ['modSize'] = 450, ['color']='Black',   ['alwaysVisible'] = true}\r\n}\r\n\r\nfunction calculateCharacterSheetValues(color) -- (optional) Your chance to script automation for your character sheet, for advanced LUA users\r\n    local char = getObjectFromGUID('CHAR') -- This is where all of your player's sheet data will be stored after it's processed.\r\n    color = color[1] -- This is the color of the player who triggered this calculate function\r\n    -- char.getTable('CharacterJournals')[color] is the journal of the player who triggered this calculate function. It contains all of the variables for your sheet.\r\n    -- char.getTable('playerInformation')[color][key] is the table containing the text tool objects where 'key' is the name of the text tool, e.g., 'Character_Name'\r\n    -- See https://github.com/Indimeco/QRPG/blob/master/D%26D%205e%20Character%20Sheet%20Source for usage examples.\r\n\r\n    -- Your code goes below this line\r\nend\r\n",
+                  "LuaScriptState": "",
+                  "GUID": "b1db79"
+                }
+              ],
+              "GUID": "0789cf"
+            },
+            {
+              "Name": "Bag",
+              "Transform": {
+                "posX": -43.59007,
+                "posY": 2.93501616,
+                "posZ": -33.2468262,
+                "rotX": 0.161378384,
+                "rotY": 0.0105971806,
+                "rotZ": 0.00614206633,
                 "scaleX": 1.0,
                 "scaleY": 1.0,
                 "scaleZ": 1.0
@@ -17060,7 +17144,7 @@
               "Nickname": "D&D 5e by Indimeco & rolandostar",
               "Description": "The first sheet made with QRPG!",
               "ColorDiffuse": {
-                "r": 0.117999621,
+                "r": 0.117999531,
                 "g": 0.53,
                 "b": 1.0
               },
@@ -17796,11 +17880,11 @@
       "Name": "Custom_Model",
       "Transform": {
         "posX": -48.3429642,
-        "posY": 3.22659969,
-        "posZ": -25.3270741,
+        "posY": 3.22660017,
+        "posZ": -25.3270721,
         "rotX": 359.876862,
-        "rotY": 89.98772,
-        "rotZ": 0.0593907572,
+        "rotY": 89.98767,
+        "rotZ": 0.0593934655,
         "scaleX": 1.0,
         "scaleY": 1.0,
         "scaleZ": 1.0
@@ -17848,9 +17932,9 @@
         "posX": 92.788826,
         "posY": 200.1242,
         "posZ": -22.38744,
-        "rotX": 0.000200950017,
+        "rotX": 6.71550661E-05,
         "rotY": 89.996994,
-        "rotZ": 1.03026769E-05,
+        "rotZ": -3.96471478E-05,
         "scaleX": 0.244999915,
         "scaleY": 0.244999915,
         "scaleZ": 0.244999915
@@ -17901,6 +17985,7 @@
       }
     }
   ],
+  "DecalPallet": [],
   "TabStates": {
     "0": {
       "title": "Rules",
