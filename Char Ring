@@ -476,6 +476,7 @@ function openBook(book,zone)
     obj.setLuaScript(code)
     obj.setVar('open', 1)
     obj['interactable'] = false
+    obj.setLock(true)
     CharacterJournals[keyFromValue(Global.getTable('zoneFromColor'),zone.guid)] = obj
     readFromBook(keyFromValue(Global.getTable('zoneFromColor'),zone.guid),book)
     book.destruct()
