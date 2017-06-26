@@ -61,7 +61,7 @@ characterWidthTable = {
     ['T'] = 2381, ['y'] = 2564, ['Y'] = 2564, ['u'] = 2564, ['U'] = 3030,
     ['i'] = 1282, ['I'] = 1282, ['o'] = 2381, ['O'] = 3226, ['p'] = 2564,
     ['P'] = 2564, ['['] = 1724, ['{'] = 1724, [']'] = 1724, ['}'] = 1724,
-    ['|'] = 1493, ['\\'] = 1923, ['a'] = 2564, ['A'] = 2777, ['s'] = 1923,
+    ['|'] = 1493, ['\\'] = 1923,['a'] = 2564, ['A'] = 2777, ['s'] = 1923,
     ['S'] = 2381, ['d'] = 2564, ['D'] = 3030, ['f'] = 1724, ['F'] = 2381,
     ['g'] = 2564, ['G'] = 2777, ['h'] = 2564, ['H'] = 3030, ['j'] = 1075,
     ['J'] = 1282, ['k'] = 2381, ['K'] = 2777, ['l'] = 1282, ['L'] = 2174,
@@ -70,6 +70,12 @@ characterWidthTable = {
     ['v'] = 2564, ['V'] = 2777, ['b'] = 2564, ['B'] = 2564, ['n'] = 2564,
     ['N'] = 3226, ['m'] = 3846, ['M'] = 3846, [','] = 1282, ['<'] = 2174,
     ['.'] = 1282, ['>'] = 2174, ['/'] = 1923, ['?'] = 2174, [' '] = 1282,
+    [string.char(196)]  = 2777, [string.char(197)]  = 2777, -- capital A with diaeresis above, capital A with circle above
+    [string.char(228)]  = 2777, [string.char(229)]  = 2777, -- small A with diaeresis above, small A with circle above
+    [string.char(214)]  = 3226, [string.char(213)]  = 3226, -- capital O with diaeresis, capital O with tilde
+    [string.char(246)]  = 2381, [string.char(245)]  = 2381, -- small O with diaeresis, small O with tilde
+    [string.char(220)]  = 3030, [string.char(252)]  = 2564, -- capital U with diaeresis, small U with diaeresis
+    [string.char(223)]  = 2777, [string.char(233)]  = 2174, -- latin small sharp S, small e with acute
     [string.char(8220)] = 1923, [string.char(8221)] = 1923, [string.char(8217)] = 1075, -- left quotes, right quotes, apostrophe
     [string.char(8226)] = 1493,                                                         -- bullet point
     ['\t'] = 5128, ['\r'] = 0, ['\n'] = 100000
@@ -269,7 +275,7 @@ end
 function toggleScreen() --[[Shrinks and displaces the screen or resets it]]--
     local pos =  screen.getPosition()
     local screenToggle = screen.getVar('screenToggle')
-    screen.lock()
+    screen.setLock(true)
 
     if (screenToggle == true) then
         screen.scale({0.001,0.001,0.001})
@@ -289,7 +295,7 @@ end
 function toggleTablet() --[[Shrinks and displaces the self or resets it]]--
     if currentLayout == 1 then
         local tabletToggle = smallTablet.getVar('tabletToggle')
-        smallTablet.lock()
+        smallTablet.setLock(true)
 
         if (tabletToggle == true) then
             smallTablet.setScale({2.25,2.25,2.25})
@@ -410,7 +416,7 @@ function currentLayoutGet(slot) -- layout es a que ranura lo quieres guardar
         if not contains(layoutExceptions,v.guid) then
             local type = string.sub(tostring(v),1,-30)
             if type == "Card" or type == "Deck" or type == "Infinite_Bag" then
-                v.lock()
+                v.setLock(true)
             end
             scaletbl=v.getScale()
             v.setScale({scaletbl['x']*self.getVar('shrink'),scaletbl['y']*self.getVar('shrink'),scaletbl['z']*self.getVar('shrink')})
@@ -443,7 +449,7 @@ function currentLayoutSend(slot) -- layout es de que ranura vas a leer
     then
       local type = string.sub(tostring(v),1,-30)
       if type == "Card" or type == "Deck" then
-        v.unlock()
+        v.setLock(false)
       end
       v.setPosition({pos['x']-posself[1],pos['y']-posself[2],pos['z']-posself[3]})
       pos=v.getPosition()
@@ -551,7 +557,7 @@ function showHelp()
 end
 
 function lockHelp()
-    helpCard.lock()
+    helpCard.setLock(true)
 end
 
 function createCounters(table) -- Receives a table of GUIDs, returns a table of objects.
@@ -1209,14 +1215,14 @@ function toggleStatCounters(obj) -- Hides the second set of counters under the t
     if statCountersToggled[platNumber] == 0 then
         for i=7,12 do
             pos = monsterPlatformValueCounters[platNumber][i].getPosition()
-            monsterPlatformValueCounters[platNumber][i].lock()
+            monsterPlatformValueCounters[platNumber][i].setLock(true)
             monsterPlatformValueCounters[platNumber][i].setPosition({pos[1], pos[2] - 35, pos[3]})
         end
         statCountersToggled[platNumber] = 1
     else
         for i=7,12 do
             pos = monsterPlatformValueCounters[platNumber][i].getPosition()
-            monsterPlatformValueCounters[platNumber][i].lock()
+            monsterPlatformValueCounters[platNumber][i].setLock(true)
             monsterPlatformValueCounters[platNumber][i].setPosition({pos[1], pos[2] + 35, pos[3]})
         end
         statCountersToggled[platNumber] = 0
@@ -1226,29 +1232,29 @@ end
 function toggleSecondPlatform() -- Hides the second platform under the table.
     local pos = monsterPlatform[2].getPosition()
     if secondPlatformToggled == 0 then
-        monsterPlatform[2].lock()
+        monsterPlatform[2].setLock(true)
         monsterPlatform[2].setPosition({pos[1],pos[2]-35,pos[3]})
         pos = monsterPlatformTextTool[2].getPosition()
         monsterPlatformTextTool[2].setPosition({pos[1],pos[2]-35,pos[3]})
         pos = monsterPlatformDescCard[2].getPosition()
-        monsterPlatformDescCard[2].lock()
+        monsterPlatformDescCard[2].setLock(true)
         monsterPlatformDescCard[2].setPosition({pos[1],pos[2]-35,pos[3]})
         for i=1,13 do
-            monsterPlatformValueCounters[2][i].lock()
+            monsterPlatformValueCounters[2][i].setLock(true)
             pos = monsterPlatformValueCounters[2][i].getPosition()
             monsterPlatformValueCounters[2][i].setPosition({pos[1],pos[2]-35,pos[3]})
         end
         secondPlatformToggled = 1
     else
-        monsterPlatform[2].lock()
+        monsterPlatform[2].setLock(true)
         monsterPlatform[2].setPosition({pos[1],pos[2]+35,pos[3]})
         pos = monsterPlatformTextTool[2].getPosition()
         monsterPlatformTextTool[2].setPosition({pos[1],pos[2]+35,pos[3]})
         pos = monsterPlatformDescCard[2].getPosition()
-        monsterPlatformDescCard[2].lock()
+        monsterPlatformDescCard[2].setLock(true)
         monsterPlatformDescCard[2].setPosition({pos[1],pos[2]+35,pos[3]})
         for i=1,13 do
-            monsterPlatformValueCounters[2][i].lock()
+            monsterPlatformValueCounters[2][i].setLock(true)
             pos = monsterPlatformValueCounters[2][i].getPosition()
             monsterPlatformValueCounters[2][i].setPosition({pos[1],pos[2]+35,pos[3]})
         end

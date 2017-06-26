@@ -326,7 +326,7 @@ function initSheet(color)
     sheet.setCustomObject(customSheetData) -- Taking the spawning information from the character sheet source.
     sheet['interactable'] = false
     sheet.setName(color.."CS")
-    sheet.lock()
+    sheet.setLock(true)
     CharacterSheets[color] = sheet
 
     local offsetArray = {objectOffsetList,textOffsetList,inertOffsetList,incrementalOffsetList,toggleOffsetList,checkboxOffsetList,tabsOffsetList}
@@ -377,7 +377,7 @@ function initSheet(color)
                     obj.setName(value['name'] or '')
                     obj.setScale({value['scale'],value['scale'],value['scale']})
                     obj.setColorTint(returnColorTable(value['color'] or 'Grey'))
-                    obj.lock()
+                    obj.setLock(true)
                     if value['tab'] ~= nil then
                         obj['interactable'] = false
                     end
@@ -393,7 +393,7 @@ function initSheet(color)
                     })
                     modifier.setColorTint({0,0,0})
                     modifier.setCustomObject({['mesh'] = 'http://pastebin.com/raw/yteXiDWq'})
-                    modifier.lock()
+                    modifier.setLock(true)
                     local offsetNames = {'incremental','toggle','checkbox','tabs'}
                     if value['alwaysVisible'] == true then
                         playerInformation[color]['edit'][offsetNames[index-3]]['alwaysVisible'][key] = modifier
@@ -547,11 +547,6 @@ function enableManager(color)
         end
     end
 
-    --CharacterSheets[color].setVar('color',color)
-
-    -- TODO: Decide where and how edit mode is reset
-    --CharacterSheets[color].setVar('edit',1)
-    --shrinkEditModeButtons(color)
     Global.call('addButton', {CharacterSheets[color].getGUID(),3000,500,350,'Spawn Figurine','spawnFigurine',self,{13.2,0.01,-2.3}})
     Global.call('addButton', {CharacterSheets[color].getGUID(),3000,500,350,'Link Figurine','linkFigurine',self,{13.2,0.01,-1.0}})
     Global.call('addButton', {CharacterSheets[color].getGUID(),3000,500,350,'Reserved','reservedButton',self,{13.2,0.01,0.3}})
@@ -560,11 +555,51 @@ function enableManager(color)
     Global.call('addButton', {CharacterSheets[color].getGUID(),3000,500,350,'Reserved','reservedButton',self,{13.2,0.01,4.2}})
     Global.call('addButton', {CharacterSheets[color].getGUID(),3000,500,350,'Edit Sheet','toggleEdit',self,{13.2,0.01,5.5}})
     Global.call('addButton', {CharacterSheets[color].getGUID(),3000,600,350,'Save & Close','saveCharacter',self,{13.2,0.01,7.2}})
+    createScrollbarButtonsFromTable(objectOffsetList)
     createIncrementButtonsFromTable(playerInformation[color]['edit']['incremental'])
     createToggleButtonsFromTable(playerInformation[color]['edit']['toggle'])
     createCheckboxButtonsFromTable(playerInformation[color]['edit']['checkbox'])
     createTabsButtonsFromTable(playerInformation[color]['edit']['tabs'])
-    createScrollbarButtonsFromTable(objectOffsetList)
+end
+
+function disableManager(color) -- removes most buttons from the character sheet
+    -- called when closing a character journal
+    local function deleteScrollbarButtonsFromTable(table)
+        for key,object in pairs(table) do
+            if object['type'] == 'Notecard' and object['scrollbar'] == true then
+                playerInformation[color][key].clearButtons()
+            end
+        end
+    end
+
+    local function deleteCheckboxButtonsFromTable(table)
+        for key,object in pairs(table) do
+            if type(object) == 'table' then
+                deleteCheckboxButtonsFromTable(object)
+            else
+                for i=1,lookupButtonData[key]['listSize'] do
+                    object.clearButtons()
+                end
+            end
+        end
+    end
+
+    local function deleteGenericButtonsFromTable(table) -- used for increment, toggle and tabs buttons
+        for key,object in pairs(table) do
+            if type(object) == 'table' then
+                deleteGenericButtonsFromTable(object)
+            else
+                object.clearButtons()
+            end
+        end
+    end
+
+    CharacterSheets[color].clearButtons() -- clear the right hand manager panel
+    deleteScrollbarButtonsFromTable(objectOffsetList)
+    deleteCheckboxButtonsFromTable(playerInformation[color]['edit']['checkbox'])
+    for i,v in pairs({playerInformation[color]['edit']['incremental'], playerInformation[color]['edit']['toggle'], playerInformation[color]['edit']['tabs']}) do
+        deleteGenericButtonsFromTable(v)
+    end
 end
 
 function toggleEdit(obj,color)
@@ -721,7 +756,7 @@ function modifierTabs(obj,color) -- Called from a tab button
     end
 end
 
-function resetTab(color)
+function resetTab(color) -- moves all tab objects beneath the table
     local currentTab = CharacterSheets[color].getVar('currentTab') or 'none'
     if currentTab ~= 'none' then
         for i,obj in pairs(playerInformation[color]['tabs'][currentTab]) do
@@ -822,7 +857,7 @@ function readFromBook(color,journal)
     characterSheetSource.call('calculateCharacterSheetValues',{color})
 end
 
-function disableEraseMode(table) -- Timer function that stops CS from erasing corrupted notecars, table only contains color
+function disableEraseMode(table) -- Timer function that stops CS from erasing corrupted notecards, table only contains color
     if CharacterSheets[table[1]] ~= nil then
         if CharacterSheets[table[1]].getVar('wipeCorruptedNotecards') == true then
             printToColor('Character sheet returning to normal. No longer in "Erase Corrupted Notecards" mode.',table[1],{1,0.3,0.3})
@@ -832,19 +867,15 @@ function disableEraseMode(table) -- Timer function that stops CS from erasing co
 end
 
 function saveCharacter(obj,color)
-    -- delete buttons
-    -- save variables
-    -- close book
-    -- destruct figurine
-    -- on book exit - change zone to 1
     if obj.getVar('editMode') == 1 then -- Set edit buttons back to default.
-        toggleEdit(obj,color)
+        toggleEdit(obj,color) -- moves invisible modifier objects beneath the table
     end
-    CharacterSheets[color].clearButtons()
-    resetTab(color)
-    closeBook(color)
-    cleanText(color)
-    Global.call('setZone',{color,1})
+    disableManager(color) -- deletes buttons
+    resetTab(color) -- moves all tab objects beneath the table
+    closeBook(color) -- save character data
+    cleanText(color) -- sets Text Tools to empty
+    -- destruct figurine
+    Global.call('setZone',{color,1}) -- on book exit - change zone to 1
 end
 
 function saveCharacterAccessor(table) -- table only contains color
@@ -853,7 +884,7 @@ function saveCharacterAccessor(table) -- table only contains color
     end
 end
 
-function closeBook(color)
+function closeBook(color) -- Destroys open book model, creates new closed book model which holds character data from the character sheet
     local param = CharacterJournals[color].getCustomObject()
         local pos = CharacterJournals[color].getPosition()
         if color == 'Blue' or color == 'Purple' then
@@ -874,7 +905,7 @@ function closeBook(color)
         param["diffuse"] = "http://i.imgur.com/eT6yiIu.png"
         obj.setCustomObject(param)
 
-        obj.setLuaScript(encodeBook(color))
+        obj.setLuaScript(encodeBook(color)) -- creates the lua script and assigns it to the closed book
         destroyObject(CharacterJournals[color])
         CharacterJournals[color] = nil
         --obj['interactable'] = true
@@ -907,7 +938,7 @@ function destroyObjects(table)
     end
 end
 
-function cleanText(color)
+function cleanText(color) -- sets text tools to empty and counters to zero
     local offsetArray = {incrementalOffsetList,toggleOffsetList,checkboxOffsetList,textOffsetList,inertOffsetList}
     for index,offset in pairs(offsetArray) do
         for key,value in pairs(offset) do
@@ -957,7 +988,7 @@ function onPlayerChangedColor(color)
     currentPlayers = getSeatedPlayersExcept({'White'})
 end
 
-function encodeBook(color)
+function encodeBook(color) -- when saving a character journal creates the new script using the data on the character sheet
     local script = [[-- Quality RPG CHARACTER SAVE
 -- ]].. os.date("Saved %X UTC ~ %a %d, %B %Y")..'\nuniqueID = \''..characterSheetSource.getVar('uniqueID')..'\'\nQRPGVersion = '..Global.getVar('QRPGVersion')
 
