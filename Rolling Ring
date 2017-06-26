@@ -511,7 +511,7 @@ function setRoll(flag)
                 obj.setName('Initiative Bonus')
                 local value = char.getTable('playerInformation')[orderedPlayerColors[i]]['Initiative'].TextTool.getValue()
                 obj.Counter.setValue(tonumber(value))
-                obj.lock()
+                obj.setLock(true)
                 initiativeBonusCounters[initiativeButtons[i].getVar('player')] = obj
                 initiativeButtons[i].setTable('pos',{0,-0.2,0})
                 initiativeButtons[i].setTable('rot',{0,90,-180})
