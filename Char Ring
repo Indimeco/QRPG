@@ -886,29 +886,28 @@ end
 
 function closeBook(color) -- Destroys open book model, creates new closed book model which holds character data from the character sheet
     local param = CharacterJournals[color].getCustomObject()
-        local pos = CharacterJournals[color].getPosition()
-        if color == 'Blue' or color == 'Purple' then
-            pos = {pos[1],pos[2],pos[3]+7}
-        elseif color == 'Green' or color == 'Yellow' then
-            pos = {pos[1]+7,pos[2],pos[3]}
-        elseif color == 'Red' or color == 'Orange' then
-            pos = {pos[1],pos[2],pos[3]-7}
-        end
-        local obj_param = {
-            ['type'] = 'Custom_Model',
-            ['position'] = pos,
-            ['rotation'] = CharacterJournals[color].getRotation(),
-        }
+    local pos = CharacterJournals[color].getPosition()
+    if color == 'Blue' or color == 'Purple' then
+        pos = {pos[1],pos[2],pos[3]+7}
+    elseif color == 'Green' or color == 'Yellow' then
+        pos = {pos[1]+7,pos[2],pos[3]}
+    elseif color == 'Red' or color == 'Orange' then
+        pos = {pos[1],pos[2],pos[3]-7}
+    end
+    local obj_param = {
+        ['type'] = 'Custom_Model',
+        ['position'] = pos,
+        ['rotation'] = CharacterJournals[color].getRotation(),
+    }
 
-        local obj = spawnObject(obj_param)
-        param["mesh"] = "http://pastebin.com/raw/y4hs8Riy"
-        param["diffuse"] = "http://i.imgur.com/eT6yiIu.png"
-        obj.setCustomObject(param)
+    local obj = spawnObject(obj_param)
+    param["mesh"] = "http://pastebin.com/raw/y4hs8Riy"
+    param["diffuse"] = "http://i.imgur.com/eT6yiIu.png"
+    obj.setCustomObject(param)
 
-        obj.setLuaScript(encodeBook(color)) -- creates the lua script and assigns it to the closed book
-        destroyObject(CharacterJournals[color])
-        CharacterJournals[color] = nil
-        --obj['interactable'] = true
+    obj.setLuaScript(encodeBook(color)) -- creates the lua script and assigns it to the closed book
+    destroyObject(CharacterJournals[color])
+    CharacterJournals[color] = nil
 end
 
 function destroyCharacterSheet(color)
