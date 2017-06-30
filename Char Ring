@@ -458,6 +458,10 @@ function loadCharacter(arg)
     local color = arg[3]
     openBook(enter_object,zone)
     enableManager(color)
+    
+    if characterSheetSource.getVar('onJournalLoad') ~= nil then
+        characterSheetSource.call('onJournalLoad',{color}) -- callback function for loaded character journal
+    end
 end
 
 
@@ -908,6 +912,10 @@ function closeBook(color) -- Destroys open book model, creates new closed book m
     obj.setLuaScript(encodeBook(color)) -- creates the lua script and assigns it to the closed book
     destroyObject(CharacterJournals[color])
     CharacterJournals[color] = nil
+
+    if characterSheetSource.getVar('onJournalClosed') ~= nil then
+        characterSheetSource.call('onJournalClosed',{color,obj}) -- callback function for an exiting journal
+    end
 end
 
 function destroyCharacterSheet(color)
