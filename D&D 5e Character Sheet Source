@@ -247,3 +247,14 @@ function calculateCharacterSheetValues(color) -- Your chance to script automatio
         char.getTable('playerInformation')[color]['Passive_Perception'].TextTool.setValue(tostring(10+abilityMod['WIS']))
     end
 end
+
+function onJournalLoad(color) -- called when a journal has finished loading onto a character sheet, optional
+    local char = getObjectFromGUID('CHAR') -- This is where all of your player's sheet data will be stored after it's processed
+    color = color[1] -- This is the color of the player who triggered this calculate function
+end
+
+function onJournalClosed(table) -- called when a journal has finished unloading from a character sheet, optional
+    local char = getObjectFromGUID('CHAR') -- This is where all of your player's sheet data will be stored after it's processed
+    local color = table[1] -- This is the color of the player who triggered this calculate function
+    local journal = table[2] -- This is the new journal object created after saving and closing a character
+end
