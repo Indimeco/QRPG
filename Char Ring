@@ -1004,6 +1004,8 @@ script = script..'\n\n--------------------------- Character Information --------
     for key,value in pairs(objectOffsetList) do
         if value['type'] ~= 'Notecard' then
             script = script..'\n'..key..' = '..playerInformation[color][key].getValue()
+        elseif value['name'] == 'Inventory' then
+            script = script..'\n'..key..' = \[\['..getObjectFromGUID("TOOLS").call('callGetFullText',{color})..'\]\]'
         else
             if value['scrollbar'] == true then
                 script = script..'\n'..key..' = \[\['..getFullText(color,key)..'\]\]'
