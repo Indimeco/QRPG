@@ -495,7 +495,7 @@ function setRoll(flag)
                 if i == 1 or i == 2 then
                     pos['x'] = pos['x'] + offset
                     rot = {315,0,0}
-                elseif i == 3 or 1==4 then
+                elseif i == 3 or i==4 then
                     pos['z'] = pos['z'] + offset
                     rot = {315,270,0}
                 elseif i==5 or i==6 then
