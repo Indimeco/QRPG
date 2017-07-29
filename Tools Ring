@@ -46,7 +46,8 @@ layoutExceptions = {
     'bcc56d', -- Stone Circle
     '94eca8', -- Runes
     '365d5e', '10b541', '442c36', '154524', -- Dig's Brain
-    'CONFIG','TOOLS','CHAR','ROLL','OBLIVION'
+    'CONFIG','TOOLS','CHAR','ROLL','OBLIVION',
+    '627e7a' -- Desk Transport Chest
 }
 
 -- Table describing the width of all basic characters in a max 100,000 system
