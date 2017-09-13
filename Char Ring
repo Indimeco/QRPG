@@ -458,7 +458,7 @@ function loadCharacter(arg)
     local color = arg[3]
     openBook(enter_object,zone)
     enableManager(color)
-    
+
     if characterSheetSource.getVar('onJournalLoad') ~= nil then
         characterSheetSource.call('onJournalLoad',{color}) -- callback function for loaded character journal
     end
@@ -508,8 +508,8 @@ function enableManager(color)
                 createIncrementButtonsFromTable(object)
             else
                 local modSize = lookupButtonData[key]['modSize']
-                Global.call('addButton',{object.getGUID(),modSize,modSize,modSize,'-','modifierSub',self,lookupButtonData[key]['1stPos']})
-                Global.call('addButton',{object.getGUID(),modSize,modSize,modSize,'+','modifierAdd',self,lookupButtonData[key]['2ndPos']})
+                Global.call('addButton',{object.getGUID(),modSize,modSize,modSize,'-','modifierSub',self,lookupButtonData[key]['1stPos'],{180,0,0}})
+                Global.call('addButton',{object.getGUID(),modSize,modSize,modSize,'+','modifierAdd',self,lookupButtonData[key]['2ndPos'],{180,0,0}})
             end
         end
     end
@@ -520,7 +520,7 @@ function enableManager(color)
                 createToggleButtonsFromTable(object)
             else
                 local modSize = lookupButtonData[key]['modSize']
-                Global.call('addButton',{object.getGUID(),modSize,modSize,modSize,' ','modifierToggle',self,lookupButtonData[key]['pos']})
+                Global.call('addButton',{object.getGUID(),modSize,modSize,modSize,' ','modifierToggle',self,lookupButtonData[key]['pos'],{180,0,0}})
             end
         end
     end
@@ -534,7 +534,7 @@ function enableManager(color)
                 local pos = lookupButtonData[key]['pos']
                 for i=1,lookupButtonData[key]['listSize'] do
                     pos = {pos[1] + lookupButtonData[key]['gap'][1],0,pos[3] + lookupButtonData[key]['gap'][2]}
-                    Global.call('addButton',{object.getGUID(),modSize,modSize,modSize,'x','lookupButtonData'..key..i,self,pos})
+                    Global.call('addButton',{object.getGUID(),modSize,modSize,modSize,'x','lookupButtonData'..key..i,self,pos,{180,0,0}})
                 end
             end
         end
@@ -546,7 +546,7 @@ function enableManager(color)
                 createTabsButtonsFromTable(object)
             else
                 local modSize = lookupButtonData[key]['modSize']
-                Global.call('addButton',{object.getGUID(),modSize,modSize,modSize,' ','modifierTabs',self,lookupButtonData[key]['pos']})
+                Global.call('addButton',{object.getGUID(),modSize,modSize,modSize,' ','modifierTabs',self,lookupButtonData[key]['pos'],{180,0,0}})
             end
         end
     end
