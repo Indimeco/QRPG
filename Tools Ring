@@ -251,11 +251,11 @@ function onload(save_state)
 
     Global.call('addButton', {monsterPlatform[2].getGUID(),950,380,190,'Copy Card','cloneCard',self,{-1.6,0.22,0.1},{0,180,0}})
     Global.call('addButton', {monsterPlatform[2].getGUID(),950,380,190,'Reset','resetPlatform',self,{1.6,0.22,0.1},{0,180,0}})
-    Global.call('addButton', {monsterPlatform[2].getGUID(),2100,380,190,'Update Figurine','forceUpdateMini',self,{0,0.22,-3.2},{0,180,0}})
+    Global.call('addButton', {monsterPlatform[2].getGUID(),2100,380,190,'Update Figurine','forceUpdateMini',self,{0,0.35,-4.2},{0,180,0}})
 
     Global.call('addButton', {monsterPlatform[1].getGUID(),950,380,190,'Copy Card','cloneCard',self,{-1.6,0.22,0.1},{0,180,0}})
     Global.call('addButton', {monsterPlatform[1].getGUID(),950,380,190,'Reset','resetPlatform',self,{1.6,0.22,0.1},{0,180,0}})
-    Global.call('addButton', {monsterPlatform[1].getGUID(),2100,380,190,'Update Figurine','forceUpdateMini',self,{0,0.22,-3.2},{0,180,0}})
+    Global.call('addButton', {monsterPlatform[1].getGUID(),2100,380,190,'Update Figurine','forceUpdateMini',self,{0,0.35,-4.2},{0,180,0}})
 
     Global.call('addButton', {displayEverything.getGUID(),2550,500,300,'Display Everything','updateMiniDisplay',self,{0,0.05,-3.3},{0,270,0}})
     Global.call('addButton', {displaySome.getGUID(),2550,500,300,'Display Info Only','updateMiniDisplay',self,{0,0.05,-3.3},{0,270,0}})
