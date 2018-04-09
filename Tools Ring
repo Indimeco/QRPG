@@ -545,7 +545,7 @@ end
 function showHelp()
     if helpCard.getPosition()[2] > 100 then
         helpCard.setPositionSmooth({-71,13,0})
-        -- largeTablet.setValue('') -- video tutorials playlist link if desired
+        largeTablet.setValue('https://docs.google.com/document/d/1AhC_asYjGpv5cbHYm52QMHt6C24rBcDUkjK6mhOjEfM/edit?usp=sharing') -- tutorial document
     else
         helpCard.setPositionSmooth({81.5,136.6,-7.7})
     end
