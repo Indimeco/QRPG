@@ -225,8 +225,8 @@ function onload(save_state)
     monsterPlatform[2].setVar('platformNumber', 2)
     DMIsHealthController.setVar('Controller', 'DM')
     playerIsHealthController.setVar('Controller', 'Player')
-    invControllerInvCard['Master'].setVar('color', 'Master')
-    invControllerInvCard['initiative'].setVar('color','initiative')
+    invControllerInvCard['Master'].setVar('qrpgColor', 'Master')
+    invControllerInvCard['initiative'].setVar('qrpgColor','initiative')
 
     DMOverlayCounters = createCounters(DMOverlayCounterGUIDs)
     monsterPlatformValueCounters[1] = createCounters(monsterPlatformValueCounterGUIDs_1)
@@ -375,9 +375,9 @@ end
 function loadPlayer(param)
     local color = param[1]
     invControllerInvCard[color] = char.getTable('playerInformation')[color]['Inventory']
-    invControllerButton[color].setVar('color',color)
+    invControllerButton[color].setVar('qrpgColor',color)
     Global.call('addButton', {invControllerButton[color].guid,1350,600,400,color,'selectPlayer',self,{0,-0.2,0},{180,90,0}})
-    invControllerInvCard[color].setVar('color', color)
+    invControllerInvCard[color].setVar('qrpgColor', color)
     Global.call('addButton',{invControllerInvCard[color].guid, 40,40,70,string.char(9662),'scrollUp',self,{-0.46,5,0.45},{0,0,0}})
     Global.call('addButton',{invControllerInvCard[color].guid, 40,40,70,string.char(9652),'scrollDown',self,{-0.46,5,-0.45},{0,0,0}})
     playerHealthCounters[keyFromValue(Global.getVar('colorTable'),color)] = char.getTable('playerInformation')[color]['HP']
@@ -572,7 +572,7 @@ end
 function selectPlayer(obj) -- Changes selection of player and sets color of the highlight bar
 -- Copies the selected player's inventory to the invControllerInvCard['Master']
 -- This function is called from a button - ergo obj is the button's object that made the call
-    colorSelector = obj.getVar('color')
+    colorSelector = obj.getVar('qrpgColor')
     updateDMOverlayCounters(colorSelector)
 
     local fullText = getFullText(colorSelector)
@@ -599,7 +599,7 @@ end
 
 function scrollUp(obj,player) -- Concatenates the last 9 lines of the auxiliary inventory to the beginning of the main inventory.
 -- This function is called from a button - ergo obj is the button that made the call.
-    local color = obj.getVar('color')
+    local color = obj.getVar('qrpgColor')
     if invControllerHiddenTextAbove[color] ~= '' then
         local verifyCharacters = getPage(obj.getDescription())
         if type(verifyCharacters) == 'table' then -- getPage() returns a table when it encounters a character that doesn't exist within the characterWidthTable.
@@ -629,7 +629,7 @@ end
 
 function scrollDown(obj,player) -- Concatenates the first 9 lines of the main inventory to the end of the auxiliary inventory.
 -- This function is called from a button - ergo obj is the button that made the call.
-    local color = obj.getVar('color')
+    local color = obj.getVar('qrpgColor')
     if obj.getDescription() ~= '' or invControllerHiddenTextBelow[color] ~= '' then
         local abovePage = getPage(preserveNewline(obj.getDescription()))
         local newPage
@@ -863,7 +863,7 @@ function toggleInvControllerButton(color,flag) -- Removes or adds a button on th
     if flag == 0 then
         invControllerButton[color].clearButtons()
     else
-        invControllerButton[color].setVar('color',color)
+        invControllerButton[color].setVar('qrpgColor',color)
         invControllerButton[color].setTable('pos',{0,-0.2,0})
         invControllerButton[color].setTable('rot',{180,90,0})
         Global.call('addButton', {invControllerButton[color].getGUID(),1350,600,400,color,'selectPlayer',self})
