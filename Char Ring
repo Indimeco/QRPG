@@ -255,6 +255,8 @@ function loadCharacterSheetSource()
                     initSheet(color)
                 end
             end
+            characterSheetSource.setLock(true)
+
             printToAll(characterSheetSource.getName()..' is now active!', {0,1,0})
 
             local params = {
@@ -281,6 +283,7 @@ function unloadCharacterSheetSource()
             end
         end
         characterSheetSource['interactable'] = true
+        characterSheetSource.setLock(false)
         characterSheetSource.translate({4,0,0})
         characterSheetSource = nil
 
