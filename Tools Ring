@@ -47,7 +47,8 @@ layoutExceptions = {
     '94eca8', -- Runes
     '365d5e', '10b541', '442c36', '154524', -- Dig's Brain
     'CONFIG','TOOLS','CHAR','ROLL','OBLIVION',
-    '627e7a' -- Desk Transport Chest
+    '627e7a', -- Desk Transport Chestsss
+    'f99d56' -- Char Sheet Altar
 }
 
 -- Table describing the width of all basic characters in a max 100,000 system
@@ -129,13 +130,14 @@ function onload(save_state)
     monsterPlatform          = {getObjectFromGUID('9107ab'),getObjectFromGUID('b12726')}
     monsterPlatformTextTool  = {getObjectFromGUID('5f7739'),getObjectFromGUID('ca9f1d')}
     monsterPlatformDescCard  = {getObjectFromGUID('f30f00'),getObjectFromGUID('7db223')}
+
     invControllerButton = {
-        ['Red']    = getObjectFromGUID('f2b44d'),
-        ['Orange'] = getObjectFromGUID('b189da'),
-        ['Yellow'] = getObjectFromGUID('649d04'),
-        ['Green']  = getObjectFromGUID('10dea3'),
-        ['Blue']   = getObjectFromGUID('0a66ae'),
-        ['Purple'] = getObjectFromGUID('23f579')
+        ['Red']    = getObjectFromGUID('1ed590'),
+        ['Orange'] = getObjectFromGUID('4ccf5a'),
+        ['Yellow'] = getObjectFromGUID('af28ab'),
+        ['Green']  = getObjectFromGUID('a94dbc'),
+        ['Blue']   = getObjectFromGUID('9e1d31'),
+        ['Purple'] = getObjectFromGUID('53ecd4')
     }
     invControllerInvCard = {
         ['initiative'] = getObjectFromGUID('bbf673'),
@@ -376,7 +378,7 @@ function loadPlayer(param)
     local color = param[1]
     invControllerInvCard[color] = char.getTable('playerInformation')[color]['Inventory']
     invControllerButton[color].setVar('qrpgColor',color)
-    Global.call('addButton', {invControllerButton[color].guid,1350,600,400,color,'selectPlayer',self,{0,-0.2,0},{180,90,0}})
+    Global.call('addButton', {invControllerButton[color].guid,500,450,120,color,'selectPlayer',self,{0,0.53,0},{0,90,0}})
     invControllerInvCard[color].setVar('qrpgColor', color)
     Global.call('addButton',{invControllerInvCard[color].guid, 40,40,70,string.char(9662),'scrollUp',self,{-0.46,5,0.45},{0,0,0}})
     Global.call('addButton',{invControllerInvCard[color].guid, 40,40,70,string.char(9652),'scrollDown',self,{-0.46,5,-0.45},{0,0,0}})
@@ -864,9 +866,7 @@ function toggleInvControllerButton(color,flag) -- Removes or adds a button on th
         invControllerButton[color].clearButtons()
     else
         invControllerButton[color].setVar('qrpgColor',color)
-        invControllerButton[color].setTable('pos',{0,-0.2,0})
-        invControllerButton[color].setTable('rot',{180,90,0})
-        Global.call('addButton', {invControllerButton[color].getGUID(),1350,600,400,color,'selectPlayer',self})
+        Global.call('addButton', {invControllerButton[color].guid,500,450,120,color,'selectPlayer',self,{0,0.53,0},{0,90,0}})
     end
 end
 
@@ -1298,4 +1298,28 @@ function addDashboard(guid,dArray) --[[ Adds a dashboard to Reversi boards ]]--
             if i%8 == 0 then tx = tx + 1 end
         end
     end
+end
+
+function showWelcome() -- Used to prepare the table for publication with the welcome card
+  currentLayoutGet(1)
+  currentLayout = 0
+  startCard = spawnObject({type="Notecard"})
+  startCard.setLock(true)
+  startCard.setPosition({-74.29, 9.25, -0.03})
+  startCard.setRotation({326.71, 90.00, 0.00})
+  startCard.setScale({2.25, 2.25, 2.25})
+
+  startCard.setName('Welcome to QRPG')
+  startCard.setDescription('Thank you for joining the Beta of Quality RPG!\n[i]Please[/i] report any bugs and feel free to share your ideas, suggestions and experiences on Discord or on the workshop.\n\nPress '..string.char(9432)..' on the dashboard (below) for links\n\n~QRPG Devs\n[i]rolandostar[/i] & [i]Indimeco[/i]')
+
+  startCard.setLuaScript([[
+    function onload()
+      Global.call('addButton',{self.getGUID(),140,140,80,'Go!','done',self,{-0.3,4.5,-0.35},{0,180,0}})
+    end
+
+    function done()
+      getObjectFromGUID('TOOLS').call('changeLayoutTo1')
+      self.destruct()
+    end
+  ]])
 end

@@ -22,7 +22,7 @@ local uninteractable = {
     -- 'd05e4e','859337','8a0e67','ba1d15','b9fb4c','f403ae', -- Skill Coutners
     --'591edd','1a039e','2513de','0c5edf','283218','af016f', -- Health counters
     '5fff87','6b1448', -- Monster Platforms
-    '10dea3','0a66ae','23f579','649d04','b189da','f2b44d', -- Dominos Inv Manager
+    '1ed590','4ccf5a','af28ab','a94dbc','9e1d31','53ecd4', -- Inv controller buttons
     --'d58363','a75f3e','c1de54','e544c6','1dad3f','f9caf3','a0421e', -- Init Tracker
     'a9d826','5711dc','5665d7','f6705e','b96893','a8a2fd', -- Wedged die
     '580374','f6fa34','f336b5','070dd1','c3fdfd','926a00', -- Dice Roll Counters
